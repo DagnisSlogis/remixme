@@ -1,0 +1,585 @@
+//Krāsas
+$grey: #f5f5f5
+$dgrey: #555555
+$title: #a5a5a5
+$dblue: #35404f
+$pink: #e45f56
+$purple: #909ba8
+$lgreen: #a3d39c
+$dgreen: #4aaaa5
+//Ēnas
+%shadow-1
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)
+%shadow-2
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
+%shadow-3
+	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)
+%shadow-4
+	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)
+%shadow-5
+	box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)
+
+form
+	margin: 25px 15px
+	input, textarea
+		font-family: "Roboto", Helvetica, Arial, sans-serif
+		background: #ffffff
+		border-radius: 2px
+		border: 1px solid $title
+		padding: 7px 10px
+		margin: 7px 0 25px 0
+		width: 97%
+		font-size: 14px
+		color: $dblue
+		overflow: hidden
+		&[type="file"]
+			border: none
+			margin-top: 0px
+		&[type="checkbox"]
+			margin: 2px 0px
+			width: 50px
+	select
+		font-family: "Roboto", Helvetica, Arial, sans-serif
+		background: #ffffff
+		border-radius: 2px
+		border: 1px solid $title
+		padding: 7px 10px
+		margin: 7px 0 25px 0
+		font-size: 14px
+		color: $dblue
+	#imagePreview
+		width: 60px
+		height: 60px
+		background-position: center center
+		background-image: url("/img/noimg.jpg")
+		background-size: cover
+		border-radius: 50%
+	#headerPreview
+		width: 100%
+		margin: 10px 12px
+		height: 140px
+		background-position: center center
+		background-image: url("/img/noimg.jpg")
+		background-size: cover
+		border-radius: 2px
+	label
+		font:
+			size: 12px
+			weight: 500
+		color: #777
+	.one-line
+		width: 40%
+		float: left
+		margin-right: 10%
+	.needed
+		color: $pink
+		font-weight: 500
+	.small-form
+		width: 25%
+		margin-right: 5%
+	.medium-form
+		width: 70%
+		margin-right: 0
+	.float-right
+		float: right
+.loginbox
+	input
+		margin: 10px 0px
+
+.clear
+	clear: both
+.btnadd
+	background: $dgreen
+	border: none
+	padding: 12px 25px
+	width: auto
+	color: #ffffff
+	float: right
+	&:hover
+		@extend %shadow-1
+.centerbtn
+	display: block
+	padding: 12px 52px
+
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700&subset=latin,latin-ext)
+//headlini
+h3
+	font:
+		size: 24px
+	color: $title
+
+html 
+	font-family: "Roboto", Helvetica, Arial, sans-serif
+img
+	vertical-align: bottom
+body
+	background: $grey
+//Galvenes CSS parametri
+header
+	height: 195px
+	background-image: url('/img/header.jpg')
+	background-size: cover
+	border-bottom: 4px solid $dblue
+	width: 100%
+	min-width: 960px
+	.navblock
+		width: 70%
+		margin: 0 auto
+		min-width: 960px
+		h3
+			font-size: 60px
+			color: $grey
+			padding-top: 60px
+			padding-bottom: 50px
+			padding-left: 20px
+			i 
+				font-weight: 300
+				color: $pink
+		ul#main-nav
+			li, a
+				display: inline
+				color: white
+				font-size: 14px
+				margin: 0 15px
+				padding: 0 5px
+				padding-bottom: 8px
+			a
+				text-decoration: none
+				margin: 0
+				transition: all .3s
+				&:hover
+					color: white
+					border-bottom: 4px solid $pink
+			.active
+				border-bottom: 4px solid $pink
+		ul#profile-nav
+			display: flex
+			align-items: center
+			padding: 10px 
+			float: right
+			li
+				font-size: 12px
+				color: $purple
+				margin: 0 4px
+				transition: all .3s
+				&:hover
+					color: $grey
+				&:active
+					color: white
+				a 
+					color: $purple
+					text-decoration: none
+					padding: 3px 5px
+					margin-right: 1px
+					&:hover
+						color: $grey
+					&:active
+						color: white
+			.adminbtn
+				font-size: 20px
+				font-weight: 500
+			.profile
+				display: flex
+				align-items: center
+				font-size: 14px
+				.profileimg
+					display: block
+					width: 30px
+					height: 30px
+					border-radius: 50%
+					text-align: center
+					border: 1px solid $purple
+				a
+					padding: 2px 5px
+			.login-window
+				font-size: 14px
+
+
+		.add
+			position: absolute
+			right: 20%
+			top: 171px
+			background-color: $pink
+			border: none
+			color: $grey
+			font-size: 30px
+			border-radius: 50%
+			width: 50px
+			height: 50px
+			@extend %shadow-2
+				
+//****
+//Galvenās lapas parametri
+#submenu
+	width: 100%
+	background-color: white
+	height: 50px
+	@extend %shadow-1
+	ul
+		display: flex
+		align-items: center
+		height: 50px
+		width: 70%
+		margin: 0 15%
+		color: $dgreen
+		font-weight: 300
+		font-size: 14px
+		li 
+			padding: 18px 12px
+			padding-bottom: 14px
+			border-bottom: 4px solid white
+			margin: 5px 0px
+		.compnavl
+			font-weight: 400
+			color: #777
+			margin-bottom: 5px
+			transition: all .3s
+			&:hover
+				border-bottom: 4px solid $dgreen
+		.title
+			font-weight: 400
+
+article
+	width: 70%
+	height: 1000px
+	margin: 0 auto
+	min-width: 960px
+	margin-top: 25px
+	#comprow
+		width: 66.5%
+		margin: 0 20px
+		float: left
+	#sidebarrow
+		width: 27%
+		height: 100%
+		margin-right: 20px
+		margin-top: 20px
+		float: right
+	#full
+		width: 98%
+		margin: 20px 10px
+
+
+//*******
+
+//sidebar
+.sidetitle
+	font-size: 18px
+	color: $title
+	width: 100%
+#socialme
+	font-size: 12px
+	color: $title
+	display: table
+	margin: 20px 0
+	li
+		display: table-cell
+		vertical-align: middle
+		padding: 0 5px
+.Latestwinner
+	display: flex
+	align-items: center
+	justify-content: center
+	margin: 10px 0
+	width: 100%
+	border: 1px solid $grey
+	transition: all .3s
+	&:hover
+		background-color: #eee
+		border-radius: 6px
+		border: 1px solid #d0d0d0
+	li
+		vertical-align: middle
+		padding: 0 7px
+		img
+			width: 48px
+			height: 48px
+			border-radius: 50%
+			border: 1px white solid
+	.latestWin-place
+		font-size: 12px
+		color: white
+		border-radius: 6px
+		background-color: $lgreen
+		padding: 5px
+	.latestWin-compname
+		font-size: 14px
+		color: $title
+//******
+// Pogas
+button.clasic
+	width: 100%
+	font-size: 14px
+	background-color: $grey
+	color: $title
+	border: none
+	text-transform: uppercase
+	font-weight: bold
+	padding: 7px 10px
+	margin-bottom: 20px
+	border: 1px solid $grey
+	transition: all .3s
+	&:hover
+		border: 1px solid $title
+		border-radius: 2px
+//******
+
+// Konkursu lapa
+.RemixComp
+	display: block
+	position: relative
+	background-color: white
+	@extend %shadow-1
+	border-radius: 2px
+	width: 95%
+	margin-bottom: 25px
+	.comphead
+		width: 100%
+		height: 130px
+		border-radius: 2px 2px 0 0
+	.comp-auth
+		position: absolute
+		width: 60px
+		height: 60px
+		border-radius: 50%
+		top: 95px
+		left: 15px
+		border: 2px white solid
+	.comp-title
+		position: absolute
+		top: 10px
+		right: 15px
+		font-size: 14px
+		color: white
+		background-color: $dblue
+		padding: 2px 8px
+		padding-top: 4px
+		border-radius: 10px
+	.comp-end
+		@extend .comp-title
+		background-color: $dblue
+		top: 35px
+	.comp-left
+		@extend .comp-title
+		background-color: $pink
+		top: 60px
+	.trackinfo
+		font-size: 12px
+		color: $dblue
+		display: flex
+		align-items: center
+		justify-content: center
+		height: 35px
+		margin-left: 70px
+		b
+			font-weight: bold
+			color: $dgreen
+		li
+			margin-right: 10px
+			button
+				background-color: $dgreen
+				color: white
+				border-radius: 2px
+				border: none
+				margin-left: 10px
+				transition: all .3s
+				&:hover
+					@extend %shadow-2
+	p 
+		font-size: 14px
+		color: $dblue
+		margin: 10px 15px
+		line-height: 17px
+		b 
+			font-weight: bold
+			color: $dgreen
+	.soundcloud
+		width: 100%
+		height: 160px
+	.youtube
+		width: 100%
+		height: 340px
+//**********
+
+//Popup Logins
+.login-popup
+	display: none
+	background: white
+	float: left
+	position: fixed
+	top: 40px
+	right: 15%
+	z-index: 99999
+	width: 250px
+	height: auto
+	border-radius: 2px
+	@extend %shadow-2
+	.close
+		text-decoration: none
+		font-size: 14px
+		color: $dgrey
+		float: right
+		padding: 5px 10px
+		&:hover
+			color: $dgreen
+	h2
+		font-size: 18px
+		color: $dgrey
+		margin: 20px 15px 5px 15px
+		font-weight: 500
+	.boxbody
+		width: 230px
+		color: white
+		p
+			clear: both
+			color: $title
+			font-size: 14px
+			width: 150px
+			font-weight: 300
+			margin: 0px 15px 30px 42px
+			text-decoration: none
+			a
+				text-decoration: none
+				font-weight: 500
+				color: $dgreen
+				&:hover
+					text-decoration: underline
+
+	span
+		font-size: 18px
+		color: $title
+		margin-left: 5px
+		pointer-events: none
+.selected
+	border: 1px solid $grey
+	border-radius: 8px
+//***********
+
+//Reģistrācijas lapa
+#register
+	width: 100%
+	height: auto
+	background: white
+	overflow: hidden
+	@extend %shadow-1
+	.centerblock
+		margin: 0 10%
+		padding-top: 30px
+		#profpic
+			position: relative
+			font:
+				size: 14px
+				weight: 400
+			color: $title
+			pointer-events: none
+.alert
+	font-size: 14px
+	font-weight: 500
+	color: $pink
+	border: 1px solid $pink
+	background: pink
+	padding: 15px
+	margin: 5px 25px
+	line-height: 130%
+	border-radius: 4px
+	strong
+		font-weight: bold
+		color: $pink
+.alert-success
+	color: $lgreen
+	background: lightgoldenrodyellow
+	border: 1px solid $lgreen
+// ***************
+
+// Lietotājpanelis
+.profileimg
+	display: block
+	width: 40px
+	height: 40px
+	border-radius: 50%
+	text-align: center
+	padding: 0
+	margin: 0
+//*****************
+
+// AdminPanelis
+.admin
+	padding-top: 15px
+	@extend %shadow-1
+	background: #ffffff
+	h3
+		margin: 15px 25px
+	table
+		width: 100%
+		text-align: center
+		font-size: 14px
+		margin: 25px 0
+		.titlerow
+			color: $title
+			cellpadding: 0 25px
+			td
+				display: table-cell
+				vertical-align: middle
+				height: 60px
+				border-right: 1px solid $grey
+		.userline
+			color: $dblue
+			&:hover
+				background: $grey
+			img
+				display: block
+				width: 40px
+				height: 40px
+				border-radius: 50%
+				text-align: center
+			td
+				display: table-cell
+				vertical-align: middle
+				height: 60px
+				padding: 0 15px
+				border-right: 1px solid $grey
+				.change
+					text-decoration: none
+					font-weight: 500
+					color: $dgreen
+					&:hover
+						text-decoration: underline
+				.delete
+					@extend .change
+					margin-top: 22px
+					border: none
+					background: none
+					color: $pink
+					&:focus
+						outline: 0
+
+
+//************
+.pagination
+	display: flex
+	width: 20%
+	margin: 0 auto
+	border-right: 2px
+	color: #777
+	font-size: 14px
+	li
+		background: white
+		padding: 10px
+		@extend %shadow-1
+		&:hover
+			background: $grey
+
+		a
+			padding: 10px 0
+			text-decoration: none
+			color: #777
+	.disabled
+		color: $title
+		background: $grey
+	.active
+		background: $dblue
+		color: #ffffff
+		&:hover
+			background: $dblue
+
+

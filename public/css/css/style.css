@@ -1,0 +1,537 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700&subset=latin,latin-ext);
+.btnadd:hover, #submenu, .RemixComp, #register, .admin, .pagination li {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }
+
+header .navblock .add, .RemixComp .trackinfo li button:hover, .login-popup {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); }
+
+form {
+  margin: 25px 15px; }
+  form input, form textarea {
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+    background: #ffffff;
+    border-radius: 2px;
+    border: 1px solid #a5a5a5;
+    padding: 7px 10px;
+    margin: 7px 0 25px 0;
+    width: 97%;
+    font-size: 14px;
+    color: #35404f;
+    overflow: hidden; }
+    form input[type="file"], form textarea[type="file"] {
+      border: none;
+      margin-top: 0px; }
+    form input[type="checkbox"], form textarea[type="checkbox"] {
+      margin: 2px 0px;
+      width: 50px; }
+  form select {
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+    background: #ffffff;
+    border-radius: 2px;
+    border: 1px solid #a5a5a5;
+    padding: 7px 10px;
+    margin: 7px 0 25px 0;
+    font-size: 14px;
+    color: #35404f; }
+  form #imagePreview {
+    width: 60px;
+    height: 60px;
+    background-position: center center;
+    background-image: url("/img/noimg.jpg");
+    background-size: cover;
+    border-radius: 50%; }
+  form #headerPreview {
+    width: 100%;
+    margin: 10px 12px;
+    height: 140px;
+    background-position: center center;
+    background-image: url("/img/noimg.jpg");
+    background-size: cover;
+    border-radius: 2px; }
+  form label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #777; }
+  form .one-line {
+    width: 40%;
+    float: left;
+    margin-right: 10%; }
+  form .needed {
+    color: #e45f56;
+    font-weight: 500; }
+  form .small-form {
+    width: 25%;
+    margin-right: 5%; }
+  form .medium-form {
+    width: 70%;
+    margin-right: 0; }
+  form .float-right {
+    float: right; }
+
+.loginbox input {
+  margin: 10px 0px; }
+
+.clear {
+  clear: both; }
+
+.btnadd {
+  background: #4aaaa5;
+  border: none;
+  padding: 12px 25px;
+  width: auto;
+  color: #ffffff;
+  float: right; }
+
+.centerbtn {
+  display: block;
+  padding: 12px 52px; }
+
+h3 {
+  font-size: 24px;
+  color: #a5a5a5; }
+
+html {
+  font-family: "Roboto", Helvetica, Arial, sans-serif; }
+
+img {
+  vertical-align: bottom; }
+
+body {
+  background: #f5f5f5; }
+
+header {
+  height: 195px;
+  background-image: url("/img/header.jpg");
+  background-size: cover;
+  border-bottom: 4px solid #35404f;
+  width: 100%;
+  min-width: 960px; }
+  header .navblock {
+    width: 70%;
+    margin: 0 auto;
+    min-width: 960px; }
+    header .navblock h3 {
+      font-size: 60px;
+      color: #f5f5f5;
+      padding-top: 60px;
+      padding-bottom: 50px;
+      padding-left: 20px; }
+      header .navblock h3 i {
+        font-weight: 300;
+        color: #e45f56; }
+    header .navblock ul#main-nav li, header .navblock ul#main-nav a {
+      display: inline;
+      color: white;
+      font-size: 14px;
+      margin: 0 15px;
+      padding: 0 5px;
+      padding-bottom: 8px; }
+    header .navblock ul#main-nav a {
+      text-decoration: none;
+      margin: 0;
+      transition: all 0.3s; }
+      header .navblock ul#main-nav a:hover {
+        color: white;
+        border-bottom: 4px solid #e45f56; }
+    header .navblock ul#main-nav .active {
+      border-bottom: 4px solid #e45f56; }
+    header .navblock ul#profile-nav {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      float: right; }
+      header .navblock ul#profile-nav li {
+        font-size: 12px;
+        color: #909ba8;
+        margin: 0 4px;
+        transition: all 0.3s; }
+        header .navblock ul#profile-nav li:hover {
+          color: #f5f5f5; }
+        header .navblock ul#profile-nav li:active {
+          color: white; }
+        header .navblock ul#profile-nav li a {
+          color: #909ba8;
+          text-decoration: none;
+          padding: 3px 5px;
+          margin-right: 1px; }
+          header .navblock ul#profile-nav li a:hover {
+            color: #f5f5f5; }
+          header .navblock ul#profile-nav li a:active {
+            color: white; }
+      header .navblock ul#profile-nav .adminbtn {
+        font-size: 20px;
+        font-weight: 500; }
+      header .navblock ul#profile-nav .profile {
+        display: flex;
+        align-items: center;
+        font-size: 14px; }
+        header .navblock ul#profile-nav .profile .profileimg {
+          display: block;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          text-align: center;
+          border: 1px solid #909ba8; }
+        header .navblock ul#profile-nav .profile a {
+          padding: 2px 5px; }
+      header .navblock ul#profile-nav .login-window {
+        font-size: 14px; }
+    header .navblock .add {
+      position: absolute;
+      right: 20%;
+      top: 171px;
+      background-color: #e45f56;
+      border: none;
+      color: #f5f5f5;
+      font-size: 30px;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px; }
+
+#submenu {
+  width: 100%;
+  background-color: white;
+  height: 50px; }
+  #submenu ul {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    width: 70%;
+    margin: 0 15%;
+    color: #4aaaa5;
+    font-weight: 300;
+    font-size: 14px; }
+    #submenu ul li {
+      padding: 18px 12px;
+      padding-bottom: 14px;
+      border-bottom: 4px solid white;
+      margin: 5px 0px; }
+    #submenu ul .compnavl {
+      font-weight: 400;
+      color: #777;
+      margin-bottom: 5px;
+      transition: all 0.3s; }
+      #submenu ul .compnavl:hover {
+        border-bottom: 4px solid #4aaaa5; }
+    #submenu ul .title {
+      font-weight: 400; }
+
+article {
+  width: 70%;
+  height: 1000px;
+  margin: 0 auto;
+  min-width: 960px;
+  margin-top: 25px; }
+  article #comprow {
+    width: 66.5%;
+    margin: 0 20px;
+    float: left; }
+  article #sidebarrow {
+    width: 27%;
+    height: 100%;
+    margin-right: 20px;
+    margin-top: 20px;
+    float: right; }
+  article #full {
+    width: 98%;
+    margin: 20px 10px; }
+
+.sidetitle {
+  font-size: 18px;
+  color: #a5a5a5;
+  width: 100%; }
+
+#socialme {
+  font-size: 12px;
+  color: #a5a5a5;
+  display: table;
+  margin: 20px 0; }
+  #socialme li {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0 5px; }
+
+.Latestwinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  width: 100%;
+  border: 1px solid #f5f5f5;
+  transition: all 0.3s; }
+  .Latestwinner:hover {
+    background-color: #eee;
+    border-radius: 6px;
+    border: 1px solid #d0d0d0; }
+  .Latestwinner li {
+    vertical-align: middle;
+    padding: 0 7px; }
+    .Latestwinner li img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px white solid; }
+  .Latestwinner .latestWin-place {
+    font-size: 12px;
+    color: white;
+    border-radius: 6px;
+    background-color: #a3d39c;
+    padding: 5px; }
+  .Latestwinner .latestWin-compname {
+    font-size: 14px;
+    color: #a5a5a5; }
+
+button.clasic {
+  width: 100%;
+  font-size: 14px;
+  background-color: #f5f5f5;
+  color: #a5a5a5;
+  border: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 7px 10px;
+  margin-bottom: 20px;
+  border: 1px solid #f5f5f5;
+  transition: all 0.3s; }
+  button.clasic:hover {
+    border: 1px solid #a5a5a5;
+    border-radius: 2px; }
+
+.RemixComp {
+  display: block;
+  position: relative;
+  background-color: white;
+  border-radius: 2px;
+  width: 95%;
+  margin-bottom: 25px; }
+  .RemixComp .comphead {
+    width: 100%;
+    height: 130px;
+    border-radius: 2px 2px 0 0; }
+  .RemixComp .comp-auth {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    top: 95px;
+    left: 15px;
+    border: 2px white solid; }
+  .RemixComp .comp-title, .RemixComp .comp-end, .RemixComp .comp-left {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 14px;
+    color: white;
+    background-color: #35404f;
+    padding: 2px 8px;
+    padding-top: 4px;
+    border-radius: 10px; }
+  .RemixComp .comp-end {
+    background-color: #35404f;
+    top: 35px; }
+  .RemixComp .comp-left {
+    background-color: #e45f56;
+    top: 60px; }
+  .RemixComp .trackinfo {
+    font-size: 12px;
+    color: #35404f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    margin-left: 70px; }
+    .RemixComp .trackinfo b {
+      font-weight: bold;
+      color: #4aaaa5; }
+    .RemixComp .trackinfo li {
+      margin-right: 10px; }
+      .RemixComp .trackinfo li button {
+        background-color: #4aaaa5;
+        color: white;
+        border-radius: 2px;
+        border: none;
+        margin-left: 10px;
+        transition: all 0.3s; }
+  .RemixComp p {
+    font-size: 14px;
+    color: #35404f;
+    margin: 10px 15px;
+    line-height: 17px; }
+    .RemixComp p b {
+      font-weight: bold;
+      color: #4aaaa5; }
+  .RemixComp .soundcloud {
+    width: 100%;
+    height: 160px; }
+  .RemixComp .youtube {
+    width: 100%;
+    height: 340px; }
+
+.login-popup {
+  display: none;
+  background: white;
+  float: left;
+  position: fixed;
+  top: 40px;
+  right: 15%;
+  z-index: 99999;
+  width: 250px;
+  height: auto;
+  border-radius: 2px; }
+  .login-popup .close {
+    text-decoration: none;
+    font-size: 14px;
+    color: #555555;
+    float: right;
+    padding: 5px 10px; }
+    .login-popup .close:hover {
+      color: #4aaaa5; }
+  .login-popup h2 {
+    font-size: 18px;
+    color: #555555;
+    margin: 20px 15px 5px 15px;
+    font-weight: 500; }
+  .login-popup .boxbody {
+    width: 230px;
+    color: white; }
+    .login-popup .boxbody p {
+      clear: both;
+      color: #a5a5a5;
+      font-size: 14px;
+      width: 150px;
+      font-weight: 300;
+      margin: 0px 15px 30px 42px;
+      text-decoration: none; }
+      .login-popup .boxbody p a {
+        text-decoration: none;
+        font-weight: 500;
+        color: #4aaaa5; }
+        .login-popup .boxbody p a:hover {
+          text-decoration: underline; }
+  .login-popup span {
+    font-size: 18px;
+    color: #a5a5a5;
+    margin-left: 5px;
+    pointer-events: none; }
+
+.selected {
+  border: 1px solid #f5f5f5;
+  border-radius: 8px; }
+
+#register {
+  width: 100%;
+  height: auto;
+  background: white;
+  overflow: hidden; }
+  #register .centerblock {
+    margin: 0 10%;
+    padding-top: 30px; }
+    #register .centerblock #profpic {
+      position: relative;
+      font-size: 14px;
+      font-weight: 400;
+      color: #a5a5a5;
+      pointer-events: none; }
+
+.alert {
+  font-size: 14px;
+  font-weight: 500;
+  color: #e45f56;
+  border: 1px solid #e45f56;
+  background: pink;
+  padding: 15px;
+  margin: 5px 25px;
+  line-height: 130%;
+  border-radius: 4px; }
+  .alert strong {
+    font-weight: bold;
+    color: #e45f56; }
+
+.alert-success {
+  color: #a3d39c;
+  background: lightgoldenrodyellow;
+  border: 1px solid #a3d39c; }
+
+.profileimg {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  text-align: center;
+  padding: 0;
+  margin: 0; }
+
+.admin {
+  padding-top: 15px;
+  background: #ffffff; }
+  .admin h3 {
+    margin: 15px 25px; }
+  .admin table {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    margin: 25px 0; }
+    .admin table .titlerow {
+      color: #a5a5a5;
+      cellpadding: 0 25px; }
+      .admin table .titlerow td {
+        display: table-cell;
+        vertical-align: middle;
+        height: 60px;
+        border-right: 1px solid #f5f5f5; }
+    .admin table .userline {
+      color: #35404f; }
+      .admin table .userline:hover {
+        background: #f5f5f5; }
+      .admin table .userline img {
+        display: block;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        text-align: center; }
+      .admin table .userline td {
+        display: table-cell;
+        vertical-align: middle;
+        height: 60px;
+        padding: 0 15px;
+        border-right: 1px solid #f5f5f5; }
+        .admin table .userline td .change, .admin table .userline td .delete {
+          text-decoration: none;
+          font-weight: 500;
+          color: #4aaaa5; }
+          .admin table .userline td .change:hover, .admin table .userline td .delete:hover {
+            text-decoration: underline; }
+        .admin table .userline td .delete {
+          margin-top: 22px;
+          border: none;
+          background: none;
+          color: #e45f56; }
+          .admin table .userline td .delete:focus {
+            outline: 0; }
+
+.pagination {
+  display: flex;
+  width: 20%;
+  margin: 0 auto;
+  border-right: 2px;
+  color: #777;
+  font-size: 14px; }
+  .pagination li {
+    background: white;
+    padding: 10px; }
+    .pagination li:hover {
+      background: #f5f5f5; }
+    .pagination li a {
+      padding: 10px 0;
+      text-decoration: none;
+      color: #777; }
+  .pagination .disabled {
+    color: #a5a5a5;
+    background: #f5f5f5; }
+  .pagination .active {
+    background: #35404f;
+    color: #ffffff; }
+    .pagination .active:hover {
+      background: #35404f; }
+
+/*# sourceMappingURL=style.css.map */
