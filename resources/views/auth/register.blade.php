@@ -1,6 +1,6 @@
 @extends('layout.main')
 @section('content')
-<article onload="loadImageFile();">
+<article >
 	<div id="comprow">
 	<div id="register">
 	<div class="centerblock">

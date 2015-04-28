@@ -1,9 +1,12 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700&subset=latin,latin-ext);
-.btnadd:hover, #submenu, .RemixComp, #register, .admin, .pagination li {
+.btnadd:hover, #submenu, .RemixComp, .RemixComp .functionbtn form input:hover, .commentBox .comment, #register, .admin, .pagination li {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }
 
 header .navblock .add, .RemixComp .trackinfo li button:hover, .login-popup {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); }
+
+header .navblock .add:hover, .modalDialog {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }
 
 form {
   margin: 25px 15px; }
@@ -86,6 +89,18 @@ form {
   display: block;
   padding: 12px 52px; }
 
+.simplebtn {
+  border-radius: 2px;
+  background: white;
+  color: #777;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: none;
+  padding: 12px 25px;
+  transition: all 0.3s;
+  margin-left: 250px;
+  margin-top: 15px; }
+
 h3 {
   font-size: 24px;
   color: #a5a5a5; }
@@ -145,19 +160,10 @@ header {
         color: #909ba8;
         margin: 0 4px;
         transition: all 0.3s; }
-        header .navblock ul#profile-nav li:hover {
-          color: #f5f5f5; }
-        header .navblock ul#profile-nav li:active {
-          color: white; }
         header .navblock ul#profile-nav li a {
           color: #909ba8;
           text-decoration: none;
-          padding: 3px 5px;
-          margin-right: 1px; }
-          header .navblock ul#profile-nav li a:hover {
-            color: #f5f5f5; }
-          header .navblock ul#profile-nav li a:active {
-            color: white; }
+          padding: 3px 5px; }
       header .navblock ul#profile-nav .adminbtn {
         font-size: 20px;
         font-weight: 500; }
@@ -186,10 +192,14 @@ header {
       font-size: 30px;
       border-radius: 50%;
       width: 50px;
-      height: 50px; }
+      height: 50px;
+      transition: all 0.3s; }
+      header .navblock .add:hover {
+        background: #ff5252; }
 
 #submenu {
   width: 100%;
+  min-width: 960px;
   background-color: white;
   height: 50px; }
   #submenu ul {
@@ -206,6 +216,15 @@ header {
       padding-bottom: 14px;
       border-bottom: 4px solid white;
       margin: 5px 0px; }
+      #submenu ul li .notif, #submenu ul li .notif_count {
+        background: #e45f56;
+        padding: 2px 4px;
+        border-radius: 2px;
+        color: #ffffff;
+        font-size: 12px;
+        margin-left: 3px; }
+      #submenu ul li .notif_count {
+        background: #a5a5a5; }
     #submenu ul .compnavl {
       font-weight: 400;
       color: #777;
@@ -213,6 +232,11 @@ header {
       transition: all 0.3s; }
       #submenu ul .compnavl:hover {
         border-bottom: 4px solid #4aaaa5; }
+    #submenu ul a {
+      color: #777;
+      text-decoration: none; }
+      #submenu ul a:hover {
+        color: #35404f; }
     #submenu ul .title {
       font-weight: 400; }
 
@@ -307,6 +331,7 @@ button.clasic {
   .RemixComp .comphead {
     width: 100%;
     height: 130px;
+    object-fit: cover;
     border-radius: 2px 2px 0 0; }
   .RemixComp .comp-auth {
     position: absolute;
@@ -316,30 +341,31 @@ button.clasic {
     top: 95px;
     left: 15px;
     border: 2px white solid; }
-  .RemixComp .comp-title, .RemixComp .comp-end, .RemixComp .comp-left {
+  .RemixComp .comp-end, .RemixComp .comp-title, .RemixComp .comp-left {
     position: absolute;
-    top: 10px;
+    background-color: #35404f;
+    top: 35px;
     right: 15px;
-    font-size: 14px;
+    font-size: 13px;
     color: white;
     background-color: #35404f;
     padding: 2px 8px;
     padding-top: 4px;
     border-radius: 10px; }
-  .RemixComp .comp-end {
-    background-color: #35404f;
-    top: 35px; }
+  .RemixComp .comp-title {
+    top: 10px;
+    font-size: 16px; }
   .RemixComp .comp-left {
     background-color: #e45f56;
-    top: 60px; }
+    top: 58px; }
   .RemixComp .trackinfo {
     font-size: 12px;
     color: #35404f;
     display: flex;
     align-items: center;
-    justify-content: center;
     height: 35px;
-    margin-left: 70px; }
+    margin-left: 100px;
+    overflow: hidden; }
     .RemixComp .trackinfo b {
       font-weight: bold;
       color: #4aaaa5; }
@@ -356,7 +382,7 @@ button.clasic {
     font-size: 14px;
     color: #35404f;
     margin: 10px 15px;
-    line-height: 17px; }
+    line-height: 18px; }
     .RemixComp p b {
       font-weight: bold;
       color: #4aaaa5; }
@@ -366,6 +392,148 @@ button.clasic {
   .RemixComp .youtube {
     width: 100%;
     height: 340px; }
+  .RemixComp .moreinfo {
+    display: flex;
+    align-items: center;
+    margin: 0 8px;
+    height: 50px; }
+    .RemixComp .moreinfo li {
+      font-size: 14px;
+      margin: 7px;
+      font-weight: 300;
+      color: #a5a5a5; }
+      .RemixComp .moreinfo li img {
+        margin-right: 5px;
+        flex: 1; }
+      .RemixComp .moreinfo li a {
+        text-decoration: none; }
+        .RemixComp .moreinfo li a:hover {
+          text-decoration: underline; }
+      .RemixComp .moreinfo li #url {
+        color: #a5a5a5; }
+      .RemixComp .moreinfo li #twitter {
+        color: #0487e2; }
+      .RemixComp .moreinfo li #facebook {
+        color: #4157d8; }
+  .RemixComp .functions {
+    font-size: 14px;
+    padding: 15px 8px;
+    width: 50%;
+    float: left;
+    display: flex;
+    align-content: center; }
+    .RemixComp .functions li {
+      margin: 0 10px;
+      color: #777777; }
+      .RemixComp .functions li form {
+        margin: 0; }
+        .RemixComp .functions li form input {
+          margin: 0;
+          background: none;
+          border: none;
+          width: auto;
+          height: auto;
+          padding: 0;
+          color: #777777;
+          transition: all 0.3s; }
+          .RemixComp .functions li form input:hover {
+            text-decoration: underline;
+            color: #717171; }
+      .RemixComp .functions li img {
+        margin-bottom: 2px; }
+    .RemixComp .functions .other {
+      margin-top: 2px; }
+  .RemixComp .functionbtn {
+    width: 47%;
+    float: right; }
+    .RemixComp .functionbtn li {
+      display: inline-block; }
+    .RemixComp .functionbtn form {
+      margin: 0; }
+      .RemixComp .functionbtn form input {
+        display: block;
+        margin: 4px 35px 0 0;
+        border: none;
+        height: auto;
+        padding: 10px;
+        background: #a3d39c;
+        font-size: 14px;
+        color: white;
+        transition: all 0.3s; }
+    .RemixComp .functionbtn .enterbtn {
+      background: #777; }
+
+.commentInput {
+  width: 600px;
+  margin: 0 auto;
+  padding-right: 5%; }
+  .commentInput form {
+    margin: 0;
+    padding: 0; }
+    .commentInput form textarea {
+      height: 70px;
+      min-height: 70px;
+      max-width: 580px;
+      margin-bottom: 0px; }
+  .commentInput .commentInfo {
+    font-size: 14px;
+    color: #777777;
+    margin: 0 10px; }
+  .commentInput .commentbtn {
+    float: none; }
+  .commentInput .addcomment {
+    float: right; }
+
+.commentBox {
+  color: #777777;
+  width: 95%;
+  margin-right: 5%;
+  clear: both; }
+  .commentBox .new {
+    border: 1px solid #4aaaa5; }
+  .commentBox .comment {
+    position: relative;
+    width: 600px;
+    margin: 20px auto;
+    background: #ffffff;
+    border-radius: 2px;
+    min-height: 100px; }
+    .commentBox .comment img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin: 10px;
+      float: left; }
+    .commentBox .comment h4 {
+      margin: 10px 0 0 0px;
+      color: #4aaaa5;
+      font-size: 16px;
+      font-weight: 500; }
+    .commentBox .comment span {
+      font-size: 12px;
+      color: #a5a5a5; }
+    .commentBox .comment .metaData {
+      margin: 5px 10px;
+      float: left;
+      width: 80%;
+      height: 50px; }
+    .commentBox .comment p {
+      clear: both;
+      margin: 0px 50px 0px 70px;
+      padding-bottom: 20px;
+      font-size: 14px;
+      line-height: 18px;
+      color: #35404f; }
+    .commentBox .comment .deleteComment {
+      position: absolute;
+      top: 10px;
+      right: 5px;
+      border: none;
+      background: none;
+      color: #777777;
+      margin: 0;
+      padding: 0;
+      width: 20px; }
 
 .login-popup {
   display: none;
@@ -418,6 +586,38 @@ button.clasic {
   border: 1px solid #f5f5f5;
   border-radius: 8px; }
 
+.modalDialog {
+  position: fixed;
+  font-family: Roboto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 99999;
+  opacity: 1;
+  -webkit-transition: opacity 400ms ease-in;
+  -moz-transition: opacity 400ms ease-in;
+  transition: opacity 400ms ease-in; }
+  .modalDialog div {
+    width: 350px;
+    position: relative;
+    margin: 20% auto;
+    padding: 20px;
+    border-radius: 2px;
+    background: #fff; }
+  .modalDialog h2 {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px; }
+  .modalDialog p {
+    font-size: 14px;
+    color: #777777; }
+  .modalDialog .success_message {
+    color: #4aaaa5; }
+  .modalDialog .error_message {
+    color: #e45f56; }
+
 #register {
   width: 100%;
   height: auto;
@@ -457,7 +657,7 @@ button.clasic {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  text-align: center;
+  object-fit: cover;
   padding: 0;
   margin: 0; }
 
@@ -495,19 +695,22 @@ button.clasic {
         height: 60px;
         padding: 0 15px;
         border-right: 1px solid #f5f5f5; }
-        .admin table .userline td .change, .admin table .userline td .delete {
+        .admin table .userline td .change, .admin table .userline td .delete, .admin table .userline td .accept {
           text-decoration: none;
           font-weight: 500;
           color: #4aaaa5; }
-          .admin table .userline td .change:hover, .admin table .userline td .delete:hover {
+          .admin table .userline td .change:hover, .admin table .userline td .delete:hover, .admin table .userline td .accept:hover {
             text-decoration: underline; }
-        .admin table .userline td .delete {
-          margin-top: 22px;
+        .admin table .userline td .delete, .admin table .userline td .accept {
+          margin: 0;
+          padding: 0;
           border: none;
           background: none;
           color: #e45f56; }
-          .admin table .userline td .delete:focus {
+          .admin table .userline td .delete:focus, .admin table .userline td .accept:focus {
             outline: 0; }
+        .admin table .userline td .accept {
+          color: #4aaaa5; }
 
 .pagination {
   display: flex;

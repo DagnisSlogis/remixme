@@ -24,7 +24,7 @@
         			</ul>
         	</div>
         @endif
-		{!! Form::model($user, ['method' => 'PATCH','url' => '/userpanel/patch_user' ,'files' => true , 'enctype' => 'multipart/form-data' ]) !!}
+		{!! Form::model($user, ['method' => 'PATCH','url' => '/userpanel/profile/update' ,'files' => true , 'enctype' => 'multipart/form-data' ]) !!}
             				{!! Form::label('username' , 'Lietotājvārds') !!}
             				{!! Form::text('username') !!}
 

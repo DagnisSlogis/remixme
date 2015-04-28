@@ -11,20 +11,38 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'CompController@index');
 Route::get('userpanel' , 'UserPanelController@index');
 
-Route::get('adminpanel', 'AdminController@index');
-Route::get('adminpanel/changeuser', 'AdminController@change_user');
-Route::get('adminpanel/{id}/edit', 'AdminController@edit');
-Route::patch('adminpanel/{id}', 'AdminController@update');
-Route::patch('adminpanel/delete/{id}', 'AdminController@delete');
-Route::get('adminpanel/find', 'AdminController@find');
+//Pages
+Route::get('adminpanel', 'PageController@AdminPanel');
+Route::get('userpanel' ,  'PageController@UserPanel');
 
-Route::get('userpanel/profile-edit', 'UserPanelController@edit_profile');
-Route::patch('userpanel/patch_user', 'UserPanelController@patch_user');
+//Admin Panel - User
+Route::get('adminpanel/users', 'Admin\ApUserController@index');
+Route::get('adminpanel/user/{id}/edit', 'Admin\ApUserController@edit');
+Route::patch('adminpanel/user/{id}', 'Admin\ApUserController@update');
+Route::patch('adminpanel/user/delete/{id}', 'Admin\ApUserController@delete');
+Route::get('adminpanel/user/find', 'Admin\ApUserController@find');
+
+//Admin Panel - Competitions
+Route::get('adminpanel/comps' , 'Admin\ApCompController@index');
+Route::get('adminpanel/comps/accept' ,  'Admin\ApCompController@accept');
+Route::patch('adminpanel/comps/accept/{id}' , 'Admin\ApCompController@accept_comp');
+Route::patch('adminpanel/comps/delete/{id}', 'Admin\ApCompController@destroy');
+Route::post('comment/add/{id}', 'CommentController@add');
+Route::post('comment/delete/{id}', 'CommentController@delete');
+
+//Favorite
+Route::post('favorite/{id}', 'FavoriteController@add');
 
 Route::resource('comps' , 'CompController');
+
+Route::get('userpanel/profile/edit', 'User\UpProfileController@index');
+Route::patch('userpanel/profile/update', 'User\UpProfileController@update');
+
+Route::get('show/{id}', 'CompController@show');
+
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

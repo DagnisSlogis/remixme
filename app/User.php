@@ -31,19 +31,57 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
+    //Funkcijas
     /**
      * @return bool
      */
     public function isAdmin() {
         return ($this->status == 2);
     }
+    public function newNotification()
+    {
+        $notification = new Notification;
+        $notification->user()->associate($this);
 
+        return $notification;
+    }
+
+
+
+    // Saistības starp tabulām
     /**
      * User can have many comps
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function comps() {
+    public function comps()
+    {
         return $this->hasMany('App\Comp');
     }
+
+    /**
+     * Lietotājs var rakstīt vairākus komentārus
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
+
+    /**
+     * Lietotājam var būt vairāki favorīti
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function favorite()
+    {
+        return $this->hasMany('App\Favorite');
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany('App\Notification');
+    }
 }
+

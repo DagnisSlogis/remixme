@@ -14,7 +14,7 @@
 	<div id="register">
 	<div class="centerblock">
 	<h3>Labot lietotāju: {{$user->username}}</h3>
-    {!! Form::model($user, ['method' => 'PATCH', 'class' => 'matform' ,'url' => '/adminpanel/'.$user->id ,'files' => true , 'enctype' => 'multipart/form-data' ]) !!}
+    {!! Form::model($user, ['method' => 'PATCH', 'class' => 'matform' ,'url' => '/adminpanel/user/'.$user->id ,'files' => true , 'enctype' => 'multipart/form-data' ]) !!}
     <div class="input-group">
     				{!! Form::text('username', null ,['class' => 'material' ]) !!}
     				{!! Form::label('username' , 'Lietotājvārds') !!}

@@ -20,7 +20,7 @@
 			<li>Par Mums</li>
 		</ul>
 		@if(Auth::user())
-			<a href="comps/create"> <button class="add ">+</button></a>
+			<a href="/comps/create"> <button class="add ">+</button></a>
 		@endif
 		@if (Auth::guest())
             @include('layout.popups.loginPopup')

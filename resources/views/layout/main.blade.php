@@ -7,8 +7,8 @@
 	<link rel="stylesheet" href="{{ asset('css/css/style.css') }}">
 </head>
     <body>
-
         @include('layout.header')
+        @include('layout.popups.modal')
         @yield('content')
     </body>
 </html>

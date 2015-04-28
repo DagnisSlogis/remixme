@@ -3,9 +3,9 @@
  <div id="submenu">
  <ul>
  	<li class="title">LABOT LIETOTĀJU: </li>
- 	<li class="compnavl"><a href="/adminpanel/changeuser">Visi Lietotāji</a></li>
+ 	<li class="compnavl"><a href="/adminpanel/users">Visi Lietotāji</a></li>
     <li>
-    {!! Form::open(['url' => '/adminpanel/find', 'method' => 'GET']) !!}
+    {!! Form::open(['url' => '/adminpanel/user/find', 'method' => 'GET']) !!}
         {!! Form::text('s') !!}
         {!! Form::submit('Meklēt') !!}
     {!! Form::close() !!}
@@ -43,9 +43,9 @@
                 <td>Administrātors</td>
          @endif
         <td>{{$user->facebook}}</td>
-        <td><a href="/adminpanel/{{$user->id}}/edit" class="change" >Labot</a></td>
+        <td><a href="/adminpanel/user/{{$user->id}}/edit" class="change" >Labot</a></td>
         <td>
-        {!! Form::open (['method' => 'PATCH' ,'url' => '/adminpanel/delete/'.$user->id ])!!}
+        {!! Form::open (['method' => 'PATCH' ,'url' => '/adminpanel/user/delete/'.$user->id ])!!}
         {!! Form::submit('Dzēst', ['class' => 'delete']) !!}
         {!! Form::close() !!}</td>
 

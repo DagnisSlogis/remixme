@@ -7,7 +7,7 @@ use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
 class Registrar implements RegistrarContract {
 
 	/**
-	 * Get a validator for an incoming registration request.
+	 * Validē ievadītos reģistrācija datus
 	 *
 	 * @param  array  $data
 	 * @return \Illuminate\Contracts\Validation\Validator
@@ -17,24 +17,21 @@ class Registrar implements RegistrarContract {
 		return Validator::make($data, [
 			'username' => 'required|max:255',
 			'email' => 'required|email|max:255|unique:users',
+            'profile_img' => 'image|max:1000|mimes:jpeg,png',
 			'password' => 'required|confirmed|min:6',
 		]);
 	}
 
 	/**
-	 * Create a new user instance after a valid registration.
+	 * Izveido jaunu lietotāju datubāzē, ja validēšana notikusi veiksmīgi
 	 *
 	 * @param  array  $data
 	 * @return User
 	 */
 	public function create(array $data )
 	{
-		if($data['profile_img_link']){
-		$filename = '/uploads/'.$data['username'].'-'.$data['profile_img_link']->getClientOriginalName();
-		}
-		else {
-		$filename = 'img/noImg.jpg';
-		}
+        $filename = $this->getImgName($data);
+        \Session::flash('success_message', 'Reģistrācija ir notikusi veiksmīgi!');
 		return User::create([
 			'username' => $data['username'],
 			'email' => $data['email'],
@@ -43,5 +40,22 @@ class Registrar implements RegistrarContract {
 			'facebook' => $data['facebook'],
 		]);
 	}
+
+    /**
+     * Pārbauda vai lietotājs ir augšupielādējis bildi, ja nav bilde = noklusētā
+     *
+     * @param array $data
+     * @return string
+     */
+    private function getImgName(array $data)
+    {
+        if($data['profile_img_link']){
+            $filename = '/uploads/'.$data['username'].'-'.$data['profile_img_link']->getClientOriginalName();
+        }
+        else {
+            $filename = '/img/noImg.jpg';
+        }
+        return $filename;
+    }
 
 }

@@ -3,9 +3,12 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Comp;
+use App\Comment;
 use Auth;
 use App\Http\Requests\CreateCompRequest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class CompController extends Controller {
 
@@ -14,10 +17,13 @@ class CompController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
-	{
-		//
-	}
+	public function index(Comp $comp)
+    {
+        $comps = $comp->where('subm_end_date' , '>=' , Carbon::now())
+            ->with('user' , 'comments')
+            ->get();
+        return view('home' , compact('comps'));
+    }
 
 	/**
 	 * Show the form for creating a new resource.
@@ -42,21 +48,30 @@ class CompController extends Controller {
         {
             $competition = $this->youtubeConverter($competition);
         }
-        $comp = Auth::user()->comps()->create($competition);
+        $comp =  new Comp($competition);
+        Auth::user()->comps()->save($comp);
         return redirect('/');
 	}
 
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
+    /**
+     * Parāda konkursa nolikumu pilnā izmērā ar komentāriem
+     *
+     * @param Comment $comment
+     * @param Comp $comp
+     * @param  int $id
+     * @return Response
+     */
+    public function show(Comment $comment ,Comp $comp , $id)
+    {
+        $comp = $comp->whereId($id)->with('user')->first();
+        $comments = $comment->whereCompId($comp->id)
+            ->whereStatus('v')
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
+        return view('pages.show' , compact('comp' , 'comments'));
+    }
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -96,11 +111,12 @@ class CompController extends Controller {
      * @param $request
      * @return mixed
      */
-    public function saveImg($request)
+    private function saveImg($request)
     {
         $file = $request->file('header_img');
+        $img = Image::make($file)->fit(610 , 140);
         $fileName = $request->get('title').'-'.$file->getClientOriginalName();
-        $file->move(public_path().'/uploads/comp_headers/', $fileName);
+        $img->save('uploads/comp_headers/'.$fileName);
         $comp = $request->all();
         $comp['header_img'] = '/uploads/comp_headers/'.$fileName;
         return $comp;
@@ -111,7 +127,7 @@ class CompController extends Controller {
      * @param $request
      * @return mixed
      */
-    public function youtubeConverter($request)
+    private function youtubeConverter($request)
     {
         $request['preview_link'] = str_replace(['watch?v='], ['embed/'] , $request['preview_link']);
         return $request;
