@@ -1,7 +1,7 @@
 $(document).ready(function() {
 $('a.login-window').click(function() {
     
-            //Getting the variable's value from a link 
+//Getting the variable's value from a link
     var loginBox = $(this).attr('href');
 
     //Fade in the Popup
@@ -15,16 +15,13 @@ $('a.login-window').click(function() {
         'margin-bottom' : -popMargTop,
         'margin-left' : -popMargLeft
     });
-    
-    // Add the mask to body
-    $('.login-window').addClass( "selected" );
+
     return false;
 });
 
 // When clicking on the button close or the mask layer the popup closed
 $('a.close').on('click', function() { 
   $('#mask , .login-popup').slideUp(300 , function() {
-    $('.selected').removeClass( "selected" );
 }); 
 return false;
 });
@@ -91,4 +88,44 @@ $(function() {
         }
     });
 
+});
+
+// Iesūtīšanas jqu
+$(document).ready(function() {
+    $('.subm-window').click(function () {
+        var hideThis = $(this).data('id');
+        $('.fullinfo[data-id=' + hideThis + ']').slideUp(500, function () {
+            $(this).hide();
+            $('.subminfo[data-id=' + hideThis + ']').slideDown(500, function () {
+                $(this).show();
+            });
+        });
+
+    $( '.scLink[data-id='+hideThis+']' )
+        .keyup(function() {
+            var value = $( this ).val();
+            if(value) {
+                var soundcloud = "<iframe width=\"100%\" height=\"115\" scrolling=\"no\" frameborder=\"no\"src=\"http://w.soundcloud.com/player/?url=" + value + "&auto_play=false&color=e45f56&theme_color=00FF00\"></iframe>";
+                $('.scprev[data-id='+hideThis+']').slideDown(200, function () {
+                    $(this).show();
+                    $(this).html(soundcloud);
+                });
+            }
+            else {
+                $('.scprev[data-id='+hideThis+']').slideUp(200, function () {
+                    $(this).html("");
+                    $(this).hide();
+                });
+            }
+
+        })
+        $('.closesubm[data-id=' + hideThis + ']').click(function () {
+                $('.subminfo[data-id=' + hideThis + ']').slideUp(500, function () {
+                    $(this).hide();
+                });
+            $('.fullinfo[data-id=' + hideThis + ']').slideDown(500, function () {
+                $(this).show();
+            });
+        });
+    });
 });

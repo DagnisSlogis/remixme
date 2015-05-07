@@ -20,6 +20,7 @@ class CompController extends Controller {
 	public function index(Comp $comp)
     {
         $comps = $comp->where('subm_end_date' , '>=' , Carbon::now())
+            ->whereStatus('v')
             ->with('user' , 'comments')
             ->get();
         return view('home' , compact('comps'));
@@ -65,12 +66,39 @@ class CompController extends Controller {
     public function show(Comment $comment ,Comp $comp , $id)
     {
         $comp = $comp->whereId($id)->with('user')->first();
-        $comments = $comment->whereCompId($comp->id)
-            ->whereStatus('v')
-            ->with('user')
-            ->orderBy('created_at', 'desc')
-            ->paginate(5);
-        return view('pages.show' , compact('comp' , 'comments'));
+        $canEnter = 0;
+        //pārbauda vai konkurss jau nav beidzies
+
+        if(Auth::guest()) {
+            if ($comp->comp_end_date >= Carbon::now() ) {
+                $comments = $comment->whereCompId($comp->id)
+                    ->whereStatus('v')
+                    ->with('user')
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(5);
+                return view('pages.show', compact('comp', 'comments'));
+            }
+            else {
+                return view('errors.ended');
+            }
+        }
+        else
+        {
+            if ($comp->comp_end_date >= Carbon::now() || Auth::user()->isAdmin() || Auth::user()->isOwner($comp)) {
+                $comments = $comment->whereCompId($comp->id)
+                    ->whereStatus('v')
+                    ->with('user')
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(5);
+                return view('pages.show', compact('comp', 'comments'));
+            }
+            elseif ($comp->subm_end_date < Carbon::now() && $comp->comp_end_date > Carbon::now()) {
+                return 'test';//aizsūta uz balsošanu
+            }
+            else {
+                return view('errors.ended');
+            }
+        }
     }
 
 	/**

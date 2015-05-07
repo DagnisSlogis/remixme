@@ -38,6 +38,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function isAdmin() {
         return ($this->status == 2);
     }
+
+    public function isOwner($comp)
+    {
+        return ($this->id == $comp->user_id);
+    }
+
     public function newNotification()
     {
         $notification = new Notification;
@@ -82,6 +88,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function notifications()
     {
         return $this->hasMany('App\Notification');
+    }
+
+    public function submitions()
+    {
+        return $this->hasMany('App\Submition');
     }
 }
 

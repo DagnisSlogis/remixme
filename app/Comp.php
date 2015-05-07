@@ -34,6 +34,11 @@ class Comp extends Model {
         $this->attributes['comp_end_date'] = Carbon::parse($date);
     }
 
+    public function commentcount()
+    {
+        $count = count($this->comments()->whereStatus('v')->get());
+        return $count;
+    }
     /**
      * A comp author is one user.
      *
@@ -63,4 +68,20 @@ class Comp extends Model {
     {
         return $this->hasMany('App\Favorite');
     }
+
+    /**
+     * Polimorfiskā attiecība ar tabulu Notifications
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function notifications()
+    {
+        return $this->hasMany('App\Notification');
+    }
+
+    public function submitions()
+    {
+        return $this->hasMany('App\Submition');
+    }
+
 }

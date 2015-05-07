@@ -12,7 +12,9 @@
 */
 
 Route::get('/', 'CompController@index');
-Route::get('userpanel' , 'UserPanelController@index');
+
+//Submitions
+Route::post('submit/{id}' , 'SubmitionController@store');
 
 //Pages
 Route::get('adminpanel', 'PageController@AdminPanel');
@@ -36,10 +38,22 @@ Route::post('comment/delete/{id}', 'CommentController@delete');
 //Favorite
 Route::post('favorite/{id}', 'FavoriteController@add');
 
+//Notifications
+Route::post('is_read' , 'NotificationController@set_as_read');
+
 Route::resource('comps' , 'CompController');
 
+//UserPanel
+Route::get('userpanel' , 'PageController@UserPanel');
 Route::get('userpanel/profile/edit', 'User\UpProfileController@index');
 Route::patch('userpanel/profile/update', 'User\UpProfileController@update');
+Route::get('userpanel/notification' , 'NotificationController@index');
+Route::get('userpanel/favorite' , 'FavoriteController@index');
+Route::patch('userpanel/favorite/delete/{id}', 'FavoriteController@delete');
+
+//Userpanel
+Route::get('userpanel/comps' ,  'User\UpCompController@index');
+Route::get('userpanel/comps/ended' ,  'User\UpCompController@hasEnded');
 
 Route::get('show/{id}', 'CompController@show');
 

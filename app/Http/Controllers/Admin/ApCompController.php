@@ -45,7 +45,7 @@ class ApCompController extends Controller {
             ->withType('CompAccepted')
             ->withSubject('Tavs konkurss ir apstiprināts')
             ->withTitle($comp->title)
-            ->regarding($comp)
+            ->withComp($comp->id)
             ->save();
         \Session::flash('flash_message', 'Konkurss ir apstiprināts!');
         return redirect('adminpanel/comps/accept');

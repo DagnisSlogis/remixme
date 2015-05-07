@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFavoritesTable extends Migration {
+class CreateSubmitionsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,9 +12,12 @@ class CreateFavoritesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('favorites', function(Blueprint $table)
+		Schema::create('submitions', function(Blueprint $table)
 		{
 			$table->increments('id');
+            $table->string('title');
+            $table->text('link');
+            $table->char('status')->default('v');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')
                 ->references('id')
@@ -25,7 +28,6 @@ class CreateFavoritesTable extends Migration {
                 ->references('id')
                 ->on('comps')
                 ->onDelete('cascade');
-            $table->char('status')->default('v');
 			$table->timestamps();
 		});
 	}
@@ -37,7 +39,7 @@ class CreateFavoritesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('favorites');
+		Schema::drop('submitions');
 	}
 
 }

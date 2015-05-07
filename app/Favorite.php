@@ -20,4 +20,13 @@ class Favorite extends Model {
         return $this->belongsTo('App\Comp');
     }
 
+    /**
+     * Polimorfiskā attiecība ar tabulu Notifications
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function notifications()
+    {
+        return $this->morphMany('App\Notification' , 'object');
+    }
 }

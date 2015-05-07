@@ -126,6 +126,7 @@ img
 	vertical-align: bottom
 body
 	background: $grey
+
 //Galvenes CSS parametri
 header
 	height: 195px
@@ -164,12 +165,13 @@ header
 					border-bottom: 4px solid $pink
 			.active
 				border-bottom: 4px solid $pink
-		ul#profile-nav
+		#profile-nav
 			display: flex
 			align-items: center
 			padding: 10px 
 			float: right
-			li
+			.profilemenu
+				position: relative
 				font-size: 12px
 				color: $purple
 				margin: 0 4px
@@ -178,9 +180,23 @@ header
 					color: $purple
 					text-decoration: none
 					padding: 3px 5px
+				.unacceptedCount
+					position: absolute
+					top: 25px
+					left: 10%
+					color: #ffffff
+					font-size: 12px
+					background: $pink
+					border-radius: 4px
+					padding: 3px 7px
+				.notificationCount
+					@extend .unacceptedCount
+					top: 23px
 			.adminbtn
 				font-size: 20px
 				font-weight: 500
+			.newnotif
+				color: $pink
 			.profile
 				display: flex
 				align-items: center
@@ -196,7 +212,6 @@ header
 					padding: 2px 5px
 			.login-window
 				font-size: 14px
-
 
 		.add
 			position: absolute
@@ -214,7 +229,6 @@ header
 			&:hover
 				background: #ff5252
 				@extend %shadow-3
-				
 //****
 //Galvenās lapas parametri
 #submenu
@@ -624,9 +638,6 @@ button.clasic
 		color: $title
 		margin-left: 5px
 		pointer-events: none
-.selected
-	border: 1px solid $grey
-	border-radius: 8px
 //***********
 // Popup Modal
 .modalDialog
@@ -793,3 +804,76 @@ button.clasic
 			background: $dblue
 
 
+// Notification popups
+.notificationbox
+	width: 100%
+	max-height: 210px
+	overflow-y: auto
+	a
+		text-decoration: none
+	.notificationLine
+		padding: 10px 15px
+		font-size: 13px
+		color: $title
+		border-radius: 2px
+		&:hover
+			background: $grey
+		.subject
+			font-size: 14px
+			color: $dblue
+			font-weight: 500
+.morenotifications
+	width: 100%
+	height: 40px
+	border: none
+	background: white
+	color: $dblue
+	font-weight: 14px
+	border-radius: 2px
+	img
+		padding-right: 5px
+		padding-bottom: 1px
+	a
+		color: $dblue
+		text-decoration: none
+		&:hover
+			text-decoration: underline
+//**********
+//Favoriti
+//span stili
+.iesutisana
+	background: $dgreen
+	color: #ffffff
+	border-radius: 4px
+	padding: 3px 6px
+.balsosana
+	@extend .iesutisana
+	background: $lgreen
+.beidzies
+	@extend .iesutisana
+	background: $pink
+//*********
+
+// Iesūtīšana
+.subminfo
+	display: none
+	padding: 20px 30px 0px 30px
+	form
+		input
+			width: 95%
+		.submitionbtn
+			background: $dgreen
+			color: #ffffff
+			border: none
+			width: 140px
+	.closesubm
+		margin-left: 55%
+		margin-right: 5px
+		padding: 6px 12px
+		font-size: 14px
+		color: $title
+		border: 1px solid $title
+		border-radius: 2px
+		&:hover
+			color: #ffffff
+			background: $title

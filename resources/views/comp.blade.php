@@ -20,6 +20,7 @@
 	<li><b>Vērtēšana:</b> Žūrija</li>
 	@endif
 	</ul>
+	<div class="fullinfo" data-id="{{$comp->id}}">
 	@if($comp->preview_type == 's')
    <iframe class="soundcloud" scrolling="no" frameborder="no"src="http://w.soundcloud.com/player/?url={{$comp->preview_link}}&auto_play=false&color=e45f56&theme_color=00FF00"></iframe>
    @else
@@ -44,7 +45,7 @@
 	@endif
 	</ul>
 	<ul class="functions">
-            <a href="/show/{{$comp->id}}" ><li class="other">{{count($comp->comments)}} Komentāri </li></a>
+            <a href="/show/{{$comp->id}}" ><li class="other">{{$comp->commentcount()}} Komentāri </li></a>
             <li class="other">Piedalās</li>
             <li>
             {!! Form::open(['method' => 'POST','url' => 'favorite/'.$comp->id]) !!}
@@ -53,18 +54,34 @@
             {!! Form::close() !!}
             </li>
 	</ul>
+
 	<ul class="functionbtn">
 	            <li>
-                 {!! Form::open(['method' => 'POST','url' => 'favorite/'.$comp->id]) !!}
+                 {!! Form::open(['method' => 'GET','url' => $comp->stem_link]) !!}
                       {!! Form::submit('Lejupielādēt daļas' , ['class'=> 'downloadbtn']) !!}
                  {!! Form::close() !!}
                  </li>
+
                 <li>
-                 {!! Form::open(['method' => 'POST','url' => 'favorite/'.$comp->id]) !!}
-                      {!! Form::submit('Iesniegt' , ['class'=> 'enterbtn']) !!}
-                 {!! Form::close() !!}
+                <button class="subm-window enterbtn" data-id="{{$comp->id}}">Iesniegt</button>
+
                  </li>
 	</ul>
 	<div class="clear"></div>
+	</div>
+	<div class="subminfo" data-id="{{$comp->id}}">
+    <h3>Iesniegt dziesmu:</h3>
+    {!! Form::open(['method' => 'POST','url' => '/submit/'.$comp->id]) !!}
+				{!! Form::label('title' , 'Nosaukums') !!}
+				{!! Form::text('title') !!}
+				{!! Form::label('link' , 'Soundcload adrese' ) !!}
+                {!! Form::text('link' , null , ['class' => 'scLink' , 'data-id' => $comp->id ]) !!}
+                <div class="scprev" data-id="{{$comp->id}}"></div>
+                <span class="closesubm" data-id="{{$comp->id}}">Aizvērt</span>
+           {!! Form::submit('Iesūtit' , ['class'=> 'submitionbtn']) !!}
+    {!! Form::close() !!}
+	</div>
+
 </div>
 @endforeach
+@include('layout.popups.subm')
