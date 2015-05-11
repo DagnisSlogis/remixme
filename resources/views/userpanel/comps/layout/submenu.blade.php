@@ -8,6 +8,12 @@
      	@else
      	    <span class="notif_count">{{$judging}}</span></a></li>
      	@endif
+     	<li class="compnavl"><a href="/userpanel/voting">Balsošana
+     	     	@if($voting)
+             	    <span class="notif">{{$voting}}</span></a></li>
+             	@else
+             	    <span class="notif_count">{{$voting}}</span></a></li>
+             	@endif
      	<li class="compnavl"><a href="/userpanel/comps/ended">Beigušies</a></li>
      	<li>{!! Form::open(['url' => '/comp/user/find', 'method' => 'GET' , 'class' => 'searchform']) !!}
                     {!! Form::text('s') !!}

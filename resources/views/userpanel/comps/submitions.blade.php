@@ -12,6 +12,7 @@
       <tr class="titlerow">
         <td>#</td>
         <td>Nosaukums</td>
+        <td>Autors</td>
         <td>Remiks</td>
         <td>Dzēst</td>
       </tr>
@@ -19,6 +20,7 @@
         <tr class="userline">
         <td>{{$index+1}}</td>
         <td>{{$submition->title}}</td>
+        <td>{{$submition->user->username}}</td>
         <td><iframe width="100%" height="60" scrolling="no" frameborder="no"src="http://w.soundcloud.com/player/?url={{$submition->link}}&auto_play=false&color=e45f56&theme_color=00FF00"></iframe></td>
         <td>
             {!! Form::open (['method' => 'PATCH' ,'url' => 'comp/song/delete/'.$submition->id])!!}

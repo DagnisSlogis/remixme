@@ -13,12 +13,22 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 
 class CompSubmenuComposer {
+    /**
+     * Ielasa datus priekš konkursu navigācijas
+     *
+     * @param View $view
+     */
     public function main(View $view){
         $judging = Voting::join('comps', 'votings.comp_id', '=', 'comps.id')
             ->where('comps.voting_type','=' , 'z')
             ->where('votings.show_date', '<=' , Carbon::now())
             ->where('votings.status', '=' , 'v')
             ->count();
-        $view->with(compact('judging'));
+        $voting = Voting::join('comps', 'votings.comp_id', '=', 'comps.id')
+            ->where('comps.voting_type','=' , 'b')
+            ->where('votings.status', '=' , 'v')
+            ->where('comps.subm_end_date', '<=' , Carbon::now())
+            ->count();
+        $view->with(compact('judging' , 'voting'));
     }
 } 

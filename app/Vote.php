@@ -9,7 +9,7 @@ class Vote extends Model {
      *
      * @var string
      */
-    protected $table = 'votings';
+    protected $table = 'votes';
 
     public function user()
     {

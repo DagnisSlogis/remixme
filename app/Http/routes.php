@@ -73,6 +73,11 @@ Route:get('userpanel/judging' , 'User\UpVotingController@index');
 
 Route::get('show/{id}', 'CompController@show');
 
+//Voting
+Route::get('voting' , 'VotingController@index');
+Route::patch('comp/song/vote/{id}' , 'VotingController@update');
+Route::get('comp/voting/{id}' , 'VotingController@show');
+
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

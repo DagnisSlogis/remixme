@@ -36,12 +36,12 @@ class Submition extends Model
 
     public function votable()
     {
-        return $this->belongsTo('App\Votable');
+        return $this->hasOne('App\Votable');
     }
 
     public function winner()
     {
-        return $this->belongsTo('App\Winner');
+        return $this->hasOne('App\Winner');
     }
 
 }

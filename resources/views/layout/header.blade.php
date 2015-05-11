@@ -6,7 +6,7 @@
 		<h3>remix<i>.me</i></h3>
 		<ul id="main-nav"> 
 			<li><a href="/" class="active">Konkursi</a></li>
-			<li>Balsošana</li>
+			<li><a href="/voting">Balsošana</a> </li>
 			<li>Uzvarētāji</li>
 			<li>Par Mums</li>
 		</ul>

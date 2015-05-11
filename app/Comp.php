@@ -98,11 +98,11 @@ class Comp extends Model {
 
     public function submitions()
     {
-        return $this->hasMany('App\Submition');
+        return $this->hasMany('App\Submition')->orderBy('created_at' , 'desc');
     }
 
     public function voting()
     {
-        return $this->belongsTo('App\Voting');
+        return $this->hasOne('App\Voting');
     }
 }
