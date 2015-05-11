@@ -33,7 +33,7 @@
             {!! Form::close() !!}
         </td>
         <td>
-            {!! Form::open (['method' => 'PATCH' ,'url' => '/adminpanel/comps/delete/'.$comp->id])!!}
+            {!! Form::open (['method' => 'PATCH' ,'url' => '/comps/delete/'.$comp->id])!!}
                 {!! Form::submit('Noraidīt', ['class' => 'delete']) !!}
             {!! Form::close() !!}
         </td>

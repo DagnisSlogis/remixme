@@ -15,6 +15,13 @@ class CreateVotingsTable extends Migration {
 		Schema::create('votings', function(Blueprint $table)
 		{
 			$table->increments('id');
+            $table->timestamp('show_date');
+            $table->char('status')->default('v');
+            $table->integer('comp_id')->unsigned();
+            $table->foreign('comp_id')
+                ->references('id')
+                ->on('comps')
+                ->onDelete('cascade');
 			$table->timestamps();
 		});
 	}

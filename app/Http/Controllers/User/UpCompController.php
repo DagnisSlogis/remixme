@@ -3,6 +3,7 @@
 use App\Comp;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Voting;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -25,6 +26,14 @@ class UpCompController extends Controller {
         return view('userpanel.comps.index', compact('comps', 'header'));
     }
 
+
+
+    /**
+     * Izveido sarakstu ar konkursiem, kuri ir beigušies.
+     *
+     * @param Comp $comp
+     * @return \Illuminate\View\View
+     */
     public function hasEnded(Comp $comp)
     {
         $comps = $comp->whereUserId(Auth::user()->id)
@@ -34,5 +43,25 @@ class UpCompController extends Controller {
         $header = "Beigušies konkursi";
         return view('userpanel.comps.index', compact('comps', 'header'));
     }
+
+    /**
+     * Atrod lietotāja konkursus pēc žanra, r.k. nosaukuma un dziesmas nosaukuma.
+     *
+     * @param Request $request
+     * @param Comp $comp
+     * @return \Illuminate\View\View
+     */
+    public function find(Request $request , Comp $comp)
+    {
+        $comps = $comp->whereUserId(Auth::user()->id)
+            ->where('title', 'LIKE', '%'. $request->get('s') .'%')
+            ->orWhere('genre', 'LIKE', '%'. $request->get('s') .'%')
+            ->orWhere('song_title', 'LIKE', '%'. $request->get('s') .'%')
+            ->paginate(10);
+        $header ='Meklēšanas "'.$request->get('s').'" rezultāti';
+        return view('userpanel.comps.index', compact('comps', 'header'));
+    }
+
+
 
 }

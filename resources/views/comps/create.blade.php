@@ -5,6 +5,9 @@
 	<div id="register">
 	<div class="centerblock">
 		<h3>Pievienot konkursu</h3>
+				@if (Session::has('flash_message'))
+                    <div class="alert">{{Session::get('flash_message')}}</div>
+                    @endif
 		@if (count($errors) > 0)
 						<div class="alert">
 							<strong>Ups!</strong> Jūsu ievadītie dati neatbilst prasītajam formātam.<br>
@@ -15,7 +18,7 @@
 							</ul>
 						</div>
 					@endif
-		{!! Form::open(['method' => 'POST','url' => 'comps' ,'files' => true , 'enctype' => 'multipart/form-data']) !!}
+		{!! Form::open(['method' => 'POST','url' => 'comps/store' ,'files' => true , 'enctype' => 'multipart/form-data']) !!}
 				{!! Form::label('title' , 'Konkursa nosaukums') !!} <span class="needed">*</span>
 				{!! Form::text('title' ) !!}
                 <div class="one-line small-form">

@@ -15,7 +15,7 @@ class ApCompController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index(Comp $comp , User $user)
+	public function index(Comp $comp )
 	{
         $comps = $comp->whereNotIn('status' , array('d' , 'a'))
             ->where('comp_end_date', '>=' , Carbon::now())
@@ -25,7 +25,13 @@ class ApCompController extends Controller {
         return view('adminpanel.comps.index' , compact( 'comps'));
 	}
 
-    public function accept(Comp $comp , User $user)
+    /**
+     * Parāda visus apstiprinājumu gaidošos konkursus
+     *
+     * @param Comp $comp
+     * @return \Illuminate\View\View
+     */
+    public function accept(Comp $comp)
     {
         $comps = $comp->whereStatus('a')
             ->where('comp_end_date', '>=' , Carbon::now())
@@ -35,89 +41,55 @@ class ApCompController extends Controller {
         return view('adminpanel.comps.accept' , compact('comps'));
     }
 
-    public function accept_comp(Comp $comp , User $user , $id)
+    public function accept_comp(Comp $comp , User $user, $id)
     {
         $comp = $comp->whereId($id)->first();
-        $user = $user->whereId($comp->user_id)->first();
         $comp->status = 'v';
         $comp->save();
+        $this->acceptNotif($comp, $user);
+        \Session::flash('flash_message', 'Konkurss ir apstiprināts!');
+        return redirect('adminpanel/comps/accept');
+    }
+    public function find(Request $request , Comp $comp)
+    {
+        $comps = $comp->where('title', 'LIKE', '%'. $request->get('s') .'%')
+            ->orWhere('genre', 'LIKE', '%'. $request->get('s') .'%')
+            ->orWhere('song_title', 'LIKE', '%'. $request->get('s') .'%')
+            ->paginate(10);
+        $header ='Meklēšanas "'.$request->get('s').'" rezultāti';
+        return view('adminpanel.comps.index' , compact( 'comps'));
+    }
+
+    /**
+     * Paziņo konkursa autoram, ka viņa konkurss ir apstiprināts.
+     *
+     * @param $comp
+     * @param $user
+     */
+    private function acceptNotif($comp , $user)
+    {
+        $user = $user->whereId($comp->user_id)->first();
         $user->newNotification()
             ->withType('CompAccepted')
             ->withSubject('Tavs konkurss ir apstiprināts')
             ->withTitle($comp->title)
             ->withComp($comp->id)
             ->save();
-        \Session::flash('flash_message', 'Konkurss ir apstiprināts!');
-        return redirect('adminpanel/comps/accept');
     }
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
-
-
-	public function show()
+    /**
+     * Paziņo, ka administrātors ir dzēsis tavu konkursu.
+     *
+     * @param $user
+     * @param $comp
+     */
+    public function deleteCompNotif($user, $comp)
     {
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy(Comp $comp, User $user, $id)
-	{
-        $comp = $comp->whereId($id)->first();
-        $comp->status = 'd';
-        $comp->save();
-        $user = $user->whereId($comp->user_id)->first();
         $user->newNotification()
             ->withType('CompDenied')
-            ->withSubject('Tavs konkurss ir noraidīts un dzēsts')
+            ->withSubject('Tavs konkurss ir noraidīts vai/un dzēsts')
             ->withTitle($comp->title)
-            ->regarding($comp)
+            ->withComp($comp->id)
             ->save();
-        \Session::flash('flash_message', 'Konkurss ir veiksmīgi dzēsts!');
-        return redirect('adminpanel/comps');
-	}
-
+    }
 }

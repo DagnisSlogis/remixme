@@ -34,11 +34,28 @@ class Comp extends Model {
         $this->attributes['comp_end_date'] = Carbon::parse($date);
     }
 
+    /**
+     * Saskaita aktīvos komentārus
+     *
+     * @return int
+     */
     public function commentcount()
     {
-        $count = count($this->comments()->whereStatus('v')->get());
-        return $count;
+        return count($this->comments()->whereStatus('v')->get());
     }
+
+    /**
+     * Saskaita aktīvos iesūtītos remiksus
+     *
+     * @return int
+     */
+    public function entrycount()
+    {
+        return $this->submitions()->whereStatus('v')->count();
+
+    }
+
+
     /**
      * A comp author is one user.
      *
@@ -84,4 +101,8 @@ class Comp extends Model {
         return $this->hasMany('App\Submition');
     }
 
+    public function voting()
+    {
+        return $this->belongsTo('App\Voting');
+    }
 }

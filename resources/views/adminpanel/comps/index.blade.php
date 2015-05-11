@@ -32,10 +32,10 @@
         @endif
         <td>{{$comp->subm_end_date->format('d.m.Y.')}}</td>
         <td>{{$comp->comp_end_date->format('d.m.Y.')}}</td>
-        <td>10</td>
-        <td><a href="/adminpanel/{{$comp->id}}/edit" class="change" >Labot</a></td>
+        <td><a href="/comp/submitions/{{$comp->id}}"> {{$comp->entrycount()}}</a></td>
+        <td><a href="/comp/{{$comp->id}}/edit" class="change" >Labot</a></td>
         <td>
-            {!! Form::open (['method' => 'PATCH' ,'url' => '/adminpanel/comps/delete/'.$comp->id])!!}
+            {!! Form::open (['method' => 'PATCH' ,'url' => '/comps/delete/'.$comp->id])!!}
                 {!! Form::submit('Dzēst', ['class' => 'delete']) !!}
             {!! Form::close() !!}
         </td>

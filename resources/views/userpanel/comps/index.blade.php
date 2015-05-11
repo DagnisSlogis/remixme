@@ -5,6 +5,9 @@
    <div id="full">
     <div class="admin">
     <h3>{{$header}}</h3>
+    @if (Session::has('flash_message'))
+        <div class="alert alert-success">{{Session::get('flash_message')}}</div>
+        @endif
     <table>
       <tr class="titlerow">
         <td>#</td>
@@ -27,7 +30,7 @@
         @else
             <td><span class="iesutisana">Jā</span></td>
         @endif
-        <td>{{count($comp->comments)}}</td>
+        <td>{{$comp->commentcount()}}</td>
         @if($comp->voting_type == 'b')
             <td>Balsošana</td>
         @else
@@ -41,10 +44,10 @@
             <td><span class="beidzies">Beidzies</span></td>
         @endif
                 <td>{{$comp->comp_end_date->format('d.m.Y.')}}</td>
-                <td>{{count($comp->submitions->active)}}</td>
-                <td><a href="/adminpanel/{{$comp->id}}/edit" class="change" >Labot</a></td>
+                <td><a href="/comp/submitions/{{$comp->id}}"> {{$comp->entrycount()}}</a></td>
+                <td><a href="/comp/{{$comp->id}}/edit" class="change" >Labot</a></td>
                 <td>
-                    {!! Form::open (['method' => 'PATCH' ,'url' => '/adminpanel/comps/delete/'.$comp->id])!!}
+                    {!! Form::open (['method' => 'PATCH' ,'url' => '/comps/delete/'.$comp->id])!!}
                         {!! Form::submit('Dzēst', ['class' => 'delete']) !!}
                     {!! Form::close() !!}
                 </td>

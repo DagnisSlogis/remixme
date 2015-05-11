@@ -82,6 +82,19 @@ form
 		margin-right: 0
 	.float-right
 		float: right
+.searchform
+	margin: 0
+	padding: 0
+	height: 47px
+	input
+		width: auto
+		padding: 5px
+		&:focus
+			border: 1px solid $dgreen
+		&[type="submit"]
+			background: $dgreen
+			color: #ffffff
+			border: none
 .loginbox
 	input
 		margin: 10px 0px
@@ -246,10 +259,9 @@ header
 		color: $dgreen
 		font-weight: 300
 		font-size: 14px
-		li 
+		li
 			padding: 18px 12px
 			padding-bottom: 14px
-			border-bottom: 4px solid white
 			margin: 5px 0px
 			.notif
 				background: $pink
@@ -265,6 +277,7 @@ header
 			font-weight: 400
 			color: #777
 			margin-bottom: 5px
+			border-bottom: 4px solid white
 			transition: all .3s
 			&:hover
 				border-bottom: 4px solid $dgreen
@@ -274,6 +287,7 @@ header
 			&:hover
 				color: $dblue
 		.title
+			border-bottom: 4px solid white
 			font-weight: 400
 article
 	width: 70%
@@ -287,7 +301,7 @@ article
 		float: left
 	#sidebarrow
 		width: 27%
-		height: 100%
+		height: auto
 		margin-right: 20px
 		margin-top: 20px
 		float: right
@@ -442,7 +456,6 @@ button.clasic
 		align-items: center
 		margin: 0 8px
 		height: 50px
-		#moreinfo_title
 		li
 			font-size: 14px
 			margin: 7px
@@ -877,3 +890,28 @@ button.clasic
 		&:hover
 			color: #ffffff
 			background: $title
+//******
+
+// Lietotāja info
+.userinfo
+	@extend %shadow-1
+	background: #ffffff
+	display: flex
+	justify-content: space-between
+	h4
+		font-size: 18px
+		color: #777777
+		margin: 5px 0
+	span
+		font-size: 34px
+		font-weight: bold
+		color: $lgreen
+	img
+		margin-bottom: 15px
+	div
+		padding: 20px 70px
+		text-align: center
+		border-right: 1px solid $grey
+		&:hover
+			background: $grey
+

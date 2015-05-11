@@ -17,12 +17,12 @@ class SubmenuComposer {
      * @param View $view
      */
     public function comppanel(View $view){
-        $unacceptedCount =  count(Comp::whereStatus('a')
+        $unacceptedCount =  Comp::whereStatus('a')
             ->where('comp_end_date', '>=' , Carbon::now())
-            ->get());
-        $runningsCount = count(Comp::whereNotIn('status' , array('d' , 'a'))
-            ->where('comp_end_date', '>=' , Carbon::now())->get());
-        $compsCount =  count(Comp::whereNotIn('status' , array('d' , 'a'))->get());
+            ->count();
+        $runningsCount = Comp::whereNotIn('status' , array('d' , 'a'))
+            ->where('comp_end_date', '>=' , Carbon::now())->count();
+        $compsCount =  Comp::whereNotIn('status' , array('d' , 'a'))->count();
         $view->with(compact('unacceptedCount' , 'runningsCount' , 'compsCount'));
     }
 } 

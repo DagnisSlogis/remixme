@@ -17,9 +17,19 @@ class Votable extends Model {
      */
     protected $fillable = ['slug'];
 
-    public function submtion()
+    public function submition()
     {
         return $this->belongsTo('App\Submition');
+    }
+
+    public function voting()
+    {
+        return $this->belongsTo('App\Voting');
+    }
+
+    public function votes()
+    {
+        return $this->hasMany('App\Vote');
     }
 
 }

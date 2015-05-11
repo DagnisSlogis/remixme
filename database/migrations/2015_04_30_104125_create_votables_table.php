@@ -21,6 +21,11 @@ class CreateVotablesTable extends Migration {
             $table->foreign('submition_id')
                 ->references('id')
                 ->on('submitions')
+                ->onDelete('cascade')->orderBy('subm_end_date' , 'asc');
+            $table->integer('voting_id')->unsigned();
+            $table->foreign('voting_id')
+                ->references('id')
+                ->on('votings')
                 ->onDelete('cascade');
 			$table->timestamps();
 		});

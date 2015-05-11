@@ -15,6 +15,17 @@ class CreateWinnersTable extends Migration {
 		Schema::create('winners', function(Blueprint $table)
 		{
 			$table->increments('id');
+            $table->integer('voting_id')->unsigned();
+            $table->foreign('voting_id')
+                ->references('id')
+                ->on('votings')
+                ->onDelete('cascade');
+            $table->integer('submition_id')->unsigned();
+            $table->foreign('submition_id')
+                ->references('id')
+                ->on('submitions')
+                ->onDelete('cascade');
+            $table->integer('place');
 			$table->timestamps();
 		});
 	}

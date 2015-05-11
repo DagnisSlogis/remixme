@@ -2,10 +2,10 @@
 @foreach ( $comps as $index => $comp)
 <div class="RemixComp">
 	<img class="comphead" src="{{ asset($comp->header_img) }}">
-		<span class="comp-left">{{$comp->comp_end_date->diffForHumans()}}</span>
+		<span class="comp-left">{{$comp->subm_end_date->diffForHumans()}}</span>
 		<img class="comp-auth" src="{{ asset($comp->user->profile_img) }}">
 		<span class="comp-title">{{$comp->title}}</span>
-		<span class="comp-end">{{$comp->created_at->format('d.m.Y.')}}</span>
+		<span class="comp-end">{{$comp->subm_end_date->format('d.m.Y.')}}</span>
 	<ul class="trackinfo">
 	<li><b>Nosaukums:</b> {{$comp->song_title}}</li>
 	@if($comp->genre)
@@ -46,7 +46,7 @@
 	</ul>
 	<ul class="functions">
             <a href="/show/{{$comp->id}}" ><li class="other">{{$comp->commentcount()}} Komentāri </li></a>
-            <li class="other">Piedalās</li>
+            <li class="other">{{$comp->entrycount()}} Piedalās</li>
             <li>
             {!! Form::open(['method' => 'POST','url' => 'favorite/'.$comp->id]) !!}
             <img src="{{ asset('/img/favorite.png') }}">

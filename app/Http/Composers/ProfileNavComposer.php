@@ -19,17 +19,17 @@ class ProfileNavComposer {
     public function main(View $view ){
         if(Auth::user())
         {
-            $unacceptedComps = count(Comp::whereStatus('a')
+            $unacceptedComps = Comp::whereStatus('a')
                 ->where('comp_end_date', '>=', Carbon::now())
-                ->get());
-            $simpleNotif = count(Notification::whereUserId(Auth::user()->id)
+                ->count();
+            $simpleNotif = Notification::whereUserId(Auth::user()->id)
                 ->whereIsRead(0)
                 ->whereShowDate(NULL)
-                ->get());
-            $lateNotif = count(Notification::whereUserId(Auth::user()->id)
+                ->count();
+            $lateNotif = Notification::whereUserId(Auth::user()->id)
                 ->whereIsRead(0)
                 ->where('show_date', '<=', Carbon::now())
-                ->get());
+                ->count();
             $notifCount = $simpleNotif + $lateNotif;
         }
         $view->with(compact('unacceptedComps' , 'notifCount'));

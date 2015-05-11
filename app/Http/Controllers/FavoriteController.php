@@ -57,18 +57,17 @@ class FavoriteController extends Controller
      * @param Favorite $favorite
      * @param Notification $notification
      */
-    public function delete($id , Favorite $favorite , Notification $notification)
+    public function delete($id , Favorite $favorite )
     {
         $favorite = $favorite->whereId($id)->first();
-        $notifications = $notification
-            ->whereObjectType('App\Comp')
-            ->whereObjectId($favorite->comp_id)
+        $notif = Notification::whereCompId($favorite->comp_id)
             ->whereUserId($favorite->user_id)
-            ->get();
-        foreach($notifications as $notification)
-        {
-            $notification->delete();
-        }
+            ->whereType('CompEnded')->first();
+        $notif->delete();
+        $notif = Notification::whereCompId($favorite->comp_id)
+            ->whereUserId($favorite->user_id)
+            ->whereType('SubmitionEnded')->first();
+        $notif->delete();
         $favorite->status = 'd';
         $favorite->save();
         return redirect()->back();
@@ -79,7 +78,7 @@ class FavoriteController extends Controller
      *
      * @param $id
      */
-    private function NotifToAuthor($id, $favorite)
+    private function NotifToAuthor($id)
     {
         $comp = Comp::whereId($id)->first();
         $comp_author = User::whereId($comp->user_id)->first();
@@ -94,20 +93,38 @@ class FavoriteController extends Controller
     private function NotifUser($id)
     {
         $comp = Comp::whereId($id)->first();
-        $user = Auth::user();
-        $user->newNotification()
-            ->withType('SubmitionEnded')
-            ->withSubject('Konkursa remiksu iesūtīšanas termiņš ir beidzies')
-            ->withTitle($comp->title)
-            ->withShowDate($comp->subm_end_date)
-            ->withComp($comp->id)
-            ->save();
-        $user->newNotification()
-            ->withType('CompEnded')
-            ->withSubject('Konkurss ir beidzies')
-            ->withTitle($comp->title)
-            ->withShowDate($comp->comp_end_date)
-            ->withComp($comp->id)
-            ->save();
+        $state = $this->checkNotif($comp->id);
+        if($state == false) {
+            $user = Auth::user();
+            $user->newNotification()
+                ->withType('SubmitionEnded')
+                ->withSubject('Konkursa remiksu iesūtīšanas termiņš ir beidzies')
+                ->withTitle($comp->title)
+                ->withShowDate($comp->subm_end_date)
+                ->withComp($comp->id)
+                ->save();
+            $user->newNotification()
+                ->withType('CompEnded')
+                ->withSubject('Konkurss ir beidzies')
+                ->withTitle($comp->title)
+                ->withShowDate($comp->comp_end_date)
+                ->withComp($comp->id)
+                ->save();
+        }
+    }
+    /**
+     * Favorītu pārbaude, pārbauda tikai vienu, jo vienmēr tiek izveidoti abi.
+     *
+     * @param $id
+     * @return bool
+     */
+    private function checkNotif($id)
+    {
+        if(count(Notification::whereCompId($id)->whereType('SubmitionEnded')->get()))
+        {
+            return true;
+        }
+        else
+            return false;
     }
 }

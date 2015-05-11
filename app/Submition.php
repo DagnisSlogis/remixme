@@ -39,4 +39,9 @@ class Submition extends Model
         return $this->belongsTo('App\Votable');
     }
 
+    public function winner()
+    {
+        return $this->belongsTo('App\Winner');
+    }
+
 }

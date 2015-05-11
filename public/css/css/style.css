@@ -1,5 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700&subset=latin,latin-ext);
-.btnadd:hover, #submenu, .RemixComp, .RemixComp .functionbtn form input:hover, .commentBox .comment, #register, .admin, .pagination li {
+.btnadd:hover, #submenu, .RemixComp, .RemixComp .functionbtn form input:hover, .commentBox .comment, #register, .admin, .pagination li, .userinfo {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }
 
 header .navblock .add, .RemixComp .trackinfo li button:hover, .login-popup {
@@ -70,6 +70,20 @@ form {
     margin-right: 0; }
   form .float-right {
     float: right; }
+
+.searchform {
+  margin: 0;
+  padding: 0;
+  height: 47px; }
+  .searchform input {
+    width: auto;
+    padding: 5px; }
+    .searchform input:focus {
+      border: 1px solid #4aaaa5; }
+    .searchform input[type="submit"] {
+      background: #4aaaa5;
+      color: #ffffff;
+      border: none; }
 
 .loginbox input {
   margin: 10px 0px; }
@@ -228,7 +242,6 @@ header {
     #submenu ul li {
       padding: 18px 12px;
       padding-bottom: 14px;
-      border-bottom: 4px solid white;
       margin: 5px 0px; }
       #submenu ul li .notif, #submenu ul li .notif_count {
         background: #e45f56;
@@ -243,6 +256,7 @@ header {
       font-weight: 400;
       color: #777;
       margin-bottom: 5px;
+      border-bottom: 4px solid white;
       transition: all 0.3s; }
       #submenu ul .compnavl:hover {
         border-bottom: 4px solid #4aaaa5; }
@@ -252,6 +266,7 @@ header {
       #submenu ul a:hover {
         color: #35404f; }
     #submenu ul .title {
+      border-bottom: 4px solid white;
       font-weight: 400; }
 
 article {
@@ -266,7 +281,7 @@ article {
     float: left; }
   article #sidebarrow {
     width: 27%;
-    height: 100%;
+    height: auto;
     margin-right: 20px;
     margin-top: 20px;
     float: right; }
@@ -815,5 +830,26 @@ button.clasic {
     .subminfo .closesubm:hover {
       color: #ffffff;
       background: #a5a5a5; }
+
+.userinfo {
+  background: #ffffff;
+  display: flex;
+  justify-content: space-between; }
+  .userinfo h4 {
+    font-size: 18px;
+    color: #777777;
+    margin: 5px 0; }
+  .userinfo span {
+    font-size: 34px;
+    font-weight: bold;
+    color: #a3d39c; }
+  .userinfo img {
+    margin-bottom: 15px; }
+  .userinfo div {
+    padding: 20px 70px;
+    text-align: center;
+    border-right: 1px solid #f5f5f5; }
+    .userinfo div:hover {
+      background: #f5f5f5; }
 
 /*# sourceMappingURL=style.css.map */
