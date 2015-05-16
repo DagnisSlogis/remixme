@@ -15,6 +15,7 @@ class ViewServiceProvider extends ServiceProvider {
         $this->composeProfileNav();
         $this->composeUserNotif();
         $this->composeCompSubmenu();
+        $this->composeSidebar();
 	}
 
 	/**
@@ -48,10 +49,18 @@ class ViewServiceProvider extends ServiceProvider {
     }
 
     /**
-     * Izveido lietotājpaneļa subemenu
+     * Izveido lietotājpaneļa submenu
      */
     private function composeCompSubmenu()
     {
         view()->composer('userpanel.comps.layout.submenu' , 'App\Http\Composers\CompSubmenuComposer@main');
+    }
+
+    /**
+     * Izveido sidebāru
+     */
+    private function composeSidebar()
+    {
+        view()->composer('layout.sidebar' , 'App\Http\Composers\SideBarComposer@main');
     }
 }

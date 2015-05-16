@@ -20,10 +20,10 @@ class CreateVotesTable extends Migration {
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
-            $table->integer('votable_id')->unsigned();
-            $table->foreign('votable_id')
+            $table->integer('submition_id')->unsigned();
+            $table->foreign('submition_id')
                 ->references('id')
-                ->on('votables')
+                ->on('submitions')
                 ->onDelete('cascade');
 			$table->timestamps();
 		});

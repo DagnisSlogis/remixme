@@ -1,5 +1,6 @@
 @extends('layout.main')
 @section('content')
+@include('pages.layout.Emptysubmenu')
 <article >
 	<div id="comprow">
 	<div id="register">
@@ -7,7 +8,7 @@
 		<h3>Reģistrācija</h3>
 		@if (count($errors) > 0)
 						<div class="alert">
-							<strong>Ups!</strong> Jūsu ievadītie dati neatbilst prasītajam formātam.<br>
+							<strong>Ups!</strong> Jūsu ievadītie neizpilda validāciju.<br>
 							<ul>
 								@foreach ($errors->all() as $error)
 									<li>{{ $error }}</li>
@@ -16,13 +17,13 @@
 						</div>
 					@endif
 		{!! Form::open(['name' => 'uploadForm' ,'class' => 'matform' ,'url' => '/auth/register' ,'files' => true , 'enctype' => 'multipart/form-data']) !!}
-				{!! Form::label('username' , 'Lietotājvārds') !!}
+				{!! Form::label('username' , 'Lietotājvārds') !!}<span class="needed">*</span>
 				{!! Form::text('username') !!}
-                {!! Form::label('email' , 'E-pasts') !!}
+                {!! Form::label('email' , 'E-pasts') !!}<span class="needed">*</span>
 				{!! Form::email('email') !!}
-                {!! Form::label('password' , 'Parole') !!}
+                {!! Form::label('password' , 'Parole') !!}<span class="needed">*</span>
 				{!! Form::password('password') !!}
-				{!! Form::label('password_confirmation' , 'Apstipriniet paroli') !!}
+				{!! Form::label('password_confirmation' , 'Apstipriniet paroli') !!}<span class="needed">*</span>
 				{!! Form::password('password_confirmation') !!}
                 <div class="one-line small-form">
                     <div id="imagePreview"></div>
@@ -34,7 +35,7 @@
 				{!! Form::label('facebook' , 'Facebook profila saite') !!}
 				{!! Form::text('facebook') !!}
 
-				{!! Form::submit('Reģistrēties') !!}
+				{!! Form::submit('Reģistrēties' , ['class' => 'submitbtn']) !!}
 			{!! Form::close() !!}
 		</div>
 	</div>

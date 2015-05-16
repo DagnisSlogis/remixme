@@ -41,7 +41,7 @@ class UpCompController extends Controller {
             ->where('comp_end_date', '<=' , Carbon::now())
             ->paginate(10);
         $header = "Beigušies konkursi";
-        return view('userpanel.comps.index', compact('comps', 'header'));
+        return view('userpanel.comps.hasended', compact('comps', 'header'));
     }
 
     /**

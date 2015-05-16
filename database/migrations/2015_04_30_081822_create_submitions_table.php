@@ -28,6 +28,12 @@ class CreateSubmitionsTable extends Migration {
                 ->references('id')
                 ->on('comps')
                 ->onDelete('cascade');
+            $table->integer('voting_id')->unsigned();
+            $table->foreign('voting_id')
+                ->references('id')
+                ->on('votings')
+                ->onDelete('cascade');
+            $table->integer('votes')->default('0');
 			$table->timestamps();
 		});
 	}

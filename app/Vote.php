@@ -16,9 +16,9 @@ class Vote extends Model {
         return $this->belongsTo('App\User');
     }
 
-    public function votable()
+    public function submition()
     {
-        return $this->belongsTo('App\Votable');
+        return $this->belongsTo('App\Submition');
     }
 
 }

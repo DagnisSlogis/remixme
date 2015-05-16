@@ -124,8 +124,14 @@ form
 	transition: all .3s
 	margin-left: 250px
 	margin-top: 15px
-
-
+.submitbtn
+	width: auto
+	background: $dgreen
+	color: #ffffff
+	border: none
+	float: right
+	&:hover
+		@extend %shadow-1
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700&subset=latin,latin-ext)
 //headlini
 h3
@@ -291,7 +297,7 @@ header
 			font-weight: 400
 article
 	width: 70%
-	height: 1000px
+	height: auto
 	margin: 0 auto
 	min-width: 960px
 	margin-top: 25px
@@ -329,7 +335,7 @@ article
 .Latestwinner
 	display: flex
 	align-items: center
-	justify-content: center
+
 	margin: 10px 0
 	width: 100%
 	border: 1px solid $grey
@@ -788,6 +794,9 @@ button.clasic
 					@extend .change
 					@extend .delete
 					color: $dgreen
+.deleteimg
+	font-size: 14px
+	color: #777777
 //************
 .pagination
 	display: flex
@@ -926,7 +935,7 @@ button.clasic
 		.place
 			position: absolute
 			top: 25px
-			left: -20px
+			left: 10px
 			background: $pink
 			color: #ffffff
 			width: 50px
@@ -942,6 +951,9 @@ button.clasic
 				padding: 4px 0
 				border: 1px solid $pink
 				border-radius: 4px 4px 0 0
+			.first
+				background: $pink
+				color: #ffffff
 			p
 				margin: 0
 				padding: 1px 0
@@ -951,30 +963,44 @@ button.clasic
 				text-align: center
 				color: #ffffff
 
+
 	form
 		padding: 0
-		margin: 0
+		margin: 0 10px
 		vertical-align: center
 		input
-			padding: 20px 0
+			padding: 21px 0
 			margin: 0
-			border: 1px solid $grey
+			border: none
 			background: $dgreen
 			color: #ffffff
+			transition: all .3s
+			&:hover
+				background: #42a19c
+				@extend %shadow-1
 	ul
 		display: flex
 		.fourFifts
-			width: 85%
+			margin-left: 70px
+			width: 70%
 		.oneFift
-			width: 15%
+			width: 17%
+		.fiveFifts
+			margin-left: 70px
+			margin-right: 10px
+			width: 100%
+			height: 100px
 	.voteInfo
 		display: flex
 		align-content: center
-		padding: 5px 15px
+		padding: 5px 70px
 		color: #777777
 		font-size: 14px
 		li
 			margin-right: 30px
+			b
+				font-weight: 500
+				color: $dblue
 .allEntrys
 	border-top: 1px solid $grey
 	width: 100%
@@ -984,3 +1010,86 @@ button.clasic
 	padding: 10px 0
 	&:hover
 		color: $dgreen
+
+
+// Profila priekšskats
+.profilebody
+	padding: 15px 0
+	text-align: center
+	background: #ffffff
+	@extend %shadow-1
+	h3
+		text-align: left
+		padding: 15px
+	img
+		border-radius: 50%
+		height: 70px
+		width: 70px
+	h4
+		font-size: 24px
+		margin-top: 15px
+		margin-bottom: 5px
+		color: $dblue
+	span
+		font-size: 12px
+		color: #ffffff
+		padding: 2px 5px
+		border-radius: 2px
+	.user
+		background: $lgreen
+	.administrator
+		background: $pink
+	h5
+		font-size: 14px
+		margin: 10px 0
+		color: #777777
+		font-weight: 500
+	a
+		font-size: 14px
+		text-decoration: none
+		color: #777777
+		transition: all .3s
+		&:hover
+			color: blue
+// Footer
+.footer
+	clear: both
+	padding-top: 55px
+	width: 80%
+	margin: 0 auto
+	ul
+		display: flex
+		justify-content: center
+		font-size: 15px
+		font-weight: 500
+		li
+			margin: 15px 30px
+			a
+				color: $title
+				text-decoration: none
+				transition: all .3s
+				&:hover
+					color: $pink
+	.aboutpage
+		width: 60%
+		text-align: center
+		margin: 0 auto
+		font-size: 14px
+		color: $title
+	.authorinfo
+		text-align: center
+		margin: 10px 0
+		font:
+			size: 14px
+			weight: 500
+		color: $title
+	.poweredby
+		text-align: center
+		font-size: 14px
+		color: $title
+		margin-bottom: 10px
+		a
+			color: orange
+			text-decoration: none
+
+

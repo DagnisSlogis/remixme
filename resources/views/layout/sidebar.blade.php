@@ -8,20 +8,20 @@
 </ul>
 <span class="sidetitle">Jaunākie konkursu uzvarētāji</span>
 <!-- Šeit ies funkcija, kas ielasa jaunākos -->
+@foreach($winners as $winner)
 <ul class="Latestwinner">
-<li class="latestWin-img"><img src="{{ asset('/img/IMGP8317.jpg') }}"></li>
-<li class="latestWin-place">2nd</li>
-<li class="latestWin-compname">Lorem Ipsum sit amet</li>
+<li class="latestWin-img"><img src="{{ asset($winner->submition->user->profile_img) }}"></li>
+<li class="latestWin-place">
+@if($winner->place == 1)
+    1st
+@elseif($winner->place == 2)
+    2nd
+@elseif($winner->place == 3)
+    3rd
+@endif
+</li>
+<li class="latestWin-compname">{{$winner->submition->title}}</li>
 </ul>
-<ul class="Latestwinner">
-<li class="latestWin-img"><img src="{{ asset('/img/IMGP8317.jpg') }}"></li>
-<li class="latestWin-place">2nd</li>
-<li class="latestWin-compname">Lorem Ipsum sit amet</li>
-</ul>
-<ul class="Latestwinner">
-<li class="latestWin-img"><img src="{{ asset('/img/IMGP8317.jpg') }}"></li>
-<li class="latestWin-place">2nd</li>
-<li class="latestWin-compname">Lorem Ipsum sit amet</li>
-</ul>
-<button class="clasic">Apskatīt visus</button>
+@endforeach
+<a href="/winners"><button class="clasic">Apskatīt visus</button></a>
 <span class="sidetitle">Seko mums Facebook</span>

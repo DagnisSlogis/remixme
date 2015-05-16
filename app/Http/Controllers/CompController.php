@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use App\Http\Controllers\Admin\ApCompController as Admin;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Http\Request;
+use App\Http\Controllers\VotingController;
 
 class CompController extends Controller {
 
@@ -26,7 +27,7 @@ class CompController extends Controller {
         $comps = $comp->where('subm_end_date' , '>=' , Carbon::now())
             ->whereStatus('v')
             ->orderBy('created_at' , 'desc')
-            ->get();
+            ->paginate(5);
         return view('home' , compact('comps'));
     }
 
@@ -35,14 +36,14 @@ class CompController extends Controller {
         $comps = $comp->where('subm_end_date' , '>=' , Carbon::now())
             ->whereStatus('v')
             ->orderBy('subm_end_date' , 'asc')
-            ->get();
+            ->paginate(5);
         return view('home' , compact('comps'));
     }
 
     public function popular()
     {
         $comps = Comp::where('subm_end_date' , '>=' , Carbon::now())
-            ->whereStatus('v')->with('submitions')->get()->sortBy(function($comp)
+            ->whereStatus('v')->with('submitions')->paginate(5)->sortBy(function($comp)
         {
             return Submition::whereCompId($comp->id)->whereStatus('v')->count();
         })->reverse();
@@ -197,12 +198,14 @@ class CompController extends Controller {
      * @param  int $id
      * @return Response
      */
-    public function show(Comment $comment ,Comp $comp , $id)
+    public function show(Comment $comment ,Comp $comp , $id , VotingController $voting)
     {
-        $comp = $comp->whereId($id)->with('user')->first();
-        $canEnter = 0;
-        //pārbauda vai konkurss jau nav beidzies
 
+        $comp = $comp->whereId($id)->with('user')->first();
+        if($comp->subm_end_date <= Carbon::now() && $comp->comp_end_date >= Carbon::now() && $comp->voting_type == 'b')
+        {
+            return $voting->show($id);
+        }
         if(Auth::guest()) {
             if ($comp->comp_end_date >= Carbon::now() ) {
                 $comments = $comment->whereCompId($comp->id)

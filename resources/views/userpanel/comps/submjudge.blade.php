@@ -4,40 +4,39 @@
 <article>
    <div id="full">
     <div class="admin">
-    <h3>{{$header}}</h3>
+    <h3>Konkursa "{{$comp->title}}" vērtēšana</h3>
     @if (Session::has('flash_message'))
-        <div class="alert alert-success">{{Session::get('flash_message')}}</div>
+        <div class="alert">{{Session::get('flash_message')}}</div>
         @endif
+         {!! Form::open (['method' => 'PATCH' ,'url' => 'comp/judge/update/'.$comp->id])!!}
     <table>
       <tr class="titlerow">
         <td>#</td>
         <td>Nosaukums</td>
         <td>Autors</td>
-        <td>Autora e-pasts</td>
         <td>Remiks</td>
-        <td>Dzēst</td>
+        <td>Vieta</td>
       </tr>
    @foreach($submitions as $index => $submition)
         <tr class="userline">
+        {!! Form::hidden('id'.$index , $submition->id) !!}
         <td>{{$index+1}}</td>
         <td>{{$submition->title}}</td>
         <td>{{$submition->user->username}}</td>
-        <td>{{$submition->user->email}}</td>
         <td><iframe width="100%" height="60" scrolling="no" frameborder="no"src="http://w.soundcloud.com/player/?url={{$submition->link}}&auto_play=false&color=e45f56&theme_color=00FF00"></iframe></td>
         <td>
-           @if($submition->comp->subm_end_date < \Carbon\Carbon::now())
-                ---
-           @else
-            {!! Form::open (['method' => 'PATCH' ,'url' => 'comp/song/delete/'.$submition->id])!!}
-                {!! Form::submit('Dzēst', ['class' => 'delete']) !!}
-            {!! Form::close() !!}
-            @endif
+                @if(count($submitions) >= 3)
+                    {!! Form::selectRange('place'.$index , 0, 3 ) !!}
+                @else
+                    {!! Form::selectRange('place'.$index , 0, count($submitions) ) !!}
+                @endif
         </td>
         </tr>
     @endforeach
     </table>
+    {!! Form::submit('Saglabāt', ['class' => 'delete']) !!}
+                {!! Form::close() !!}
     </div>
-  {!! $submitions->appends(Request::except('page'))->render() !!}
     </div>
 </article>
 @stop

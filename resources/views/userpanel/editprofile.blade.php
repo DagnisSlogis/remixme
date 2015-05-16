@@ -34,17 +34,18 @@
             				</div>
             				<div class="one-line ">
             				{!! Form::label('profile_img_link' , 'Profila attēls') !!}
-            				{!! Form::file('profile_img_link') !!}
+            				{!! Form::file('profile_img_link' ,['id'=> 'uploadFile' ,'class'=> 'img']) !!}
             				{!! Form::checkbox('delete_img', '1') !!}
                             {!! Form::label('profile_img_link' , 'Dzēst profila attēlu') !!}
             				</div>
+
             				<div class="clear"></div>
 
                             <div class="clear"></div>
             				{!! Form::label('facebook' , 'Facebook profila saite') !!}
             				{!! Form::text('facebook') !!}
 
-            				{!! Form::submit('Labot') !!}
+            				{!! Form::submit('Labot' , ['class' => 'submitbtn']) !!}
             {!! Form::close() !!}
 		</div>
 	</div>

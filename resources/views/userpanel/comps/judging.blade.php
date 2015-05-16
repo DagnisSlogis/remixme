@@ -12,6 +12,7 @@
       <tr class="titlerow">
         <td>#</td>
         <td>Nosaukums</td>
+        <td>Piedalās</td>
         <td>Beidzies</td>
         <td>Vērtēt</td>
       </tr>
@@ -19,10 +20,11 @@
         <tr class="userline">
         <td>{{$index+1}}</td>
         <td>{{$judging->title}}</td>
+        <td><a href="/comp/submitions/{{$judging->id}}">{{$judging->entrycount()}}</a></td>
         <td>{{$judging->subm_end_date}}</td>
         <td>
-                    {!! Form::open (['method' => 'PATCH' ,'url' => '/comps/delete/'.$judging->id])!!}
-                        {!! Form::submit('Vērtēt', ['class' => 'delete']) !!}
+                    {!! Form::open (['method' => 'GET' ,'url' => '/comp/judge/'.$judging->id])!!}
+                        {!! Form::submit('Vērtēt', ['class' => 'accept']) !!}
                     {!! Form::close() !!}
                 </td>
         </tr>

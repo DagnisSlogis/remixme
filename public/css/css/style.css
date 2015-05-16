@@ -1,5 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700&subset=latin,latin-ext);
-.btnadd:hover, #submenu, .RemixComp, .RemixComp .functionbtn form input:hover, .commentBox .comment, #register, .admin, .pagination li, .userinfo {
+.btnadd:hover, .submitbtn:hover, #submenu, .RemixComp, .RemixComp .functionbtn form input:hover, .commentBox .comment, #register, .admin, .pagination li, .userinfo, .votableSongs form input:hover, .profilebody {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }
 
 header .navblock .add, .RemixComp .trackinfo li button:hover, .login-popup {
@@ -114,6 +114,13 @@ form {
   transition: all 0.3s;
   margin-left: 250px;
   margin-top: 15px; }
+
+.submitbtn {
+  width: auto;
+  background: #4aaaa5;
+  color: #ffffff;
+  border: none;
+  float: right; }
 
 h3 {
   font-size: 24px;
@@ -271,7 +278,7 @@ header {
 
 article {
   width: 70%;
-  height: 1000px;
+  height: auto;
   margin: 0 auto;
   min-width: 960px;
   margin-top: 25px; }
@@ -307,7 +314,6 @@ article {
 .Latestwinner {
   display: flex;
   align-items: center;
-  justify-content: center;
   margin: 10px 0;
   width: 100%;
   border: 1px solid #f5f5f5;
@@ -737,6 +743,10 @@ button.clasic {
         .admin table .userline td .accept {
           color: #4aaaa5; }
 
+.deleteimg {
+  font-size: 14px;
+  color: #777777; }
+
 .pagination {
   display: flex;
   width: 20%;
@@ -861,7 +871,7 @@ button.clasic {
   .votableSongs .entry .place {
     position: absolute;
     top: 25px;
-    left: -20px;
+    left: 10px;
     background: #e45f56;
     color: #ffffff;
     width: 50px;
@@ -877,6 +887,9 @@ button.clasic {
       padding: 4px 0;
       border: 1px solid #e45f56;
       border-radius: 4px 4px 0 0; }
+    .votableSongs .entry .place .first {
+      background: #e45f56;
+      color: #ffffff; }
     .votableSongs .entry .place p {
       margin: 0;
       padding: 1px 0;
@@ -887,28 +900,40 @@ button.clasic {
       color: #ffffff; }
 .votableSongs form {
   padding: 0;
-  margin: 0;
+  margin: 0 10px;
   vertical-align: center; }
   .votableSongs form input {
-    padding: 20px 0;
+    padding: 21px 0;
     margin: 0;
-    border: 1px solid #f5f5f5;
+    border: none;
     background: #4aaaa5;
-    color: #ffffff; }
+    color: #ffffff;
+    transition: all 0.3s; }
+    .votableSongs form input:hover {
+      background: #42a19c; }
 .votableSongs ul {
   display: flex; }
   .votableSongs ul .fourFifts {
-    width: 85%; }
+    margin-left: 70px;
+    width: 70%; }
   .votableSongs ul .oneFift {
-    width: 15%; }
+    width: 17%; }
+  .votableSongs ul .fiveFifts {
+    margin-left: 70px;
+    margin-right: 10px;
+    width: 100%;
+    height: 100px; }
 .votableSongs .voteInfo {
   display: flex;
   align-content: center;
-  padding: 5px 15px;
+  padding: 5px 70px;
   color: #777777;
   font-size: 14px; }
   .votableSongs .voteInfo li {
     margin-right: 30px; }
+    .votableSongs .voteInfo li b {
+      font-weight: 500;
+      color: #35404f; }
 
 .allEntrys {
   border-top: 1px solid #f5f5f5;
@@ -919,5 +944,82 @@ button.clasic {
   padding: 10px 0; }
   .allEntrys:hover {
     color: #4aaaa5; }
+
+.profilebody {
+  padding: 15px 0;
+  text-align: center;
+  background: #ffffff; }
+  .profilebody h3 {
+    text-align: left;
+    padding: 15px; }
+  .profilebody img {
+    border-radius: 50%;
+    height: 70px;
+    width: 70px; }
+  .profilebody h4 {
+    font-size: 24px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: #35404f; }
+  .profilebody span {
+    font-size: 12px;
+    color: #ffffff;
+    padding: 2px 5px;
+    border-radius: 2px; }
+  .profilebody .user {
+    background: #a3d39c; }
+  .profilebody .administrator {
+    background: #e45f56; }
+  .profilebody h5 {
+    font-size: 14px;
+    margin: 10px 0;
+    color: #777777;
+    font-weight: 500; }
+  .profilebody a {
+    font-size: 14px;
+    text-decoration: none;
+    color: #777777;
+    transition: all 0.3s; }
+    .profilebody a:hover {
+      color: blue; }
+
+.footer {
+  clear: both;
+  padding-top: 55px;
+  width: 80%;
+  margin: 0 auto; }
+  .footer ul {
+    display: flex;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 500; }
+    .footer ul li {
+      margin: 15px 30px; }
+      .footer ul li a {
+        color: #a5a5a5;
+        text-decoration: none;
+        transition: all 0.3s; }
+        .footer ul li a:hover {
+          color: #e45f56; }
+  .footer .aboutpage {
+    width: 60%;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 14px;
+    color: #a5a5a5; }
+  .footer .authorinfo {
+    text-align: center;
+    margin: 10px 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #a5a5a5; }
+  .footer .poweredby {
+    text-align: center;
+    font-size: 14px;
+    color: #a5a5a5;
+    margin-bottom: 10px; }
+    .footer .poweredby a {
+      color: orange;
+      text-decoration: none; }
 
 /*# sourceMappingURL=style.css.map */

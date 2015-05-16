@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class UpProfileController extends Controller {
 
@@ -27,7 +28,6 @@ class UpProfileController extends Controller {
         if($request->get('password') == $request->get('password_confirmation') && $request->get('password') != null)
         {
             $user->password = bcrypt($request->get('password'));
-            $changes = 1;
         }
         if ( $request->get('delete_img') == 1)
         {
@@ -37,7 +37,6 @@ class UpProfileController extends Controller {
         {
             $fileName = $this->saveImg($request);
             $user->profile_img = '/uploads/'.$fileName;
-            $changes = 1;
         }
         if($user->facebook != $request->get('facebook') && $request->get('facebook') != null)
         {

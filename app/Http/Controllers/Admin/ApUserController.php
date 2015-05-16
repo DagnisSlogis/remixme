@@ -4,12 +4,21 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class ApUserController extends Controller {
 
-    public function __construct(User $user){
 
+    /**
+     * Pieejas liegšana dažādam lietotāja grupām kontroliera funkcijām
+     *
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('admin');
     }
+
 	public function index(User $user){
         $users = $user->orderBy('created_at', 'desc')->paginate(10);
         return view('adminpanel.user.changeusers' , compact('users'));
@@ -44,8 +53,9 @@ class ApUserController extends Controller {
         }
         elseif ($request->hasFile('profile_img_link') && $request->get('delete_img') != 1){
             $file = $request->file('profile_img_link');
+            $img = Image::make($file)->fit(60);
             $fileName = $request->get('username').'-'.$file->getClientOriginalName();
-            $file->move(public_path().'/uploads', $fileName);
+            $img->save('uploads/'.$fileName);
             $user->profile_img = '/uploads/'.$fileName;
             $changes = 1;
         }

@@ -7,6 +7,9 @@
 		<span class="comp-end">{{$comp->subm_end_date->format('d.m.Y.')}}</span>
 		<div class="votableSongs">
            @foreach($comp->submitions as $place => $subm)
+           @if($place == '3')
+           @break
+           @endif
            <div class="entry">
            <ul>
                 <li class="fourFifts"><iframe width="100%" height="60" scrolling="no" frameborder="no"src="http://w.soundcloud.com/player/?url={{$subm->link}}&auto_play=false&color=e45f56&theme_color=00FF00"></iframe></li>
@@ -17,10 +20,10 @@
                         </li>
            </ul>
            <ul class="voteInfo">
-                    <li>Nosaukums: {{$subm->title}}</li>
-                    <li>Autors: {{$subm->user->username}}</li>
+                    <li><b>Nosaukums:</b> {{$subm->title}}</li>
+                    <li><b>Autors:</b> {{$subm->user->username}}</li>
            </ul>
-                <div class="place"><span>{{$place+1}}.</span> <p>{{$subm->votable->votes}} balsis</p></div>
+                <div class="place"><span>{{$place+1}}.</span> <p>{{$subm->votes}} balsis</p></div>
            </div>
             @endforeach
 		</div>

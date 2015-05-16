@@ -34,14 +34,18 @@ class Submition extends Model
         return $this->belongsTo('App\Comp');
     }
 
-    public function votable()
-    {
-        return $this->hasOne('App\Votable');
-    }
 
     public function winner()
     {
         return $this->hasOne('App\Winner');
+    }
+    public function votes()
+    {
+        return $this->hasMany('App\Vote');
+    }
+    public function voting()
+    {
+        return $this->belongsTo('App\Voting');
     }
 
 }

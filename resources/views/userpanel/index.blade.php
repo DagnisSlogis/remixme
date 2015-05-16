@@ -23,7 +23,7 @@
     <div>
     <img src="{{ asset('/img/song.png') }}">
     <h4>Lieliski </h4>
-    <span>{{$YourComment}}</span>
+    <span>{{$YourSubmitions}}</span>
     <h4>remiksi</h4>
     </div>
     </div>

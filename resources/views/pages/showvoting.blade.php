@@ -19,10 +19,10 @@
                         </li>
            </ul>
            <ul class="voteInfo">
-                    <li>Nosaukums: {{$subm->title}}</li>
-                    <li>Autors: {{$subm->user->username}}</li>
+                    <li><b>Nosaukums:</b> {{$subm->title}}</li>
+                    <li><b>Autors:</b> {{$subm->user->username}}</li>
            </ul>
-                <div class="place"><span>{{$place+1}}.</span> <p>{{$subm->votable->votes}} balsis</p></div>
+                <div class="place"><span>{{$place+1}}.</span> <p>{{$subm->votes}} balsis</p></div>
            </div>
             @endforeach
 		</div>

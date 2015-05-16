@@ -18,9 +18,9 @@ class Voting extends Model {
      */
     protected $fillable = ['show_date'];
 
-    public function votable()
+    public function submitions()
     {
-        return $this->hasMany('App\Votable');
+        return $this->hasMany('App\Submition');
     }
 
     public function comp()

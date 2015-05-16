@@ -1,17 +1,6 @@
 @extends('......layout.main')
 @section('content')
- <div id="submenu">
- <ul>
- 	<li class="title">LABOT LIETOTĀJU: </li>
- 	<li class="compnavl"><a href="/adminpanel/users">Visi Lietotāji</a></li>
-    <li>
-    {!! Form::open(['url' => '/adminpanel/user/find', 'method' => 'GET' , 'class' => 'searchform']) !!}
-        {!! Form::text('s') !!}
-        {!! Form::submit('Meklēt') !!}
-    {!! Form::close() !!}
-    </li>
- </ul>
- </div>
+@include('adminpanel.user.layout.submenu')
  <article>
     <div id="full">
     <div class="admin">

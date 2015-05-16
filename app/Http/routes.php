@@ -11,6 +11,11 @@
 |
 */
 
+Blade::extend(function($value)
+{
+    return preg_replace('/(\s*)@(break|continue)(\s*)/', '$1<?php $2; ?>$3', $value);
+});
+
 Route::get('/', 'CompController@index');
 
 //Submitions
@@ -19,6 +24,7 @@ Route::post('submit/{id}' , 'SubmitionController@store');
 //Pages
 Route::get('adminpanel', 'PageController@AdminPanel');
 Route::get('userpanel' ,  'PageController@UserPanel');
+Route::get('winners' , 'PageController@WinnerPage');
 
 //Admin Panel - User
 Route::get('adminpanel/users', 'Admin\ApUserController@index');
@@ -69,12 +75,19 @@ Route::get('userpanel/comps/ended' ,  'User\UpCompController@hasEnded');
 Route::get('comp/{id}/edit' , 'CompController@edit');
 Route::patch('comp/{id}' , 'CompController@update');
 Route::get('comp/user/find', 'User\UpCompController@find');
-Route:get('userpanel/judging' , 'User\UpVotingController@index');
+Route::get('userpanel/judging' , 'User\UpVotingController@index');
+Route::get('comp/judge/{id}' , 'User\UpVotingController@judging');
+Route::patch('comp/judge/update/{id}' , 'User\UpVotingController@update');
+Route::get('userpanel/voting' , 'User\UpVotingController@voting');
+Route::get('comp/voting/accept/{id}' , 'User\UpVotingController@acceptVoting');
 
 Route::get('show/{id}', 'CompController@show');
 
 //Voting
 Route::get('voting' , 'VotingController@index');
+Route::get('voting/endsoon' , 'VotingController@soonEnds');
+Route::get('voting/popular' , 'VotingController@popular');
+Route::get('voting/find' , 'VotingController@find');
 Route::patch('comp/song/vote/{id}' , 'VotingController@update');
 Route::get('comp/voting/{id}' , 'VotingController@show');
 

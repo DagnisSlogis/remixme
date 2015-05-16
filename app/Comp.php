@@ -55,6 +55,17 @@ class Comp extends Model {
 
     }
 
+    /**
+     * Atgriež konkursa uzvarētāju skaitu
+     *
+     * @return mixed
+     */
+    public function winnercount()
+    {
+        return $this->voting->winners()->count();
+
+    }
+
 
     /**
      * A comp author is one user.
@@ -98,7 +109,7 @@ class Comp extends Model {
 
     public function submitions()
     {
-        return $this->hasMany('App\Submition')->orderBy('created_at' , 'desc');
+        return $this->hasMany('App\Submition')->where('status', 'v')->orderBy('votes' , 'desc');
     }
 
     public function voting()
