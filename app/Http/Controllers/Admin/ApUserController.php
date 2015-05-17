@@ -1,8 +1,12 @@
 <?php namespace App\Http\Controllers\Admin;
 
+use App\Comment;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Submition;
 use App\User;
+use App\Voting;
+use App\Comp;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -20,8 +24,9 @@ class ApUserController extends Controller {
     }
 
 	public function index(User $user){
+        $header = "Visi lietotāji";
         $users = $user->orderBy('created_at', 'desc')->paginate(10);
-        return view('adminpanel.user.changeusers' , compact('users'));
+        return view('adminpanel.user.changeusers' , compact('users' , 'header'));
     }
 
     public function edit(User $user, $id){
@@ -80,6 +85,9 @@ class ApUserController extends Controller {
         $user = $user->whereId($id)->first();
         $user->status =  3;
         $user->save();
+        $this->clearComps($user);
+        $this->clearSubmitions($user);
+        $this->clearComments($user);
         \Session::flash('flash_message', 'Lietotājs ir vieksmīgi izdzēsts!');
         return redirect('adminpanel/users');
     }
@@ -89,9 +97,67 @@ class ApUserController extends Controller {
      * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function find( User $user , Request $request){
-        $users = $user->where('username', 'LIKE', '%'. $request->get('s') .'%')
+    public function find(Request $request){
+        $header = 'Meklēšanas "'.$request->get('s').'" rezultāti';
+        $users = User::where('username', 'LIKE', '%'. $request->get('s') .'%')
             ->orWhere('email', 'LIKE', '%'. $request->get('s') .'%')->paginate(10);
-        return view('adminpanel.user.changeusers' , compact('users'));
+        return view('adminpanel.user.changeusers' , compact('users' , 'header'));
+    }
+
+    /**
+     * Dzēšs lietotāja konkursus
+     */
+    private function clearComps($user)
+    {
+        $comps = Comp::whereUserId($user->id)->get();
+        if($comps)
+        {
+            foreach ($comps as $comp)
+            {
+                $comp->status = 'b';
+                $voting = Voting::whereCompId($comp->id)->first();
+                $voting->status = 'b';
+                foreach($comp->comments as $comment)
+                {
+                    $comment->status = 'b';
+                    $comment->save();
+                }
+                $voting->save();
+                $comp->save();
+            }
+
+        }
+    }
+
+    /**
+     * @param $user
+     */
+    private function clearSubmitions($user)
+    {
+        $submitions = Submition::whereUserId($user->id)->get();
+        if($submitions)
+        {
+            foreach($submitions as $subm)
+            {
+                if($subm->voting->status == 'v') {
+                    $subm->status = 'b';
+                    $subm->save();
+                }
+                else
+                    continue;
+            }
+        }
+    }
+    private function clearComments($user)
+    {
+        if($user->comments)
+        {
+            foreach($user->comments as $comment)
+            {
+                $comment->status = 'b';
+                $comment->save();
+            }
+        }
+
     }
 }

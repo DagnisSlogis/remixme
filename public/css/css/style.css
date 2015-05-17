@@ -1,5 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700&subset=latin,latin-ext);
-.btnadd:hover, .submitbtn:hover, #submenu, .RemixComp, .RemixComp .functionbtn form input:hover, .commentBox .comment, #register, .admin, .pagination li, .userinfo, .votableSongs form input:hover, .profilebody {
+.btnadd:hover, .submitbtn:hover, #submenu, .RemixComp, .RemixComp .functionbtn form input:hover, .commentBox .comment, #register, .half, .admin, .pagination li, .userinfo, .votableSongs form input:hover, .profilebody {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }
 
 header .navblock .add, .RemixComp .trackinfo li button:hover, .login-popup {
@@ -267,6 +267,8 @@ header {
       transition: all 0.3s; }
       #submenu ul .compnavl:hover {
         border-bottom: 4px solid #4aaaa5; }
+    #submenu ul .activesub {
+      border-bottom: 4px solid #4aaaa5; }
     #submenu ul a {
       color: #777;
       text-decoration: none; }
@@ -692,6 +694,61 @@ button.clasic {
   padding: 0;
   margin: 0; }
 
+.half {
+  margin: 20px 10px;
+  width: 47.5%;
+  float: left;
+  background: #ffffff;
+  border-radius: 2px;
+  padding-bottom: 15px; }
+  .half .nothingYet {
+    margin: 15px; }
+  .half h3 {
+    margin: 15px; }
+  .half a {
+    color: #a5a5a5;
+    font-size: 14px;
+    font-weight: normal;
+    text-decoration: none; }
+    .half a:hover {
+      text-decoration: underline; }
+  .half .commentPrew {
+    position: relative;
+    margin-left: 4%;
+    background: #ffffff;
+    border-bottom: 1px solid #f5f5f5;
+    min-height: 100px;
+    transition: all 0.3s; }
+    .half .commentPrew:hover {
+      border-radius: 2px;
+      background: #f5f5f5; }
+    .half .commentPrew img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin: 10px;
+      float: left; }
+    .half .commentPrew h4 {
+      margin: 10px 0 0 0px;
+      color: #4aaaa5;
+      font-size: 16px;
+      font-weight: 500; }
+    .half .commentPrew span {
+      font-size: 12px;
+      color: #a5a5a5; }
+    .half .commentPrew .metaData {
+      margin: 5px 10px;
+      float: left;
+      width: 80%;
+      height: 50px; }
+    .half .commentPrew p {
+      clear: both;
+      margin: 0px 50px 0px 70px;
+      padding-bottom: 20px;
+      font-size: 14px;
+      line-height: 18px;
+      color: #35404f; }
+
 .admin {
   padding-top: 15px;
   background: #ffffff; }
@@ -714,6 +771,13 @@ button.clasic {
       color: #35404f; }
       .admin table .userline:hover {
         background: #f5f5f5; }
+      .admin table .userline h4 {
+        font-weight: 500; }
+      .admin table .userline a {
+        text-decoration: none;
+        color: royalblue; }
+        .admin table .userline a:hover {
+          text-decoration: underline; }
       .admin table .userline img {
         display: block;
         width: 40px;
@@ -746,6 +810,24 @@ button.clasic {
 .deleteimg {
   font-size: 14px;
   color: #777777; }
+
+.uniSearch {
+  width: 100%;
+  margin: 15px 20px;
+  padding: 0;
+  height: auto; }
+  .uniSearch input {
+    width: 78%;
+    padding: 8px; }
+    .uniSearch input:focus {
+      border: 1px solid #4aaaa5; }
+    .uniSearch input[type="submit"] {
+      background: #4aaaa5;
+      color: #ffffff;
+      width: 60px;
+      border: none; }
+  .uniSearch h3 {
+    padding-bottom: 10px; }
 
 .pagination {
   display: flex;
@@ -841,8 +923,12 @@ button.clasic {
       color: #ffffff;
       background: #a5a5a5; }
 
+.nextline {
+  margin-top: 20px; }
+
 .userinfo {
   background: #ffffff;
+  border-radius: 2px;
   display: flex;
   justify-content: space-between; }
   .userinfo h4 {

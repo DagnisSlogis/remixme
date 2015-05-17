@@ -6,6 +6,9 @@
 	<div id="register">
 	<div class="centerblock">
 		<h3>Labot profilu:</h3>
+		@if (Session::has('flash_message'))
+                            <div class="alert">{{Session::get('flash_message')}}</div>
+                            @endif
 		@if (count($errors) > 0)
         	<div class="alert">
         		<strong>Ups!</strong> Jūsu ievadītie dati neatbilst prasītajam formātam.<br>

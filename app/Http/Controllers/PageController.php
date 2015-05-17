@@ -6,8 +6,8 @@ use App\Http\Requests;
 use App\Submition;
 use App\Winner;
 use Auth;
-use App\Http\Controllers\Controller;
-
+use App\Http\Controllers\Admin\ApCompController as ApComp;
+use App\Http\Controllers\Admin\ApUserController as ApUser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -29,8 +29,31 @@ class PageController extends Controller {
      */
     public function AdminPanel()
     {
-        return view('adminpanel.index');
+        $CompCount = Comp::whereStatus('v')
+            ->count();
+        $WinnerCount = Winner::count();
+        $AllComment = Comment::whereStatus('v')
+            ->count();
+        $AllSubmitions = Submition::whereStatus('v')
+            ->count();
+        return view('adminpanel.index', compact('CompCount' , 'WinnerCount' , 'AllComment' ,'AllSubmitions'));
     }
+
+    /**
+     * Admin paneļa meklēšana universālā
+     *
+     */
+    public function find(Request $request , ApUser $apuser ,  ApComp $apcomp)
+    {
+        if($request->get('veids') == 'user')
+        {
+            return $apuser->find($request);
+        }
+        if($request->get('veids') == 'comp'){
+            return $apcomp->find($request);
+        }
+    }
+
 
     /**
      * Lietotāja paneļa izsaukšana
@@ -50,7 +73,21 @@ class PageController extends Controller {
         $YourSubmitions = Submition::whereUserId(Auth::user()->id)
             ->whereStatus('v')
             ->count();
-        return view('userpanel/index' , compact('CompCount' , 'WinnerCount' , 'YourComment' , 'YourSubmitions'));
+        $CompComments = Comment::whereHas('comp', function($q)
+            {
+                $q->where('user_id', Auth::user()->id);
+
+            })->orderBy('created_at' , 'DESC')
+            ->take(5)
+            ->get();
+        $CompEntrys = Submition::whereHas('comp', function($q)
+        {
+            $q->where('user_id', Auth::user()->id);
+
+        })->orderBy('created_at' , 'DESC')
+            ->take(5)
+            ->get();
+        return view('userpanel/index' , compact('CompCount' , 'WinnerCount' , 'YourComment' , 'YourSubmitions' , 'CompComments' , 'CompEntrys'));
     }
     public function WinnerPage()
     {

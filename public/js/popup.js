@@ -129,3 +129,4 @@ $(document).ready(function() {
         });
     });
 });
+LineChart = new Chart(ctx).Line(data, options);

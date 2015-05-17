@@ -4,7 +4,7 @@
  <article>
     <div id="full">
     <div class="admin">
-    <h3>Visi lietotāji</h3>
+    <h3>{{$header}}</h3>
     @if (Session::has('flash_message'))
     <div class="alert alert-success">{{Session::get('flash_message')}}</div>
     @endif
@@ -23,15 +23,15 @@
    @if($user->status != '3')
        <tr class="userline">
         <td><img src="{{$user->profile_img}}"/> </td>
-        <td>{{$user->username}}</td>
-        <td>{{$user->email}}</td>
-        <td>{{$user->created_at}}</td>
+        <td><h4>{{$user->username}}</h4></td>
+        <td><a href="mailto:{{$user->email}}">{{$user->email}}</a></td>
+        <td>{{$user->created_at->format('d.m.Y.')}}</td>
         @if($user->status == '1')
-            <td>Lietotājs</td>
+            <td><span class="balsosana">Lietotājs</span></td>
             @elseif($user->status == '2')
-                <td>Administrātors</td>
+                <td><span class="beidzies">Administrātors</span></td>
          @endif
-        <td>{{$user->facebook}}</td>
+        <td><a href="{{$user->facebook}}">{{$user->facebook}}</a></td>
         <td><a href="/adminpanel/user/{{$user->id}}/edit" class="change" >Labot</a></td>
         <td>
         {!! Form::open (['method' => 'PATCH' ,'url' => '/adminpanel/user/delete/'.$user->id ])!!}

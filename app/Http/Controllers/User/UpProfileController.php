@@ -25,9 +25,14 @@ class UpProfileController extends Controller {
         {
             $user->email = $request->get('email');
         }
-        if($request->get('password') == $request->get('password_confirmation') && $request->get('password') != null)
+        if($request->get('password') == $request->get('password_confirmation') )
         {
             $user->password = bcrypt($request->get('password'));
+        }
+        elseif($request->get('password') != $request->get('password_confirmation') )
+        {
+            \Session::flash('flash_message', 'Jaunā parole nesakrīt!');
+            return redirect()->back();
         }
         if ( $request->get('delete_img') == 1)
         {

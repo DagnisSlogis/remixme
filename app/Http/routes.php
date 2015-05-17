@@ -27,6 +27,7 @@ Route::get('userpanel' ,  'PageController@UserPanel');
 Route::get('winners' , 'PageController@WinnerPage');
 
 //Admin Panel - User
+Route::get('adminpanel/find', 'PageController@find');
 Route::get('adminpanel/users', 'Admin\ApUserController@index');
 Route::get('adminpanel/user/{id}/edit', 'Admin\ApUserController@edit');
 Route::patch('adminpanel/user/{id}', 'Admin\ApUserController@update');

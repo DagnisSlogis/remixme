@@ -50,9 +50,9 @@ class ApCompController extends Controller {
         \Session::flash('flash_message', 'Konkurss ir apstiprināts!');
         return redirect('adminpanel/comps/accept');
     }
-    public function find(Request $request , Comp $comp)
+    public function find(Request $request)
     {
-        $comps = $comp->where('title', 'LIKE', '%'. $request->get('s') .'%')
+        $comps = Comp::where('title', 'LIKE', '%'. $request->get('s') .'%')
             ->orWhere('genre', 'LIKE', '%'. $request->get('s') .'%')
             ->orWhere('song_title', 'LIKE', '%'. $request->get('s') .'%')
             ->paginate(10);
