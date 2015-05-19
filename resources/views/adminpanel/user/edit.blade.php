@@ -6,6 +6,19 @@
         <div id="register">
             <div class="centerblock">
                 <h3>Labot lietotāju: {{$user->username}}</h3>
+                	@if (Session::has('flash_message'))
+                                            <div class="alert">{{Session::get('flash_message')}}</div>
+                                            @endif
+                		@if (count($errors) > 0)
+                						<div class="alert">
+                							<strong>Ups!</strong> Jūsu ievadītie neizpilda validāciju.<br>
+                							<ul>
+                								@foreach ($errors->all() as $error)
+                									<li>{{ $error }}</li>
+                								@endforeach
+                							</ul>
+                						</div>
+                					@endif
                 {!! Form::model($user, ['method' => 'PATCH' ,'url' => '/adminpanel/user/'.$user->id ,'files' => true , 'enctype' => 'multipart/form-data' ]) !!}
                     {!! Form::label('username' , 'Lietotājvārds') !!}<span class="needed">*</span>
                     {!! Form::text('username', null ,['class' => 'material' ]) !!}

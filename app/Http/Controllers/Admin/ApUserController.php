@@ -1,6 +1,5 @@
 <?php namespace App\Http\Controllers\Admin;
 
-use App\Comment;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Submition;
@@ -8,6 +7,7 @@ use App\User;
 use App\Voting;
 use App\Comp;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManagerStatic as Image;
 
 class ApUserController extends Controller {
@@ -33,21 +33,24 @@ class ApUserController extends Controller {
         $user = $user->whereId($id)->first();
         return view('adminpanel.user.edit' , compact('user'));
     }
-    public function update(User $user, Request $request, $id){
+    public function update(User $user, Request $request, $id ){
         $user = $user->whereId($id)->first();
         $changes = 0;
         if($user->username != $request->get('username') && $request->get('username') != null)
         {
+            $this->validate($request , ['username' => 'required|min:4|max:255|unique:users']);
             $user->username = $request->get('username');
             $changes = 1;
         }
         if($user->email != $request->get('email') && $request->get('email') != null)
         {
+            $this->validate($request , ['email' => 'required|email|min:5|max:255|unique:users']);
             $user->email = $request->get('email');
             $changes = 1;
         }
         if($request->get('password') == $request->get('password_confirmation') && $request->get('password') != null)
         {
+            $this->validate($request , ['password' => 'required|confirmed|min:8']);
             $user->password = bcrypt($request->get('password'));
             $changes = 1;
         }
@@ -57,6 +60,7 @@ class ApUserController extends Controller {
             $changes = 1;
         }
         elseif ($request->hasFile('profile_img_link') && $request->get('delete_img') != 1){
+            $this->validate($request , ['profile_img_link' => 'image|max:1000|mimes:jpeg,png']);
             $file = $request->file('profile_img_link');
             $img = Image::make($file)->fit(60);
             $fileName = $request->get('username').'-'.$file->getClientOriginalName();
@@ -64,7 +68,7 @@ class ApUserController extends Controller {
             $user->profile_img = '/uploads/'.$fileName;
             $changes = 1;
         }
-        if($user->facebook != $request->get('facebook') && $request->get('facebook') != null)
+        if($user->facebook != $request->get('facebook'))
         {
             $user->facebook = $request->get('facebook');
             $changes = 1;
@@ -160,4 +164,6 @@ class ApUserController extends Controller {
         }
 
     }
+
+
 }

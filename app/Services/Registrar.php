@@ -15,10 +15,10 @@ class Registrar implements RegistrarContract {
 	public function validator(array $data)
 	{
 		return Validator::make($data, [
-			'username' => 'required|max:255',
-			'email' => 'required|email|max:255|unique:users',
-            'profile_img' => 'image|max:1000|mimes:jpeg,png',
-			'password' => 'required|confirmed|min:6',
+			'username' => 'required|min:4|max:255|unique:users',
+			'email' => 'required|email|min:5|max:255|unique:users',
+            'profile_img_link' => 'image|max:1000|mimes:jpeg,png',
+			'password' => 'required|confirmed|min:8',
 		]);
 	}
 

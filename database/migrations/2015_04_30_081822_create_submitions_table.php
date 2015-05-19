@@ -17,7 +17,7 @@ class CreateSubmitionsTable extends Migration {
 			$table->increments('id');
             $table->string('title');
             $table->text('link');
-            $table->char('status')->default('v');
+            $table->char('status', 1)->default('v');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')
                 ->references('id')

@@ -1,5 +1,6 @@
 @extends('layout.main')
 @section('content')
+@include('pages.layout.Emptysubmenu')
 <article >
 	<div id="comprow">
 	<div id="register">
@@ -28,7 +29,7 @@
                 		{!! Form::label('remember' , 'Atcerēties mani' ) !!}
                         </div>
                         <div class="clear"></div>
-				{!! Form::submit('Pieslēgties') !!}
+				{!! Form::submit('Pieslēgties' ,['class' => 'submitbtn']) !!}
 			{!! Form::close() !!}
 		</div>
 	</div>

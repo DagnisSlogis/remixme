@@ -16,7 +16,7 @@ class CreateVotingsTable extends Migration {
 		{
 			$table->increments('id');
             $table->timestamp('show_date');
-            $table->char('status')->default('v');
+            $table->char('status', 1)->default('v');
             $table->integer('comp_id')->unsigned();
             $table->foreign('comp_id')
                 ->references('id')

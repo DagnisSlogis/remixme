@@ -25,7 +25,7 @@ class CreateFavoritesTable extends Migration {
                 ->references('id')
                 ->on('comps')
                 ->onDelete('cascade');
-            $table->char('status')->default('v');
+            $table->char('status', 1)->default('v');
 			$table->timestamps();
 		});
 	}

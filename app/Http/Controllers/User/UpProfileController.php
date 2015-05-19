@@ -17,16 +17,19 @@ class UpProfileController extends Controller {
     public function update(User $user , Request $request)
     {
         $user = $user->whereId(Auth::user()->id)->first();
-        if($user->username != $request->get('username'))
+        if($user->username != $request->get('username') && $request->get('username') != null)
         {
+            $this->validate($request , ['username' => 'required|min:4|max:255|unique:users']);
             $user->username = $request->get('username');
         }
-        if($user->email != $request->get('email'))
+        if($user->email != $request->get('email') && $request->get('email') != null)
         {
+            $this->validate($request , ['email' => 'required|email|min:5|max:255|unique:users']);
             $user->email = $request->get('email');
         }
-        if($request->get('password') == $request->get('password_confirmation') )
+        if($request->get('password') == $request->get('password_confirmation') && $request->get('password') != null)
         {
+            $this->validate($request , ['password' => 'required|confirmed|min:8']);
             $user->password = bcrypt($request->get('password'));
         }
         elseif($request->get('password') != $request->get('password_confirmation') )
@@ -40,10 +43,11 @@ class UpProfileController extends Controller {
         }
         elseif ($request->hasFile('profile_img_link') && $request->get('delete_img') != 1)
         {
+            $this->validate($request , ['profile_img_link' => 'image|max:1000|mimes:jpeg,png']);
             $fileName = $this->saveImg($request);
             $user->profile_img = '/uploads/'.$fileName;
         }
-        if($user->facebook != $request->get('facebook') && $request->get('facebook') != null)
+        if($user->facebook != $request->get('facebook'))
         {
             $user->facebook = $request->get('facebook');
         }

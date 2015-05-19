@@ -16,8 +16,8 @@ class CreateCompsTable extends Migration {
         {
             $table->increments('id');
             $table->string('title');
-            $table->char('preview_type');
-            $table->char('voting_type');
+            $table->char('preview_type' , 1);
+            $table->char('voting_type', 1);
             $table->text('preview_link');
             $table->text('stem_link');
             $table->timestamp('subm_end_date');
@@ -32,7 +32,7 @@ class CreateCompsTable extends Migration {
             $table->text('url')->nullable();
             $table->text('facebook')->nullable();
             $table->text('twitter')->nullable();
-            $table->char('status')->default('a');
+            $table->char('status', 1)->default('a');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')
                 ->references('id')
