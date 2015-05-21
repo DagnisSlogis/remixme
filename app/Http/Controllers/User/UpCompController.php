@@ -19,7 +19,7 @@ class UpCompController extends Controller {
     public function index(Comp $comp)
     {
         $comps = $comp->whereUserId(Auth::user()->id)
-            ->whereNotIn('status', array('d'))
+            ->whereNotIn('status', array('b'))
             ->where('comp_end_date', '>' , Carbon::now())
             ->paginate(10);
         $header = "Visi konkursi";
@@ -37,7 +37,7 @@ class UpCompController extends Controller {
     public function hasEnded(Comp $comp)
     {
         $comps = $comp->whereUserId(Auth::user()->id)
-            ->whereNotIn('status', array('d'))
+            ->whereNotIn('status', array('b'))
             ->where('comp_end_date', '<=' , Carbon::now())
             ->paginate(10);
         $header = "Beigušies konkursi";

@@ -34,8 +34,6 @@ class EditCompRequest extends Request {
             'prizes' => 'required',
             'rules' => 'required',
             'header_img' => 'image|max:1000|mimes:jpeg,png',
-            'subm_end_date' => 'required|date',
-            'comp_end_date' => 'required|date',
             'song_title' => 'required|min:5|max:100',
             'stem_link' => 'required',
             'genre' => 'min:5|max:30',

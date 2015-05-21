@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>Remiksē Mani</title>
+	<meta charset="utf-8">
 	<meta name="_token" content="{{ csrf_token() }}" />
 	<link rel="stylesheet" href="{{ asset('css/css/reset.css') }}">
     <link rel="stylesheet" href="{{ asset('css/css/jquery-ui.css') }}">

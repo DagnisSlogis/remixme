@@ -17,11 +17,21 @@ use App\Http\Controllers\VotingController;
 
 class CompController extends Controller {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
+    /**
+     * Pieejas liegšana viesiem
+     *
+     */
+    public function __construct()
+    {
+        $this->middleware('auth',  [ 'except' => array('index','soonEnds','popular','show','find')]);
+    }
+
+    /**
+     * Parāda konkursus sākumlapā
+     *
+     * @param Comp $comp
+     * @return Response
+     */
 	public function index(Comp $comp)
     {
         $comps = $comp->where('subm_end_date' , '>=' , Carbon::now())
@@ -31,6 +41,12 @@ class CompController extends Controller {
         return view('home' , compact('comps'));
     }
 
+    /**
+     * Parāda konkursus, kuri drīz beigsies
+     *
+     * @param Comp $comp
+     * @return \Illuminate\View\View
+     */
     public function soonEnds(Comp $comp)
     {
         $comps = $comp->where('subm_end_date' , '>=' , Carbon::now())
@@ -40,6 +56,11 @@ class CompController extends Controller {
         return view('home' , compact('comps'));
     }
 
+    /**
+     * Parāda populārākos kunkursus
+     *
+     * @return \Illuminate\View\View
+     */
     public function popular()
     {
         $comps = Comp::where('subm_end_date' , '>=' , Carbon::now())
@@ -52,7 +73,7 @@ class CompController extends Controller {
     }
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Konkursa izveides skata izveidošana
 	 *
 	 * @return Response
 	 */
@@ -82,9 +103,16 @@ class CompController extends Controller {
         $comp =  new Comp($competition);
         Auth::user()->comps()->save($comp);
         $this->newVoting($comp);
+        \Session::flash('success_message', 'Konkurss veiskmīgi reģistrēts, gaidiet apstiprinājumu!');
         return redirect('/');
 	}
 
+    /**
+     * Labo konkursu
+     *
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function edit($id)
     {
         $comp = Comp::whereId($id)->first();
@@ -121,19 +149,6 @@ class CompController extends Controller {
         {
             $comp->stem_link = $request['stem_link'];
             $changes = 1;
-        }
-        if($comp->subm_end_date != $request['subm_end_date'] || $comp->comp_end_date != $request['comp_end_date'])
-        {
-            if($request['subm_end_date'] >= $request['comp_end_date'] || $request['subm_end_date'] <= Carbon::now())
-            {
-                \Session::flash('flash_message', 'Datumiem jābūt atšķirīgiem un lielākiem par šodienas');
-                return redirect()->back()->withInput();
-            }
-            else {
-                $comp->subm_end_date = $request['subm_end_date'];
-                $comp->comp_end_date = $request['comp_end_date'];
-                $changes = 1;
-            }
         }
         if($request->hasFile('header_img'))
         {
@@ -238,6 +253,13 @@ class CompController extends Controller {
         }
     }
 
+    /**
+     * Meklē konkursu pēc nosaukumiem, žanra.
+     *
+     * @param Request $request
+     * @param Comp $comp
+     * @return \Illuminate\View\View
+     */
     public function find(Request $request , Comp $comp)
     {
         $comps = $comp->where('status', '=' ,'v')
@@ -249,25 +271,38 @@ class CompController extends Controller {
     }
 
 
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-    public function destroy(Comp $comp, User $user, Admin $admin , $id)
+    /**
+     * Dzēšs remiksu konkursu un tā balsošanu.
+     *
+     * @param User $user
+     * @param Admin $admin
+     * @param  int $id
+     * @return Response
+     */
+    public function destroy( User $user, Admin $admin , $id)
     {
-        $comp = $comp->whereId($id)->first();
-        $comp->status = 'd';
-        $comp->save();
-        $user = $user->whereId($comp->user_id)->first();
-        if(Auth::user()->isAdmin() && Auth::user()->id != $comp->user_id)
+        $comp = Comp::whereId($id)->first();
+        if($comp->user_id == Auth::user()->id || Auth::user()->isAdmin())
         {
-            $admin->deleteCompNotif($user, $comp);
+            $comp->status = 'b';
+            $comp->save();
+            $voting = Voting::whereCompId($comp->id)->first();
+            $voting->status = 'b';
+            $voting->save();
+            $user = $user->whereId($comp->user_id)->first();
+            if(Auth::user()->isAdmin() && Auth::user()->id != $comp->user_id)
+            {
+                $admin->deleteCompNotif($user, $comp);
+            }
+            \Session::flash('flash_message', 'Konkurss ir veiksmīgi dzēsts!');
+            return redirect()->back();
         }
-        \Session::flash('flash_message', 'Konkurss ir veiksmīgi dzēsts!');
-        return redirect()->back();
+        else
+        {
+            \Session::flash('error_message', 'Jūs neesiet šī konkursa autors');
+            return redirect()->back();
+        }
+
     }
 
     /**
@@ -277,18 +312,28 @@ class CompController extends Controller {
      */
     public function saveImg($request)
     {
-        $file = $request->file('header_img');
-        $img = Image::make($file)->fit(610 , 140);
-        $fileName = $request->get('title').'-'.$file->getClientOriginalName();
-        $fileName = str_replace(' ', '-', $fileName);
-        $img->save('uploads/comp_headers/'.$fileName);
-        $comp = $request->all();
-        $comp['header_img'] = '/uploads/comp_headers/'.$fileName;
-        return $comp;
+        if($request->hasFile('header_img'))
+        {
+            $file = $request->file('header_img');
+            $img = Image::make($file)->fit(610, 140);
+            $fileName = $request->get('title') . '-' . $file->getClientOriginalName();
+            $fileName = str_replace(' ', '-', $fileName);
+            $img->save('uploads/comp_headers/' . $fileName);
+            $comp = $request->all();
+            $comp['header_img'] = '/uploads/comp_headers/' . $fileName;
+            return $comp;
+        }
+        else
+        {
+            $comp = $request->all();
+            $comp['header_img'] = '/img/noImg.jpg';
+            return $comp;
+        }
     }
 
     /**
      * Konvertē youtube linku uz nepieciešamo (embed)
+     *
      * @param $request
      * @return mixed
      */
@@ -318,6 +363,10 @@ class CompController extends Controller {
         $voting->save();
     }
 
+    /**
+     * Labo voting tabulas, ierakstu
+     * @param $comp
+     */
     private function changeVoting($comp)
     {
         $voting = Voting::whereCompId($comp->id)->first();

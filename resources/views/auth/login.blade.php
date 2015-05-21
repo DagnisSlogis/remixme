@@ -29,7 +29,7 @@
                 		{!! Form::label('remember' , 'Atcerēties mani' ) !!}
                         </div>
                         <div class="clear"></div>
-				{!! Form::submit('Pieslēgties' ,['class' => 'submitbtn']) !!}
+				{!! Form::submit('Pieslegties' ,['class' => 'submitbtn']) !!}
 			{!! Form::close() !!}
 		</div>
 	</div>

@@ -23,16 +23,37 @@ class ApUserController extends Controller {
         $this->middleware('admin');
     }
 
-	public function index(User $user){
+    /**
+     * Izveido skatu ar visiem sistēmas lietotājiem
+     * @param User $user
+     * @return \Illuminate\View\View
+     */
+    public function index(User $user){
         $header = "Visi lietotāji";
         $users = $user->orderBy('created_at', 'desc')->paginate(10);
         return view('adminpanel.user.changeusers' , compact('users' , 'header'));
     }
 
+    /**
+     * Iegūst izvēlētā lietotāja datus un izveido skatu ar labošanas formai.
+     *
+     * @param User $user
+     * @param $id
+     * @return \Illuminate\View\View
+     */
     public function edit(User $user, $id){
         $user = $user->whereId($id)->first();
         return view('adminpanel.user.edit' , compact('user'));
     }
+
+    /**
+     * Saglabā mainitos lietotāja datus
+     *
+     * @param User $user
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function update(User $user, Request $request, $id ){
         $user = $user->whereId($id)->first();
         $changes = 0;
@@ -53,6 +74,11 @@ class ApUserController extends Controller {
             $this->validate($request , ['password' => 'required|confirmed|min:8']);
             $user->password = bcrypt($request->get('password'));
             $changes = 1;
+        }
+        elseif($request->get('password') != $request->get('password_confirmation') )
+        {
+            \Session::flash('flash_message', 'Jaunā parole nesakrīt!');
+            return redirect()->back();
         }
         if ( $request->get('delete_img') == 1)
         {
@@ -97,6 +123,8 @@ class ApUserController extends Controller {
     }
 
     /**
+     * Meklē lietotājus
+     *
      * @param User $user
      * @param Request $request
      * @return \Illuminate\View\View
@@ -110,6 +138,8 @@ class ApUserController extends Controller {
 
     /**
      * Dzēšs lietotāja konkursus
+     *
+     * @param $user
      */
     private function clearComps($user)
     {
@@ -134,6 +164,7 @@ class ApUserController extends Controller {
     }
 
     /**
+     * Dzēšs lietotāja dziesmas, kas vēl nav beigušas dalību konkursā
      * @param $user
      */
     private function clearSubmitions($user)
@@ -152,6 +183,12 @@ class ApUserController extends Controller {
             }
         }
     }
+
+    /**
+     * Dzēšs lietotāja komentārus
+     *
+     * @param $user
+     */
     private function clearComments($user)
     {
         if($user->comments)

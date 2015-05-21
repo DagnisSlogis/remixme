@@ -42,15 +42,6 @@
                 {!! Form::label('header_img' , 'Konkursa galvene') !!} <span class="needed">*</span>
                 <div id="headerPreview"></div>
                 {!! Form::file('header_img' , ['id' => 'headerFile']) !!}
-                <div class="one-line">
-                {!! Form::label('subm_end_date' , 'Iesūtīšanas beigu datums') !!} <span class="needed">*</span>
-				{!! Form::text('subm_end_date' , Input::old('subm_end_date') ,  ['class' => 'datepicker']) !!}
-				</div>
-                <div class="one-line">
-                {!! Form::label('comp_end_date' , 'Konkursa beigu datums') !!} <span class="needed">*</span>
-				{!! Form::text('comp_end_date' , Input::old('comp_end_date') , ['class' => 'datepicker'] ) !!}
-				</div>
-				<div class="clear"></div>
 				{!! Form::label('song_title' , 'Dziesmas nosaukums') !!} <span class="needed">*</span>
 				{!! Form::text('song_title' ) !!}
                 <div class="one-line">
