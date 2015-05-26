@@ -16,7 +16,7 @@
 		{!! Form::label('remember' , 'Atcerēties mani' ) !!}
         </div>
         <div class="clear"></div>
-		{!! Form::submit('Pieslegties', ['class'=> 'btnadd centerbtn']) !!}
+		{!! Form::submit('Pieslēgties', ['class'=> 'btnadd centerbtn']) !!}
 		{!! Form::close() !!}
 		<p> Nav konta : <a href="/auth/register">Reģistrējies</a></p>
 

@@ -1,6 +1,6 @@
 /vendor
 /node_modules
 .env
-/.idea/workspace.xml
+.idea/workspace.xml
 /public/uploads
 phpunit.phar

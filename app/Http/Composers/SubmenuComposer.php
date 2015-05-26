@@ -22,7 +22,6 @@ class SubmenuComposer {
             ->count();
         $runningsCount = Comp::whereNotIn('status' , array('d' , 'a'))
             ->where('comp_end_date', '>=' , Carbon::now())->count();
-        $compsCount =  Comp::whereNotIn('status' , array('d' , 'a'))->count();
         $view->with(compact('unacceptedCount' , 'runningsCount' , 'compsCount'));
     }
 } 

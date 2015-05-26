@@ -24,10 +24,18 @@ class CommentController extends Controller {
         \Session::flash('new_comment', $comment->id);
         return redirect()->back();
     }
+
+    /**
+     * Dzēšs komentāru
+     *
+     * @param $id
+     * @param Comment $comment
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function delete($id , Comment $comment)
     {
         $comment = $comment->whereId($id)->first();
-        $comment->status = "d";
+        $comment->status = "b";
         $comment->save();
         return redirect()->back();
     }

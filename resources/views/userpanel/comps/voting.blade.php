@@ -18,8 +18,12 @@
       </tr>
    @foreach($votings as $index => $voting)
         <tr class="userline">
-        <td>{{$index+1}}</td>
-        <td>{{$voting->title}}</td>
+          @if($votings->currentPage() == 1)
+                            <td>{{$index+1}}</td>
+                        @else
+                             <td>{{($votings->currentPage()-1)*10 + $index+1}}</td>
+                        @endif
+        <td><a href="/show/{{$voting->id}}" >{{$voting->title}}</a></td>
         <td><a href="/comp/submitions/{{$voting->id}}">{{$voting->entrycount()}}</a></td>
          @if($voting->voting->show_date <= \Carbon\Carbon::now())
             <td><span class="beidzies">Beidzies</span></td>
@@ -29,8 +33,15 @@
                 {!! Form::close() !!}
             </td>
         @else
+            @if($voting->entrycount() == 0 && $voting->subm_end_date < \Carbon\Carbon::now())
+                        <td>{{$voting->comp_end_date->diffForHumans()}}</td>
+                        <td>{!! Form::open (['method' => 'GET' ,'url' => '/comp/voting/accept/'.$voting->id])!!}
+                                                 {!! Form::submit('Apstiprināt', ['class' => 'accept']) !!}
+                                            {!! Form::close() !!}</td>
+            @else
             <td>{{$voting->comp_end_date->diffForHumans()}}</td>
-            <td>---</td>
+                        <td>---</td>
+            @endif
         @endif
         </tr>
     @endforeach

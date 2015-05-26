@@ -67,7 +67,8 @@
 				{!! Form::text('twitter' ) !!}
 				</div>
 				<div class="clear"></div>
-				{!! Form::submit('Izveidot' , ['class'=> 'btnadd']) !!}
+				<p class="neededinput"><span class="needed">*</span> - Aizpildāmi obligāti</p>
+				{!! Form::submit('Labot' , ['class'=> 'btnadd']) !!}
 			{!! Form::close() !!}
 		</div>
 	</div>

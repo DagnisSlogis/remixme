@@ -8,7 +8,7 @@
 use Laracasts\TestDummy\Factory as TestDummy;
 class UserEditingTest extends TestCase {
     /**
-     * Lietotājs neko nelabojot uzspiež pogu “Labot”
+     * Netiek laboti ievades lauki, spiež “Labot”
      */
     public function test_nothing_has_been_changed_pressed_labot()
     {
@@ -24,7 +24,7 @@ class UserEditingTest extends TestCase {
     }
 
     /**
-     * Lietotājs izdzēš esošo, obligāto lietotāja informāciju un spiež “Labot”.
+     * Tiek izdzēsta esošā, obligātā lietotāja informāciju un spiež “Labot”.
      */
     public function test_not_null_data_deleted_pressed_labot()
     {
@@ -44,7 +44,7 @@ class UserEditingTest extends TestCase {
     }
 
     /**
-     * Lietotājs ievada e-pastu/lietotājvārdu, kurš jau ir reģistrēts sistēmā.
+     * Tiek ievadīts e-pasts/lietotājvārds, kurš jau ir reģistrēts sistēmā.
      */
     public function test_edited_username_already_exists()
     {
@@ -58,18 +58,18 @@ class UserEditingTest extends TestCase {
         $this->visit('userpanel/profile/edit')
             ->type('tester2', 'username')
             ->press('Labot')
-            ->see('The username has already been taken.')
+            ->see('username ir jau izmantots.')
             ->onPage('userpanel/profile/edit');
         $this->beAdmin();
         $this->visit('adminpanel/users')
             ->click('Labot')
             ->type('tester', 'username')
             ->press('Labot')
-            ->see('The username has already been taken.');
+            ->see('username ir jau izmantots.');
     }
 
     /**
-     * Tiek ievadīts īsāka e-pasta adrese par 5 simboliem, īsāks lietotājvārds par 4 simboliem.
+     * Tiek ievadīts īsāki lietotāja dati, nekā prasīts.
      */
     public function test_edited_username_shorter()
     {
@@ -77,14 +77,14 @@ class UserEditingTest extends TestCase {
         $this->visit('userpanel/profile/edit')
             ->type('tes', 'username')
             ->press('Labot')
-            ->see('The username must be at least 4 characters.')
+            ->see('simboli')
             ->onPage('userpanel/profile/edit');
         $this->beAdmin();
         $this->visit('adminpanel/users')
             ->click('Labot')
             ->type('tes', 'username')
             ->press('Labot')
-            ->see('The username must be at least 4 characters.');
+            ->see('simboli');
     }
 
     /**
@@ -116,7 +116,7 @@ class UserEditingTest extends TestCase {
             ->type('test12', 'password')
             ->type('test12', 'password_confirmation')
             ->press('Labot')
-            ->see('The password must be at least 8 characters.')
+            ->see('vismaz')
             ->onPage('userpanel/profile/edit');
     }
 
@@ -140,7 +140,21 @@ class UserEditingTest extends TestCase {
             ->press('Labot')
             ->see('Jaunā parole nesakrīt!');
     }
+    /**
+     * Tiek augšupielādēta bilde, kas lielāka pa 1mb
+     */
+    /*public function test_image_size_over_1000()
+    {
 
+
+    }*/
+
+    /**
+     * Tiek augšupielādēts fails, kas nav formātos jpeg/png,
+     */
+    /*public function test_image_format_isnt_jpg_png()
+    {
+    }
     /**
      * Tiek izvēlēts “Dzēst profila attēlu” un nekas netiek augšupielādēts.
      */
@@ -153,20 +167,8 @@ class UserEditingTest extends TestCase {
             ->onPage('userpanel');
         $this->verifyInDatabase('users', ['username' => 'tester' , 'profile_img' => '/img/noImg.jpg']);
     }
-    public function test_admin_deletes_user_current_img()
-    {
-        $this->DummyUser();
-        $this->beAdmin();
-        $this->visit('adminpanel/users')
-            ->click('Labot')
-            ->tick('delete_img')
-            ->press('Labot')
-            ->onPage('adminpanel/users');
-        $this->verifyInDatabase('users', ['username' => 'tester' , 'profile_img' => '/img/noImg.jpg']);
-
-    }
     /**
-     * Administrators izvēlās lietotāja statusu Administrators/Lietotājs.
+     * Administrators izvēlās lietotāja statusu.
      */
     public function test_user_status_change()
     {
@@ -182,7 +184,7 @@ class UserEditingTest extends TestCase {
     }
 
     /**
-     * Lietotājs izdzēš gan esošo, obligāto lietotāja informāciju, gan esošo neobligāto informāciju spiež “Labot”. Admin - tas pats
+     * Tiek izdzēsta gan esošā, obligātā lietotāja informāciju, gan esošā, neobligātā informāciju spiež “Labot”. pats
      */
     public function test_user_deletes_all_data_only_notnullable_saves()
     {
@@ -241,6 +243,19 @@ class UserEditingTest extends TestCase {
         $this->verifyInDatabase('users', ['username' => 'admineris']);
     }
 
+    /**
+     * Viesis mēģina labot profilu
+     */
+    public function test_guest_tries_to_edit_profile()
+    {
+        $this->visit('userpanel/profile/edit')
+            ->onPage('auth/login');
+    }
+
+
+    /**
+     * Administrators izvēlās dzēst kādu lietotāju no sistēmas
+     */
     public function test_admin_deletes_user()
     {
         $this->DummyUser();
@@ -250,5 +265,12 @@ class UserEditingTest extends TestCase {
             ->see('Lietot')
             ->onPage('adminpanel/users');
         $this->verifyInDatabase('users', ['username' => 'tester' , 'status' => '3']);
+    }
+
+    public function test_user_tries_to_delete_another_user()
+    {
+        $this->beUser();
+        $this->visit('adminpanel/users')
+            ->onPage('/');
     }
 } 

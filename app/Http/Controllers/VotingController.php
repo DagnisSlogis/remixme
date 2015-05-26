@@ -11,7 +11,20 @@ use Illuminate\Http\Request;
 
 class VotingController extends Controller {
 
-	public function index()
+    /**
+     * Pieejas liegšana viesiem
+     *
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    /**
+     *  Izveido skatu ar jaunākām balsošanām
+     *
+     * @return \Illuminate\View\View
+     */
+    public function index()
     {
         $comps = Comp::where('comp_end_date','>=', Carbon::now())
             ->where('subm_end_date','<=', Carbon::now())
@@ -25,7 +38,13 @@ class VotingController extends Controller {
         return view('pages.voting' , compact('comps'));
     }
 
-    public function soonEnds(Comp $comp)
+
+    /**
+     * Izveido skatu ar balsošanām, kuras drīz beigsies
+     *
+     * @return \Illuminate\View\View
+     */
+    public function soonEnds()
     {
         $comps = Comp::where('comp_end_date','>=', Carbon::now())
             ->where('subm_end_date','<=', Carbon::now())
@@ -39,6 +58,11 @@ class VotingController extends Controller {
         return view('pages.voting' , compact('comps'));
     }
 
+    /**
+     * Izveido skatu ar populārākajām balsošanām
+     *
+     * @return \Illuminate\View\View
+     */
     public function popular()
     {
         $comps = Comp::where('comp_end_date','>=', Carbon::now())
@@ -52,6 +76,12 @@ class VotingController extends Controller {
         return view('pages.voting' , compact('comps'));
     }
 
+    /**
+     * Balsošana par dziesmu
+     *
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update($id)
     {
         $submition = Submition::whereId($id)->first();
@@ -73,6 +103,12 @@ class VotingController extends Controller {
         }
 
     }
+
+    /**
+     * Balsošanas pilnskats
+     * @param $id
+     * @return \Illuminate\View\View
+     */
     public function show($id)
     {
         $comp = Comp::whereId($id)->first();
@@ -80,15 +116,25 @@ class VotingController extends Controller {
         return view('pages.showvoting' ,  compact('comp'));
     }
 
+    /**
+     * Meklēt balsošanu
+     * @param Request $request
+     * @param Comp $comp
+     * @return \Illuminate\View\View
+     */
     public function find(Request $request , Comp $comp)
     {
-        $comps = $comp->where('comp_end_date','>=', Carbon::now())
+        $comps = $comp->where('comp_end_date','>', Carbon::now())
             ->where('subm_end_date','<=', Carbon::now())
-            ->where('voting_type','=' , 'b')->where('status', '=' ,'v')
-            ->where('title', 'LIKE', '%'. $request->get('s') .'%')
-            ->orWhere('genre', 'LIKE', '%'. $request->get('s') .'%')
-            ->orWhere('song_title', 'LIKE', '%'. $request->get('s') .'%')
-            ->paginate(10);
+            ->where('voting_type','=' , 'b')
+            ->where('status', 'v')
+            ->whereNested(function($query)use($request)
+            {
+                    $query->where('title', 'LIKE', '%'. $request->get('s') .'%')
+                        ->orWhere('genre', 'LIKE', '%'. $request->get('s') .'%')
+                        ->orWhere('song_title', 'LIKE', '%'. $request->get('s') .'%');
+            })->orderBy('subm_end_date' , 'desc')
+            ->paginate(5);
         return view('pages.voting' , compact('comps'));
     }
 

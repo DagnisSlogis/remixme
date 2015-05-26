@@ -21,9 +21,13 @@
       </tr>
    @foreach($comps as $index => $comp)
         <tr class="userline">
-        <td>{{$index+1}}</td>
-        <td>{{$comp->title}}</td>
-        <td>{{$comp->user->username}}</td>
+          @if($comps->currentPage() == 1)
+                            <td>{{$index+1}}</td>
+                        @else
+                             <td>{{($comps->currentPage()-1)*10 + $index+1}}</td>
+                        @endif
+        <td><a href="/show/{{$comp->id}}" >{{$comp->title}}</a></td>
+        <td><h4>{{$comp->user->username}}</h4></td>
         <td>{{$comp->subm_end_date->format('d.m.Y.')}}</td>
         <td>{{$comp->comp_end_date->format('d.m.Y.')}}</td>
         <td><a href="/show/{{$comp->id}}" class="change" >Vairāk</a></td>

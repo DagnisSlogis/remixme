@@ -34,7 +34,7 @@
 
 				{!! Form::label('facebook' , 'Facebook profila saite') !!}
 				{!! Form::text('facebook') !!}
-
+                <p class="neededinput"><span class="needed">*</span> - Aizpildāmi obligāti</p>
 				{!! Form::submit('Reģistrēties' , ['class' => 'submitbtn']) !!}
 			{!! Form::close() !!}
 		</div>

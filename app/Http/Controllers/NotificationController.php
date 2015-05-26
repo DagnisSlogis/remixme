@@ -9,7 +9,20 @@ use Illuminate\Support\Facades\Input;
 
 class NotificationController extends Controller {
 
-	public function  set_as_read(Notification $notif)
+    /**
+     * Pieejas liegšana viesiem
+     *
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    /**
+     * Tiek iegūti dati no ajax pieprasījuma, lai atzīmētu jaunos paziņojumus kā izlasītus
+     *
+     * @param Notification $notif
+     */
+    public function  set_as_read(Notification $notif)
     {
         $IsRead = Input::get('IsRead');
         $i = count($IsRead)-1;
@@ -22,6 +35,13 @@ class NotificationController extends Controller {
         }
 
     }
+
+    /**
+     * Parāda lietotāja paziņojumus
+     *
+     * @param Notification $notification
+     * @return \Illuminate\View\View
+     */
     public function index(Notification $notification)
     {
         $notifications = $notification->whereUserId(Auth::user()->id)

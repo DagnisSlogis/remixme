@@ -17,9 +17,13 @@
           </tr>
        @foreach($favorites as $index => $favorite)
            <tr class="userline">
-            <td>{{$index+1}}</td>
-            <td>{{$favorite->comp->title}}</td>
-            <td>10</td>
+               @if($favorites->currentPage() == 1)
+                                            <td>{{$index+1}}</td>
+                                        @else
+                                             <td>{{($favorites->currentPage()-1)*10 + $index+1}}</td>
+                                        @endif
+            <td><a href="/show/{{$favorite->comp->id}}" >{{$favorite->comp->title}}</a></td>
+            <td>{{$favorite->comp->entrycount()}} dziesmas</td>
             @if($favorite->comp->subm_end_date >= \Carbon\Carbon::now())
                 <td><span class="iesutisana">Remiksu iesūtīšna</span></td>
             @elseif($favorite->comp->subm_end_date < \Carbon\Carbon::now() && $favorite->comp->comp_end_date >= \Carbon\Carbon::now())
@@ -40,7 +44,7 @@
         @endforeach
         </table>
     @else
-        <p>Nav neviena favorīt konkursa</p>
+        <p class="noentry">Nav neviena favorīt konkursa</p>
     @endif
     </div>
       {!! $favorites->appends(Request::except('page'))->render() !!}

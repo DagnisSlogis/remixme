@@ -9,7 +9,14 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class UpCompController extends Controller {
-
+    /**
+     * Pieejas liegšana viesiem
+     *
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Funkcija izveido skatu ar lietotāja pašlaik esošajiem ( notiekošajiem ) konkursiem
      *
@@ -39,7 +46,7 @@ class UpCompController extends Controller {
         $comps = $comp->whereUserId(Auth::user()->id)
             ->whereNotIn('status', array('b'))
             ->where('comp_end_date', '<=' , Carbon::now())
-            ->paginate(10);
+            ->paginate(5);
         $header = "Beigušies konkursi";
         return view('userpanel.comps.hasended', compact('comps', 'header'));
     }

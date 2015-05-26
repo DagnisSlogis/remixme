@@ -29,8 +29,10 @@
                 		{!! Form::label('remember' , 'Atcerēties mani' ) !!}
                         </div>
                         <div class="clear"></div>
-				{!! Form::submit('Pieslegties' ,['class' => 'submitbtn']) !!}
+				{!! Form::submit('Pieslēgties' ,['class' => 'submitbtn']) !!}
+			<button class="registerbtn"><a href="/auth/register">Reģistrējies</a></button>
 			{!! Form::close() !!}
+
 		</div>
 	</div>
 	</div>

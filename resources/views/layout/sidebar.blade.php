@@ -24,4 +24,3 @@
 </ul>
 @endforeach
 <a href="/winners"><button class="clasic">Apskatīt visus</button></a>
-<span class="sidetitle">Seko mums Facebook</span>

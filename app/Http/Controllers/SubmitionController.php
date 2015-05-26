@@ -10,9 +10,19 @@ use Auth;
 use App\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddSubmitionRequest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SubmitionController extends Controller {
+
+    /**
+     * Pieejas liegšana viesiem
+     *
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     /**
      * Dziesmas iesūtīšanas funkcija
@@ -38,6 +48,11 @@ class SubmitionController extends Controller {
         return redirect()->back();
     }
 
+    /**
+     * Parāda lietotāja iesūtītās dziesmas
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         $songs = Submition::whereUserId(Auth::user()->id)
@@ -46,10 +61,12 @@ class SubmitionController extends Controller {
         return view('userpanel.mysongs' , compact('songs'));
     }
 
+
     /**
-     * Konkursa rīkotājs apskata visus
+     * Konkursa autors, administrators apskata konkursa iesūtītas dziesmas
      *
      * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function compSubmitions($id)
     {
@@ -70,21 +87,30 @@ class SubmitionController extends Controller {
         }
     }
 
+
     /**
-     * Dzēst nevēlamos remiksus no iesūtīto saraksta
+     * Dzēšs nevēlamos remiksus no konkursa
      *
      * @param $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function delete($id)
     {
         $submition = Submition::whereId($id)->first();
-        //Attīram balošanas sarakstu
-        $submition->status = 'd';
-        $submition->save();
-        $this->deleteNotif($submition);
-        $this->deleteReminders($submition);
-        \Session::flash('flash_message', 'Dziesma ir veiksmīgi izdzēsta!');
-        return redirect()->back();
+        if($submition->comp->subm_end_date > Carbon::now())
+        {
+            //Attīram balošanas sarakstu
+            $submition->status = 'b';
+            $submition->save();
+            $this->deleteNotif($submition);
+            $this->deleteReminders($submition);
+            \Session::flash('flash_message', 'Dziesma ir veiksmīgi izdzēsta!');
+            return redirect()->back();
+        }
+        else{
+            \Session::flash('flash_message', 'Dziesmu iesūtīšana ir beigusies, jūs nevarat dzēst šo dziesmu!');
+            return redirect()->back();
+        }
     }
 
 
@@ -101,7 +127,7 @@ class SubmitionController extends Controller {
             ->whereStatus('v')
             ->first();
         if($HaveEntered){
-            $HaveEntered->status = 'd';
+            $HaveEntered->status = 'b';
             $HaveEntered->save();
         }
     }
@@ -186,6 +212,11 @@ class SubmitionController extends Controller {
             ->save();
     }
 
+    /**
+     * Dzēšs atgādinājuma paziņojumus, par to ka konkurss ir beidzies
+     *
+     * @param $submition
+     */
     private function deleteReminders($submition)
     {
         $isFav = Favorite::whereUserId($submition->user_id)
@@ -199,11 +230,15 @@ class SubmitionController extends Controller {
             $notif = Notification::whereCompId($submition->comp_id)
                 ->whereUserId($submition->user_id)
                 ->whereType('CompEnded')->first();
-            $notif->delete();
+            if($notif) {
+                $notif->delete();
+            }
             $notif = Notification::whereCompId($submition->comp_id)
                 ->whereUserId($submition->user_id)
                 ->whereType('SubmitionEnded')->first();
-            $notif->delete();
+            if($notif) {
+                $notif->delete();
+            }
         }
     }
 }

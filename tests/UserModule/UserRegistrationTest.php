@@ -29,7 +29,7 @@ class UserRegistrationTest extends TestCase
             ->type('test1234', 'password')
             ->type('test1234', 'password_confirmation')
             ->press('Reģistrēties')
-            ->see('The username must be at least 4 characters.')
+            ->see('simboli.')
             ->onPage('auth/register');
     }
 
@@ -44,7 +44,7 @@ class UserRegistrationTest extends TestCase
             ->type('test1234', 'password')
             ->type('test1234', 'password_confirmation')
             ->press('Reģistrēties')
-            ->see('Email')
+            ->see('email')
             ->onPage('auth/register');
     }
 
@@ -59,7 +59,7 @@ class UserRegistrationTest extends TestCase
             ->type('test1', 'password')
             ->type('test1', 'password_confirmation')
             ->press('Reģistrēties')
-            ->see('The password must be at least 8 characters.')
+            ->see('simboli.')
             ->onPage('auth/register');
     }
 
@@ -74,7 +74,7 @@ class UserRegistrationTest extends TestCase
             ->type('test1234', 'password')
             ->type('test12345', 'password_confirmation')
             ->press('Reģistrēties')
-            ->see('The password confirmation does not match.')
+            ->see('password apstiprin')
             ->onPage('auth/register');
     }
 
@@ -95,11 +95,22 @@ class UserRegistrationTest extends TestCase
             ->type('test1234', 'password')
             ->type('test1234', 'password_confirmation')
             ->press('Reģistrēties')
-            ->see('The username has already been taken.')
+            ->see('username ir jau izmantots.')
             ->onPage('auth/register');
     }
-
+    /**
+     * Tiek augšupielādēta bilde, kas lielāka pa 1mb
+    */
     /*public function test_image_size_over_1000()
+    {
+
+
+    }*/
+
+    /**
+     * Tiek augšupielādēts fails, kas nav formātos jpeg/png,
+     */
+    /*public function test_image_format_isnt_jpg_png()
     {
 
 
@@ -119,7 +130,6 @@ class UserRegistrationTest extends TestCase
             ->see('testeris')
             ->onPage('/');
         $this->verifyInDatabase('users', ['username' => 'testeris']);
-
     }
 
 }

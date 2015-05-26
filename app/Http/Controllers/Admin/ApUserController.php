@@ -118,7 +118,7 @@ class ApUserController extends Controller {
         $this->clearComps($user);
         $this->clearSubmitions($user);
         $this->clearComments($user);
-        \Session::flash('flash_message', 'Lietotājs ir vieksmīgi izdzēsts!');
+        \Session::flash('flash_message', 'Lietotājs ir veiksmīgi izdzēsts!');
         return redirect('adminpanel/users');
     }
 

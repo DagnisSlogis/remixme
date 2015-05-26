@@ -27,7 +27,7 @@ class CompSubmenuComposer {
         $voting = Voting::join('comps', 'votings.comp_id', '=', 'comps.id')
             ->where('comps.voting_type','=' , 'b')
             ->where('votings.status', '=' , 'v')
-            ->where('comps.comp_end_date', '<=' , Carbon::now())
+            ->where('votings.show_date', '<=' , Carbon::now())
             ->count();
         $view->with(compact('judging' , 'voting'));
     }

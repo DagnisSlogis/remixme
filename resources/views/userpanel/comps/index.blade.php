@@ -23,7 +23,11 @@
       </tr>
    @foreach($comps as $index => $comp)
         <tr class="userline">
-        <td>{{$index+1}}</td>
+        @if($comps->currentPage() == 1)
+            <td>{{$index+1}}</td>
+        @else
+             <td>{{$comps->currentPage()*10 + $index+1}}</td>
+        @endif
         <td><a href="/show/{{$comp->id}}" >{{$comp->title}}</a></td>
         @if($comp->status == 'a')
             <td><span class="beidzies">Nē</span></td>
@@ -44,7 +48,7 @@
             <td><span class="beidzies">Beidzies</span></td>
         @endif
                 <td>{{$comp->comp_end_date->format('d.m.Y.')}}</td>
-                <td><a href="/comp/submitions/{{$comp->id}}"> {{$comp->entrycount()}}</a></td>
+                <td><a href="/comp/submitions/{{$comp->id}}"> {{$comp->entrycount()}} dziesmas</a></td>
                 <td><a href="/comp/{{$comp->id}}/edit" class="change" >Labot</a></td>
                 <td>
                     {!! Form::open (['method' => 'PATCH' ,'url' => '/comps/delete/'.$comp->id])!!}

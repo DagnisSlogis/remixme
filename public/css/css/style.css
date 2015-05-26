@@ -1,5 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700&subset=latin,latin-ext);
-.btnadd:hover, .submitbtn:hover, #submenu, .RemixComp, .RemixComp .functionbtn form input:hover, .commentBox .comment, #register, .half, .admin, .pagination li, .userinfo, .votableSongs form input:hover, .profilebody {
+.btnadd:hover, .submitbtn:hover, #submenu, .RemixComp, .RemixComp .functionbtn form input:hover, .RemixComp .functionbtnfull form input:hover, .RemixComp .functionbtn .enterbtn:hover, .RemixComp .functionbtnfull .enterbtn:hover, .commentBox .comment, #register, .half, .admin, .pagination li, .userinfo, .votableSongs form input:hover, .profilebody, .registerbtn:hover {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }
 
 header .navblock .add, .RemixComp .trackinfo li button:hover, .login-popup {
@@ -438,7 +438,10 @@ button.clasic {
       font-size: 14px;
       margin: 7px;
       font-weight: 300;
-      color: #a5a5a5; }
+      color: #a5a5a5;
+      height: 50px;
+      min-width: 120px;
+      overflow: hidden; }
       .RemixComp .moreinfo li img {
         margin-right: 5px;
         flex: 1; }
@@ -446,11 +449,11 @@ button.clasic {
         text-decoration: none; }
         .RemixComp .moreinfo li a:hover {
           text-decoration: underline; }
-      .RemixComp .moreinfo li #url {
+      .RemixComp .moreinfo li .url {
         color: #a5a5a5; }
-      .RemixComp .moreinfo li #twitter {
+      .RemixComp .moreinfo li .twitter {
         color: #0487e2; }
-      .RemixComp .moreinfo li #facebook {
+      .RemixComp .moreinfo li .facebook {
         color: #4157d8; }
   .RemixComp .functions {
     font-size: 14px;
@@ -459,6 +462,11 @@ button.clasic {
     float: left;
     display: flex;
     align-content: center; }
+    .RemixComp .functions a {
+      text-decoration: none;
+      color: #777777; }
+      .RemixComp .functions a:hover {
+        text-decoration: underline; }
     .RemixComp .functions li {
       margin: 0 10px;
       color: #777777; }
@@ -480,14 +488,14 @@ button.clasic {
         margin-bottom: 2px; }
     .RemixComp .functions .other {
       margin-top: 2px; }
-  .RemixComp .functionbtn {
+  .RemixComp .functionbtn, .RemixComp .functionbtnfull {
     width: 47%;
     float: right; }
-    .RemixComp .functionbtn li {
+    .RemixComp .functionbtn li, .RemixComp .functionbtnfull li {
       display: inline-block; }
-    .RemixComp .functionbtn form {
+    .RemixComp .functionbtn form, .RemixComp .functionbtnfull form {
       margin: 0; }
-      .RemixComp .functionbtn form input {
+      .RemixComp .functionbtn form input, .RemixComp .functionbtnfull form input {
         display: block;
         margin: 4px 35px 0 0;
         border: none;
@@ -497,8 +505,14 @@ button.clasic {
         font-size: 14px;
         color: white;
         transition: all 0.3s; }
-    .RemixComp .functionbtn .enterbtn {
-      background: #777; }
+    .RemixComp .functionbtn .enterbtn, .RemixComp .functionbtnfull .enterbtn {
+      background: #777;
+      padding: 11px 20px;
+      border: none;
+      color: #ffffff;
+      border-radius: 2px; }
+  .RemixComp .functionbtnfull {
+    width: 30%; }
 
 .commentInput {
   width: 600px;
@@ -759,14 +773,20 @@ button.clasic {
     text-align: center;
     font-size: 14px;
     margin: 25px 0; }
-    .admin table .titlerow {
+    .admin table .titlerow, .admin table .wintitlerow {
       color: #a5a5a5;
       cellpadding: 0 25px; }
-      .admin table .titlerow td {
+      .admin table .titlerow td, .admin table .wintitlerow td {
         display: table-cell;
         vertical-align: middle;
         height: 60px;
         border-right: 1px solid #f5f5f5; }
+    .admin table .wintitlerow {
+      color: #777777;
+      background: #f5f5f5; }
+      .admin table .wintitlerow td {
+        height: 40px;
+        border-right: 1px solid #ebebeb; }
     .admin table .userline {
       color: #35404f; }
       .admin table .userline:hover {
@@ -806,6 +826,50 @@ button.clasic {
             outline: 0; }
         .admin table .userline td .accept {
           color: #4aaaa5; }
+    .admin table .winnerline {
+      background: #f5f5f5;
+      color: #35404f; }
+      .admin table .winnerline:hover {
+        background: #ebebeb; }
+      .admin table .winnerline h4 {
+        font-weight: 500; }
+      .admin table .winnerline a {
+        text-decoration: none;
+        color: royalblue; }
+        .admin table .winnerline a:hover {
+          text-decoration: underline; }
+      .admin table .winnerline img {
+        display: block;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        text-align: center; }
+      .admin table .winnerline td {
+        display: table-cell;
+        vertical-align: middle;
+        height: 60px;
+        padding: 0 15px;
+        border-right: 1px solid #ebebeb; }
+        .admin table .winnerline td .change, .admin table .winnerline td .delete, .admin table .winnerline td .accept {
+          text-decoration: none;
+          font-weight: 500;
+          color: #4aaaa5; }
+          .admin table .winnerline td .change:hover, .admin table .winnerline td .delete:hover, .admin table .winnerline td .accept:hover {
+            text-decoration: underline; }
+        .admin table .winnerline td .delete, .admin table .winnerline td .accept {
+          margin: 0;
+          padding: 0;
+          border: none;
+          background: none;
+          color: #e45f56; }
+          .admin table .winnerline td .delete:focus, .admin table .winnerline td .accept:focus {
+            outline: 0; }
+        .admin table .winnerline td .accept {
+          color: #4aaaa5; }
+  .admin .noentry {
+    font-size: 14px;
+    color: #777777;
+    padding: 10px 25px; }
 
 .deleteimg {
   font-size: 14px;
@@ -1107,5 +1171,61 @@ button.clasic {
     .footer .poweredby a {
       color: orange;
       text-decoration: none; }
+
+.neededinput {
+  font-size: 14px;
+  color: #777777; }
+
+.registerbtn {
+  background: #ffffff;
+  color: #4aaaa5;
+  padding: 6px 9px;
+  border-radius: 2px;
+  margin-top: 7px;
+  border: 1px solid #4aaaa5; }
+  .registerbtn a {
+    color: #4aaaa5;
+    text-decoration: none; }
+
+.morevotings {
+  text-decoration: none;
+  color: #777777; }
+  .morevotings:hover {
+    text-decoration: underline;
+    color: #e45f56; }
+
+.winners {
+  background: #ffffff;
+  color: #777777;
+  padding: 5px; }
+  .winners h3 {
+    padding: 10px; }
+  .winners .winnerblock {
+    display: flex;
+    justify-content: space-between;
+    align-content: center; }
+    .winners .winnerblock a {
+      text-decoration: none;
+      color: #777777; }
+    .winners .winnerblock span {
+      font-size: 14px;
+      background: #e45f56;
+      padding: 5px;
+      color: #ffffff;
+      border-radius: 4px; }
+    .winners .winnerblock img {
+      border-radius: 50%;
+      margin: 0 15px;
+      width: 40px;
+      height: auto; }
+    .winners .winnerblock .firstplace, .winners .winnerblock .otherplace {
+      display: flex;
+      align-items: center;
+      padding: 20px; }
+      .winners .winnerblock .firstplace:hover, .winners .winnerblock .otherplace:hover {
+        background: #f5f5f5;
+        border-radius: 2px; }
+    .winners .winnerblock .otherplace span {
+      background: #4aaaa5; }
 
 /*# sourceMappingURL=style.css.map */

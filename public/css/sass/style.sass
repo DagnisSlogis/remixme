@@ -468,6 +468,9 @@ button.clasic
 			margin: 7px
 			font-weight: 300
 			color: $title
+			height: 50px
+			min-width: 120px
+			overflow: hidden
 			img
 				margin-right: 5px
 				flex: 1
@@ -475,11 +478,11 @@ button.clasic
 				text-decoration: none
 				&:hover
 					text-decoration: underline
-			#url
+			.url
 				color: $title
-			#twitter
+			.twitter
 				color: #0487e2
-			#facebook
+			.facebook
 				color: #4157d8
 	.functions
 		font-size: 14px
@@ -488,6 +491,11 @@ button.clasic
 		float: left
 		display: flex
 		align-content: center
+		a
+			text-decoration: none
+			color: #777777
+			&:hover
+				text-decoration: underline
 		li
 			margin: 0 10px
 			color: #777777
@@ -509,7 +517,7 @@ button.clasic
 				margin-bottom: 2px
 		.other
 			margin-top: 2px
-	.functionbtn
+	.functionbtn , .functionbtnfull
 		width: 47%
 		float: right
 		li
@@ -530,6 +538,15 @@ button.clasic
 					@extend %shadow-1
 		.enterbtn
 			background: #777
+			padding: 11px 20px
+			border: none
+			color: #ffffff
+			border-radius: 2px
+			&:hover
+				@extend %shadow-1
+	.functionbtnfull
+		width: 30%
+
 //**********
 
 //Konkurs- Single lapa
@@ -810,7 +827,7 @@ button.clasic
 		text-align: center
 		font-size: 14px
 		margin: 25px 0
-		.titlerow
+		.titlerow , .wintitlerow
 			color: $title
 			cellpadding: 0 25px
 			td
@@ -818,6 +835,12 @@ button.clasic
 				vertical-align: middle
 				height: 60px
 				border-right: 1px solid $grey
+		.wintitlerow
+			color: #777777
+			background: $grey
+			td
+				height: 40px
+				border-right: 1px solid #ebebeb
 		.userline
 			color: $dblue
 			&:hover
@@ -860,6 +883,53 @@ button.clasic
 					@extend .change
 					@extend .delete
 					color: $dgreen
+		.winnerline
+			background: $grey
+			color: $dblue
+			&:hover
+				background: #ebebeb
+			h4
+				font-weight: 500
+			a
+				text-decoration: none
+				color: royalblue
+				&:hover
+					text-decoration: underline
+			img
+				display: block
+				width: 40px
+				height: 40px
+				border-radius: 50%
+				text-align: center
+			td
+				display: table-cell
+				vertical-align: middle
+				height: 60px
+				padding: 0 15px
+				border-right: 1px solid #ebebeb
+				.change
+					text-decoration: none
+					font-weight: 500
+					color: $dgreen
+					&:hover
+						text-decoration: underline
+				.delete
+					@extend .change
+					margin: 0
+					padding: 0
+					border: none
+					background: none
+					color: $pink
+					&:focus
+						outline: 0
+				.accept
+					@extend .change
+					@extend .delete
+					color: $dgreen
+	.noentry
+		font-size: 14px
+		color: #777777
+		padding: 10px 25px
 .deleteimg
 	font-size: 14px
 	color: #777777
@@ -1178,5 +1248,58 @@ button.clasic
 		a
 			color: orange
 			text-decoration: none
-
-
+.neededinput
+	font-size: 14px
+	color: #777777
+.registerbtn
+	background: #ffffff
+	color: $dgreen
+	padding: 6px 9px
+	border-radius: 2px
+	margin-top: 7px
+	border: 1px solid $dgreen
+	&:hover
+		@extend %shadow-1
+	a
+		color: $dgreen
+		text-decoration: none
+.morevotings
+	text-decoration: none
+	color: #777777
+	&:hover
+		text-decoration: underline
+		color: $pink
+.winners
+	background: #ffffff
+	color: #777777
+	padding: 5px
+	h3
+		padding: 10px
+	.winnerblock
+		display: flex
+		justify-content: space-between
+		align-content: center
+		a
+			text-decoration: none
+			color: #777777
+		span
+			font-size: 14px
+			background: $pink
+			padding: 5px
+			color: #ffffff
+			border-radius: 4px
+		img
+			border-radius: 50%
+			margin: 0 15px
+			width: 40px
+			height: auto
+		.firstplace , .otherplace
+			display: flex
+			align-items: center
+			padding: 20px
+			&:hover
+				background: $grey
+				border-radius: 2px
+		.otherplace
+			span
+				background: $dgreen

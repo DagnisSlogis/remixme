@@ -35,13 +35,13 @@
 	<ul class="moreinfo">
 	<li id="moreinfo_title">VAIRĀK:</li>
 	@if($comp->url)
-	<li><a id="url" href="http://{{$comp->url}}"><img src="{{ asset('/img/social/url.png') }}">{{$comp->url}}</a></li>
+	<li><a class="url" href="{{$comp->url}}"><img src="{{ asset('/img/social/url.png') }}">{{$comp->url}}</a></li>
 	@endif
 	@if($comp->twitter)
-	<li><a id="twitter" href="http://{{$comp->twitter}}"><img src="{{ asset('/img/social/twitter_small.png') }}">Twitter</a></li>
+	<li><a class=twitter" href="{{$comp->twitter}}"><img src="{{ asset('/img/social/twitter_small.png') }}">Twitter</a></li>
 	@endif
 	@if($comp->facebook)
-	<li><a id="facebook" href="http://{{$comp->facebook}}"><img src="{{ asset('/img/social/facebook_small.png') }}">Facebook</a></li>
+	<li><a class="facebook" href="{{$comp->facebook}}"><img src="{{ asset('/img/social/facebook_small.png') }}">Facebook</a></li>
 	@endif
 	</ul>
 	<ul class="functions">
@@ -71,10 +71,20 @@
 	</div>
 	<div class="subminfo" data-id="{{$comp->id}}">
     <h3>Iesniegt dziesmu:</h3>
+    @if (count($errors) > 0)
+    						<div class="alert">
+    							<strong>Ups!</strong> Jūsu ievadītie dati neatbilst prasītajam formātam.<br>
+    							<ul>
+    								@foreach ($errors->all() as $error)
+    									<li>{{ $error }}</li>
+    								@endforeach
+    							</ul>
+    						</div>
+    					@endif
     {!! Form::open(['method' => 'POST','url' => '/submit/'.$comp->id]) !!}
 				{!! Form::label('title' , 'Nosaukums') !!}
 				{!! Form::text('title') !!}
-				{!! Form::label('link' , 'Soundcload adrese' ) !!}
+				{!! Form::label('link' , 'Soundcloud adrese' ) !!}
                 {!! Form::text('link' , null , ['class' => 'scLink' , 'data-id' => $comp->id ]) !!}
                 <div class="scprev" data-id="{{$comp->id}}"></div>
                 <span class="closesubm" data-id="{{$comp->id}}">Aizvērt</span>
@@ -84,3 +94,4 @@
 
 </div>
 @endforeach
+{!! $comps->appends(Request::except('page'))->render() !!}

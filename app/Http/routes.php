@@ -24,7 +24,11 @@ Route::post('submit/{id}' , 'SubmitionController@store');
 //Pages
 Route::get('adminpanel', 'PageController@AdminPanel');
 Route::get('userpanel' ,  'PageController@UserPanel');
-Route::get('winners' , 'PageController@WinnerPage');
+
+
+Route::get('winners' , 'WinnerController@index');
+Route::get('winners/find' , 'WinnerController@find');
+
 
 //Admin Panel - User
 Route::get('adminpanel/find', 'PageController@find');
@@ -38,6 +42,7 @@ Route::get('adminpanel/user/find', 'Admin\ApUserController@find');
 Route::get('adminpanel/comps' , 'Admin\ApCompController@index');
 Route::get('adminpanel/comps/find' , 'Admin\ApCompController@find');
 Route::get('adminpanel/comps/accept' ,  'Admin\ApCompController@accept');
+Route::get('adminpanel/comps/hasended' ,  'Admin\ApCompController@hasEnded');
 Route::patch('adminpanel/comps/accept/{id}' , 'Admin\ApCompController@accept_comp');
 
 

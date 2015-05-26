@@ -5,6 +5,9 @@
 <div id="full">
     <div class="admin">
     <h3>Manas dziesmas</h3>
+    				@if (Session::has('flash_message'))
+                        <div class="alert">{{Session::get('flash_message')}}</div>
+                        @endif
     @if(count($songs) > 0 )
         <table>
           <tr class="titlerow">
@@ -18,8 +21,12 @@
           </tr>
        @foreach($songs as $index => $song)
            <tr class="userline">
-            <td>{{$index+1}}</td>
-            <td>{{$song->title}}</td>
+              @if($songs->currentPage() == 1)
+                                <td>{{$index+1}}</td>
+                            @else
+                                 <td>{{($songs->currentPage()-1)*10 + $index+1}}</td>
+                            @endif
+            <td><h4>{{$song->title}}</h4></td>
             <td>{{$song->votes}}</td>
             <td><iframe width="100%" height="60" scrolling="no" frameborder="no"src="http://w.soundcloud.com/player/?url={{$song->link}}&auto_play=false&color=e45f56&theme_color=00FF00"></iframe></td>
             <td><a href="/show/{{$song->comp->id}}" >{{$song->comp->title}}</a></td>
@@ -33,7 +40,7 @@
         @endforeach
         </table>
     @else
-        <p>Nav neviena favorīt konkursa</p>
+        <p class="noentry">Nav neviena favorīt konkursa</p>
     @endif
     </div>
       {!! $songs->appends(Request::except('page'))->render() !!}

@@ -1,5 +1,6 @@
 @extends('layout.main')
 @section('content')
+@include('pages.layout.Emptysubmenu')
 <article>
 	<div id="comprow">
 	<div id="register">
@@ -39,7 +40,7 @@
                 {!! Form::label('prizes' , 'Balvas') !!} <span class="needed">*</span>
 				{!! Form::textarea('prizes' ) !!}
 
-                {!! Form::label('header_img' , 'Konkursa galvene') !!} <span class="needed">*</span>
+                {!! Form::label('header_img' , 'Konkursa galvene') !!}
                 <div id="headerPreview"></div>
                 {!! Form::file('header_img' , ['id' => 'headerFile']) !!}
                 <div class="one-line">
@@ -81,6 +82,7 @@
                 {!! Form::select('voting_type', array('b' => 'Balsošana', 'z' => 'Žūrīja')) !!}
                 </div>
                 <div class="clear"></div>
+                <p class="neededinput"><span class="needed">*</span> - Aizpildāmi obligāti</p>
 				{!! Form::submit('Izveidot' , ['class'=> 'btnadd']) !!}
 			{!! Form::close() !!}
 		</div>

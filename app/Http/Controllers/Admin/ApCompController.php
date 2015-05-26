@@ -10,11 +10,22 @@ use Illuminate\Http\Request;
 
 class ApCompController extends Controller {
 
-	/**
-	 * Parāda pašlaik esošos konkursus
-	 *
-	 * @return Response
-	 */
+    /**
+     * Pieejas liegšana dažādam lietotāja grupām kontroliera funkcijām
+     *
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('admin');
+    }
+
+    /**
+     * Parāda pašlaik esošos konkursus
+     *
+     * @param Comp $comp
+     * @return Response
+     */
 	public function index(Comp $comp )
 	{
         $comps = $comp->whereNotIn('status' , array('d' , 'a'))
@@ -41,6 +52,14 @@ class ApCompController extends Controller {
         return view('adminpanel.comps.accept' , compact('comps'));
     }
 
+    /**
+     * Apstiprina konkursu
+     *
+     * @param Comp $comp
+     * @param User $user
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function accept_comp(Comp $comp , User $user, $id)
     {
         $comp = $comp->whereId($id)->first();
@@ -50,14 +69,37 @@ class ApCompController extends Controller {
         \Session::flash('flash_message', 'Konkurss ir apstiprināts!');
         return redirect('adminpanel/comps/accept');
     }
+
+    /**
+     * Meklē starp konkursiem
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
     public function find(Request $request)
     {
         $comps = Comp::where('title', 'LIKE', '%'. $request->get('s') .'%')
             ->orWhere('genre', 'LIKE', '%'. $request->get('s') .'%')
             ->orWhere('song_title', 'LIKE', '%'. $request->get('s') .'%')
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
         $header ='Meklēšanas "'.$request->get('s').'" rezultāti';
         return view('adminpanel.comps.index' , compact( 'comps'));
+    }
+
+    /**
+     * Izveido sarakstu ar konkursiem, kuri ir beigušies.
+     *
+     * @param Comp $comp
+     * @return \Illuminate\View\View
+     */
+    public function hasEnded(Comp $comp)
+    {
+        $comps = $comp->whereNotIn('status', array('b'))
+            ->where('comp_end_date', '<=' , Carbon::now())
+            ->paginate(5);
+        $header = "Beigušies konkursi";
+        return view('adminpanel.comps.hasended', compact('comps', 'header'));
     }
 
     /**

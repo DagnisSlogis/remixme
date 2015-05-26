@@ -8,7 +8,14 @@ use Illuminate\Http\Request;
 use Intervention\Image\ImageManagerStatic as Image;
 
 class UpProfileController extends Controller {
-
+    /**
+     * Pieejas liegšana viesiem
+     *
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 	public function index(User $user)
     {
         $user = $user->whereId(Auth::user()->id)->first();

@@ -21,8 +21,8 @@
         <tr class="userline">
         {!! Form::hidden('id'.$index , $submition->id) !!}
         <td>{{$index+1}}</td>
-        <td>{{$submition->title}}</td>
-        <td>{{$submition->user->username}}</td>
+        <td><h4>{{$submition->title}}</h4></td>
+        <td><h4>{{$submition->user->username}}</h4></td>
         <td><iframe width="100%" height="60" scrolling="no" frameborder="no"src="http://w.soundcloud.com/player/?url={{$submition->link}}&auto_play=false&color=e45f56&theme_color=00FF00"></iframe></td>
         <td>
                 @if(count($submitions) >= 3)
@@ -34,8 +34,9 @@
         </tr>
     @endforeach
     </table>
-    {!! Form::submit('Saglabāt', ['class' => 'delete']) !!}
+    {!! Form::submit('Saglabāt', ['class' => 'submitbtn']) !!}
                 {!! Form::close() !!}
+    <div class="clear"></div>
     </div>
     </div>
 </article>

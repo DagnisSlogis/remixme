@@ -19,7 +19,7 @@ class PageController extends Controller {
      */
     public function __construct()
     {
-        $this->middleware('auth' , [ 'except' => 'WinnerPage']);
+        $this->middleware('auth' );
         $this->middleware('admin' , [ 'only' => 'AdminPanel']);
     }
 
@@ -78,6 +78,7 @@ class PageController extends Controller {
                 $q->where('user_id', Auth::user()->id);
 
             })->orderBy('created_at' , 'DESC')
+            ->whereStatus('v')
             ->take(5)
             ->get();
         $CompEntrys = Submition::whereHas('comp', function($q)
@@ -85,18 +86,9 @@ class PageController extends Controller {
             $q->where('user_id', Auth::user()->id);
 
         })->orderBy('created_at' , 'DESC')
+            ->whereStatus('v')
             ->take(5)
             ->get();
         return view('userpanel/index' , compact('CompCount' , 'WinnerCount' , 'YourComment' , 'YourSubmitions' , 'CompComments' , 'CompEntrys'));
-    }
-    public function WinnerPage()
-    {
-        $comps = Comp::where('comp_end_date' , '<=' , Carbon::now())
-            ->whereHas('voting', function($q)
-            {
-                $q->where('status', 'b');
-            })
-            ->paginate(5);
-        return view('pages.winner', compact('comps'));
     }
 }

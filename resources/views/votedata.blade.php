@@ -27,6 +27,6 @@
            </div>
             @endforeach
 		</div>
-        <div class="allEntrys"><a href="/comp/voting/{{$comp->id}}">Visi remiksi</a></div>
+        <div class="allEntrys"><a class="morevotings" href="/comp/voting/{{$comp->id}}">Visi remiksi</a></div>
 	</div>
 @endforeach

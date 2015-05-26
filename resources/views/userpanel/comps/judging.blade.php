@@ -18,10 +18,14 @@
       </tr>
    @foreach($judgings as $index => $judging)
         <tr class="userline">
-        <td>{{$index+1}}</td>
-        <td>{{$judging->title}}</td>
+          @if($judgings->currentPage() == 1)
+                            <td>{{$index+1}}</td>
+                        @else
+                             <td>{{($judgings->currentPage()-1)*10 + $index+1}}</td>
+                        @endif
+        <td><a href="/show/{{$judging->id}}" >{{$judging->title}}</a></td>
         <td><a href="/comp/submitions/{{$judging->id}}">{{$judging->entrycount()}}</a></td>
-        <td>{{$judging->subm_end_date}}</td>
+        <td>{{$judging->subm_end_date->format('d.m.Y.')}}</td>
         <td>
                     {!! Form::open (['method' => 'GET' ,'url' => '/comp/judge/'.$judging->id])!!}
                         {!! Form::submit('Vērtēt', ['class' => 'accept']) !!}

@@ -43,6 +43,7 @@
                     </div>
                     {!! Form::label('facebook' , 'Facebook profila saite') !!}
                     {!! Form::text('facebook', null ,['class' => 'material' ]) !!}
+                    <p class="neededinput"><span class="needed">*</span> - Aizpildāmi obligāti</p>
                     {!! Form::submit('Labot' , ['class' => 'submitbtn']) !!}
                 {!! Form::close() !!}
             </div>

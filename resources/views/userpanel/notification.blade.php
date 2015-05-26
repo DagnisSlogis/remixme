@@ -14,7 +14,11 @@
       </tr>
    @foreach($notifications as $index => $notification)
        <tr class="userline">
-        <td>{{$index+1}}</td>
+         @if($notifications->currentPage() == 1)
+                    <td>{{$index+1}}</td>
+                @else
+                     <td>{{($notifications->currentPage()-1)*10 + $index+1}}</td>
+                @endif
         <td>{{$notification->subject}}</td>
         <td><a href="/show/{{$notification->comp->id}}">{{$notification->title}}</a></td>
         @if($notification->show_date)

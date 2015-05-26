@@ -10,7 +10,14 @@ use App\Notification;
 
 class FavoriteController extends Controller
 {
-
+    /**
+     * Pieejas liegšana viesiem
+     *
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * @param Favorite $favorite
      * @return \Illuminate\View\View

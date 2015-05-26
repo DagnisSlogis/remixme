@@ -11,6 +11,7 @@ use Auth;
 use App\Http\Requests\CreateCompRequest;
 use Carbon\Carbon;
 use App\Http\Controllers\Admin\ApCompController as Admin;
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Http\Request;
 use App\Http\Controllers\VotingController;
@@ -63,13 +64,9 @@ class CompController extends Controller {
      */
     public function popular()
     {
-        $comps = Comp::where('subm_end_date' , '>=' , Carbon::now())
-            ->whereStatus('v')->with('submitions')->paginate(5)->sortBy(function($comp)
-        {
-            return Submition::whereCompId($comp->id)->whereStatus('v')->count();
-        })->reverse();
 
-        return view('home' , compact('comps'));
+        $comps = Comp::paginate(5);
+        return view('home')->with('comps',$comps);
     }
 
 	/**
@@ -259,14 +256,24 @@ class CompController extends Controller {
      * @param Request $request
      * @param Comp $comp
      * @return \Illuminate\View\View
+     * ->where('status', '=' ,'v')
+    ->where('subm_end_date' , '<' , Carbon::now())
+    ->where('title', 'LIKE', '%'. $request->get('s') .'%')
+    ->orWhere('genre', 'LIKE', '%'. $request->get('s') .'%')
+    ->orWhere('song_title', 'LIKE', '%'. $request->get('s') .'%')
+    ->paginate(10);
      */
-    public function find(Request $request , Comp $comp)
+    public function find( Comp $comp , Request $request)
     {
-        $comps = $comp->where('status', '=' ,'v')
-            ->where('title', 'LIKE', '%'. $request->get('s') .'%')
-            ->orWhere('genre', 'LIKE', '%'. $request->get('s') .'%')
-            ->orWhere('song_title', 'LIKE', '%'. $request->get('s') .'%')
-            ->paginate(10);
+        $comps = $comp->whereNested(function($query)use($request)
+        {
+            $query->where('genre', 'LIKE', '%'. $request->get('s') .'%')
+                ->orWhere('song_title', 'LIKE', '%'. $request->get('s') .'%')
+                ->orWhere('title', 'LIKE', '%'. $request->get('s') .'%');
+        })->where('status', '=' ,'v')
+            ->where('subm_end_date' , '>' , Carbon::now())
+            ->orderBy('created_at' , 'desc')
+            ->paginate(5);
         return view('home' , compact('comps'));
     }
 

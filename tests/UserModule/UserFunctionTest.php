@@ -8,13 +8,6 @@
 use Laracasts\TestDummy\Factory as TestDummy;
 class UserFunctionTest extends TestCase {
 
-    public function createBunchOfUsers()
-    {
-        for($i = 0 ; $i < 15 ; $i++)
-        {
-            TestDummy::create('App\User');
-        }
-    }
 
     /**
      * Administrators izvēlās parādīts visus sistēmas lietotājus.
@@ -29,24 +22,9 @@ class UserFunctionTest extends TestCase {
     }
 
     /**
-     * Administrators ievada kāda lietotāja e-pastu vai arī daļu no tā.
+     * Administrators meklēšanas formā ievada kāda lietotāja e-pastu vai lietotājvārdu.
      */
-    public function test_admin_search_for_user()
-    {
-        $search = 'test';
-        $this->beAdmin();
-        $this->DummyUser();
-        $this->visit('adminpanel/users')
-            ->type($search , 's')
-            ->press('Meklēt')
-            ->see('mazais@test.lv')
-            ->onPage('/adminpanel/user/find?s='.$search);
-    }
-
-    /**
-     * Administrators ievada kāda lietotāja lietotājvārdu vai arī daļu no tā.
-     */
-    public function test_admin_search_for_email()
+    public function test_admin_search_for_user_by_email_or_username()
     {
         $search = 'mazais@test.lv';
         $this->beAdmin();
@@ -56,6 +34,21 @@ class UserFunctionTest extends TestCase {
             ->press('Meklēt')
             ->see('mazais@test.lv')
             ->onPage('/adminpanel/user/find?s=mazais%40test.lv');
+    }
+
+    /**
+     * Administrators meklēšanas formā ievada meklējamo vārdu.
+     */
+    public function test_admin_search_for_searchword()
+    {
+        $search = 'maza';
+        $this->beAdmin();
+        $this->DummyUser();
+        $this->visit('adminpanel/users')
+            ->type($search , 's')
+            ->press('Meklēt')
+            ->see('mazais@test.lv')
+            ->onPage('/adminpanel/user/find?s='.$search);
     }
 
     /**
@@ -74,14 +67,22 @@ class UserFunctionTest extends TestCase {
     }
 
     /**
-     *
+     * Lietotājs, viesis mēģina piekļūt administratora funkcijām. ( Lietotājs)
      */
-    public function test_users_are_paginated()
+    public function test_user_cant_use_admin_functions()
     {
-        $this->createBunchOfUsers();
-        $this->beAdmin();
-        $this->visit('adminpanel/users?page=2')
-            ->onPage('adminpanel/users?page=2');
+        $this->beUser();
+        $this->visit('/adminpanel/users')
+            ->onPage('/');
+    }
+
+    /**
+     * Lietotājs, viesis mēģina piekļūt administratora funkcijām. (Viesis)
+     */
+    public function test_guest_cant_use_admin_functions()
+    {
+        $this->visit('/adminpanel/users')
+            ->onPage('/auth/login');
     }
 
 

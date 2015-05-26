@@ -1,6 +1,6 @@
 @extends('layout.main')
 @section('content')
-@include('pages.layout.compsubmenu')
+@include('pages.layout.winnersubmenu')
 <article>
 	<div id="comprow">
     @include('winnerdata')
