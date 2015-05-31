@@ -4,13 +4,26 @@ use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model {
 
+    /**
+     * Tabulas atribūti kurus var - mass assignable.
+     *
+     * @var array
+     */
     protected $fillable   = ['user_id', 'type', 'subject', 'title', 'object_id', 'object_type'];
+
+
+    /**
+     * Datumu pārveidošana par timstamp
+     *
+     * @return array
+     */
     public function getDates()
     {
         return ['created_at', 'updated_at' , 'subm_end_date' , 'end_date' , 'show_date'];
     }
 
 // Notification izveidošanas funkcijas
+
     public function withSubject($subject)
     {
         $this->subject = $subject;
@@ -43,12 +56,21 @@ class Notification extends Model {
 //***
 
 
-
-
+    /**
+     * Paziņojums pieder lietotājam
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user()
     {
         return $this->belongsTo('App\User');
     }
+
+    /**
+     * Paziņojums pieder konkursam
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function comp()
     {
         return $this->belongsTo('App\Comp');

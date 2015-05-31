@@ -30,6 +30,7 @@ class WinnerController extends Controller {
                 $q->where('status', 'b');
             })
             ->whereStatus('v')
+            ->orderBy('created_at' , 'desc')
             ->paginate(5);
         return view('pages.winner', compact('comps'));
     }
@@ -44,6 +45,10 @@ class WinnerController extends Controller {
     {
         $comps = Comp::where('status', '=' ,'v')
             ->where('comp_end_date' , '<=' , Carbon::now())
+            ->whereHas('voting', function($q)
+            {
+                $q->where('status', 'b');
+            })
             ->whereNested(function($query)use($request)
             {
                 $query->where('title', 'LIKE', '%'. $request->get('s') .'%')

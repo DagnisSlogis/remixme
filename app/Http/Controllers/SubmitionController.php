@@ -65,6 +65,7 @@ class SubmitionController extends Controller {
     {
         $songs = Submition::whereUserId(Auth::user()->id)
             ->whereStatus('v')
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
         return view('userpanel.mysongs' , compact('songs'));
     }
@@ -78,7 +79,7 @@ class SubmitionController extends Controller {
     public function compSubmitions($id)
     {
         $comp = Comp::whereId($id)->first();
-        if($comp->user_id == Auth::user()->id || Auth::user()->isAdmin())
+        if($comp->user_id == Auth::user()->id OR Auth::user()->isAdmin())
         {
             $submitions = Submition::whereCompId($id)
                 ->whereStatus('v')

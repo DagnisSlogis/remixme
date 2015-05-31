@@ -51,7 +51,6 @@ class NotificationController extends Controller {
         })
             ->whereUserId(Auth::user()->id)
             ->orderBy('created_at', 'desc')
-            ->orderBy('show_date', 'asc')
             ->paginate(10);
         return view('userpanel.notification' , compact('notifications'));
     }

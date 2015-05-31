@@ -5,7 +5,7 @@
  * Date: 27.05.2015.
  * Time: 10:33
  */
-
+use Laracasts\TestDummy\Factory as TestDummy;
 class VotingManagmentTest extends TestCase{
 
     /**
@@ -65,6 +65,28 @@ class VotingManagmentTest extends TestCase{
         $this->verifyInDatabase('notifications', ['comp_id' => $comp->id , 'type' => 'Winner']);
     }
 
+    /**
+     * Kāds cits lietotājs mēģina apstiprināt cita lietotāja konkursu.
+     */
+    public function test_another_user_wants_to_accept_other_user_comp()
+    {
+        $user = $this->DummyUser();
+        $comp = $this->VotingCompForUser($user);
+        $voting = $this->VotingForACompShowned($comp);
+        $this->be($user);
+        for($i=0;$i<4;$i++) {
+            $this->SongsForAComp($voting);
+        }
+        $other = TestDummy::create('App\User');
+        $this->be($other);
+        $this->visit('/comp/voting/accept/'.$voting->id)
+            ->see('autors');
+
+    }
+
+    /**
+     * Konkursa rīkotājs izvēlās apstiprināt balsojuma rezultātus, bet konkursam ir 0 dalībnieku.
+     */
     public function test_no_one_entered()
     {
         $user = $this->DummyUser();
@@ -76,6 +98,15 @@ class VotingManagmentTest extends TestCase{
             ->see('nebija neviena');
         $this->verifyInDatabase('votings', ['id' => $voting->id , 'status' => 'b']);
         $this->verifyInDatabase('comps', ['id' => $comp->id , 'status' => 'b']);
+    }
+
+    /**
+     * Viesis mēģina piekļūt balsojuma pārvaldīšanas funkcijām.
+     */
+    public function test_user_wants_to_accept_voting()
+    {
+        $this->visit('userpanel/voting')
+            ->onPage('auth/login');
     }
 
 } 

@@ -92,36 +92,34 @@ class UpVotingController extends Controller {
         $submCount = Submition::whereCompId($id)
             ->whereStatus('v')
             ->count();
-        $checker = Array('0' , '0' ,'0' );
-        for($i = 0 ;  $i < $submCount ; $i++)
-        {
-            if($request->get('place'.$i) == '1')
-            {
+        $checker = Array('0', '0', '0');
+        for ($i = 0; $i < $submCount; $i++) {
+            if ($request->get('place' . $i) == '1') {
                 $checker[0]++;
             }
-            if($request->get('place'.$i) == '2')
-            {
+            if ($request->get('place' . $i) == '2') {
                 $checker[1]++;
             }
-            if($request->get('place'.$i) == '3')
-            {
+            if ($request->get('place' . $i) == '3') {
                 $checker[2]++;
             }
         }
-        if($checker[0] > 1 || $checker[1] > 1 || $checker[2] > 1)
-        {
+        if ($checker[0] > 1 OR $checker[1] > 1 OR $checker[2] > 1) {
             \Session::flash('flash_message', 'Katram remiksam jābūt unikālai vietai vai 0.');
             return redirect()->back();
         }
-        if($checker[0] == 0 || $checker[1] == 0 || $checker[2] == 0 && $submCount >= 3)
-        {
-            \Session::flash('flash_message', 'Dziesmas jānovērtē obligāti.');
-            return redirect()->back();
+        if ($submCount >= 3) {
+            if ($checker[0] == 0 OR $checker[1] == 0 OR $checker[2] == 0) {
+                \Session::flash('flash_message', 'Dziesmas jānovērtē obligāti.');
+                return redirect()->back();
+            }
         }
-        if($checker[0] == 0 || $checker[1] == 0 && $submCount == 2)
+        if ($submCount == 2)
         {
-            \Session::flash('flash_message', 'Dziesmas jānovērtē obligāti.');
-            return redirect()->back();
+            if ($checker[0] == 0 OR $checker[1] == 0) {
+                \Session::flash('flash_message', 'Dziesmas jānovērtē obligāti.');
+                return redirect()->back();
+            }
         }
         if($checker[0] == 0 && $submCount == 1)
         {
@@ -266,14 +264,18 @@ class UpVotingController extends Controller {
             }
             if($ok == 3)
             {
-                $voting->status = 'b';
-                $voting->save();
-                $comp = Comp::whereId($id)->first();
-                $this->speedUpNotif($comp);
-                $comp->comp_end_date = Carbon::now();
-                $comp->save();
-                return 1;
+                break;
             }
+        }
+        if($ok >= 1)
+        {
+            $voting->status = 'b';
+            $voting->save();
+            $comp = Comp::whereId($id)->first();
+            $this->speedUpNotif($comp);
+            $comp->comp_end_date = Carbon::now();
+            $comp->save();
+            return 1;
         }
     }
 

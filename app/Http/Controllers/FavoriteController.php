@@ -22,7 +22,6 @@ class FavoriteController extends Controller
     /**
      * Parāda lietotājam viņa favorītus
      *
-     * @param Favorite $favorite
      * @return \Illuminate\View\View
      */
     public function index()

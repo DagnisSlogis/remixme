@@ -40,9 +40,14 @@ class PageController extends Controller {
         return view('adminpanel.index', compact('CompCount' , 'WinnerCount' , 'AllComment' ,'AllSubmitions'));
     }
 
+
     /**
      * Admin paneļa meklēšana universālā
      *
+     * @param Request $request
+     * @param ApUser $apuser
+     * @param ApComp $apcomp
+     * @return \Illuminate\View\View
      */
     public function find(Request $request , ApUser $apuser ,  ApComp $apcomp)
     {
@@ -69,6 +74,7 @@ class PageController extends Controller {
             ->count();
         $WinnerCount = Winner::join('votings', 'winners.voting_id', '=', 'votings.id')
             ->join('comps' , 'votings.comp_id' ,'=', 'comps.id')
+            ->where('comps.user_id', Auth::user()->id)
             ->count('winners.id');
         $YourComment = Comment::whereUserId(Auth::user()->id)
             ->whereStatus('v')

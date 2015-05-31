@@ -6,7 +6,7 @@ use Auth;
 class AddCommentRequest extends Request {
 
 	/**
-	 * Determine if the user is authorized to make this request.
+	 * Pārbauda vai pieslēdzies
 	 *
 	 * @return bool
 	 */

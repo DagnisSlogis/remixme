@@ -5,7 +5,7 @@ use App\Http\Requests\Request;
 class CreateCompRequest extends Request {
 
 	/**
-	 * Determine if the user is authorized to make this request.
+	 * Pārbauda vai pieslēdzies
 	 *
 	 * @return bool
 	 */

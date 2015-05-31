@@ -11,6 +11,7 @@
 |
 */
 
+// ļauj izmantot break iekš Uzvarētāju lapas
 Blade::extend(function($value)
 {
     return preg_replace('/(\s*)@(break|continue)(\s*)/', '$1<?php $2; ?>$3', $value);
@@ -24,8 +25,9 @@ Route::post('submit/{id}' , 'SubmitionController@store');
 //Pages
 Route::get('adminpanel', 'PageController@AdminPanel');
 Route::get('userpanel' ,  'PageController@UserPanel');
+Route::get('show/{id}', 'CompController@show');
 
-
+// Uzvarētāji
 Route::get('winners' , 'WinnerController@index');
 Route::get('winners/find' , 'WinnerController@find');
 
@@ -87,7 +89,6 @@ Route::patch('comp/judge/update/{id}' , 'User\UpVotingController@update');
 Route::get('userpanel/voting' , 'User\UpVotingController@voting');
 Route::get('comp/voting/accept/{id}' , 'User\UpVotingController@acceptVoting');
 
-Route::get('show/{id}', 'CompController@show');
 
 //Voting
 Route::get('voting' , 'VotingController@index');
@@ -97,7 +98,7 @@ Route::get('voting/find' , 'VotingController@find');
 Route::patch('comp/song/vote/{id}' , 'VotingController@update');
 Route::get('comp/voting/{id}' , 'VotingController@show');
 
-
+// Login/register
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',

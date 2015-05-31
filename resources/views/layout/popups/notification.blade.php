@@ -11,5 +11,5 @@
             </a>
         @endforeach
 	</div>
-    <button class="morenotifications"><a href="/userpanel/notification"><img src="{{ asset('/img/morenotif.png') }}">Visi jaunumi</a></button>
+    <a href="/userpanel/notification"><button class="morenotifications"><img src="{{ asset('/img/morenotif.png') }}">Visi jaunumi</button></a>
 </div>

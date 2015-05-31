@@ -303,7 +303,7 @@ class CompController extends Controller {
     public function destroy(Admin $admin , $id)
     {
         $comp = Comp::whereId($id)->first();
-        if($comp->user_id == Auth::user()->id || Auth::user()->isAdmin())
+        if($comp->user_id == Auth::user()->id OR Auth::user()->isAdmin())
         {
             $comp->status = 'b';
             $comp->save();

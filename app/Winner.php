@@ -5,23 +5,34 @@ use Illuminate\Database\Eloquent\Model;
 class Winner extends Model {
 
     /**
-     * The database table used by the model.
+     * Datubāzes tabula ko izmanto modulis
      *
      * @var string
      */
     protected $table = 'winners';
 
     /**
-     * The attributes that are mass assignable.
+     * Tabulas atribūti kurus var - mass assignable.
      *
      * @var array
      */
     protected $fillable = ['place'];
 
+    /**
+     * Uzvarētājs ir tikts noskaidrots vienā balsošanā.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function voting()
     {
         return $this->belongsTo('App\Voting');
     }
+
+    /**
+     * Uzvara iegūta ar vienu dziesmu
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function submition()
     {
         return $this->belongsTo('App\Submition');

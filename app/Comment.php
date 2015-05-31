@@ -5,18 +5,18 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model {
 
     /**
-     * The database table used by the model.
+     * Datubāzes tabula ko izmanto modulis
      *
      * @var string
      */
     protected $table = 'comments';
+
     /**
-     * The attributes that are mass assignable.
+     * Tabulas atribūti kurus var - mass assignable.
      *
      * @var array
      */
     protected $fillable = ['text'];
-
 
     /**
      * Komentārs pieder vienam lietotājam

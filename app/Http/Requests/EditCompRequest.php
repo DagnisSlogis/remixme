@@ -6,7 +6,7 @@ use Auth;
 class EditCompRequest extends Request {
 
 	/**
-	 * Determine if the user is authorized to make this request.
+	 * Pārbauda vai pieslēdzies
 	 *
 	 * @return bool
 	 */

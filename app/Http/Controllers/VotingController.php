@@ -28,7 +28,7 @@ class VotingController extends Controller {
      */
     public function index()
     {
-        $comps = Comp::where('comp_end_date','>=', Carbon::now())
+        $comps = Comp::where('comp_end_date','>', Carbon::now())
             ->where('subm_end_date','<=', Carbon::now())
             ->where('voting_type','=' , 'b')
             ->whereHas('submitions', function($q)
@@ -52,7 +52,7 @@ class VotingController extends Controller {
      */
     public function soonEnds()
     {
-        $comps = Comp::where('comp_end_date','>=', Carbon::now())
+        $comps = Comp::where('comp_end_date','>', Carbon::now())
             ->where('subm_end_date','<=', Carbon::now())
             ->where('voting_type','=' , 'b')
             ->whereHas('submitions', function($q)
@@ -79,7 +79,7 @@ class VotingController extends Controller {
             '*',
             DB::raw("(SELECT COUNT(*) FROM `submitions` WHERE `comp_id` = `comps`.`id`) AS 'count'")
         )
-            ->where('comp_end_date','>=', Carbon::now())
+            ->where('comp_end_date','>', Carbon::now())
             ->where('subm_end_date','<=', Carbon::now())
             ->where('voting_type','=' , 'b')
             ->whereHas('submitions', function($q)
