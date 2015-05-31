@@ -21,32 +21,29 @@ class ApCompController extends Controller {
     }
 
     /**
-     * Parāda pašlaik esošos konkursus
+     * Parāda pašlaik notiekošos
      *
-     * @param Comp $comp
-     * @return Response
+     * @return \Illuminate\View\View
      */
-	public function index(Comp $comp )
+    public function index()
 	{
-        $comps = $comp->whereNotIn('status' , array('d' , 'a'))
-            ->where('comp_end_date', '>=' , Carbon::now())
-            ->with('user')
+        $comps = Comp::whereNotIn('status' , array('b' , 'a'))
+            ->where('comp_end_date', '>' , Carbon::now())
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-        return view('adminpanel.comps.index' , compact( 'comps'));
+        $header = "Pašlaik notiek";
+        return view('adminpanel.comps.index' , compact( 'comps' , 'header'));
 	}
 
     /**
      * Parāda visus apstiprinājumu gaidošos konkursus
      *
-     * @param Comp $comp
      * @return \Illuminate\View\View
      */
-    public function accept(Comp $comp)
+    public function accept()
     {
-        $comps = $comp->whereStatus('a')
-            ->where('comp_end_date', '>=' , Carbon::now())
-            ->with('user')
+        $comps = Comp::whereStatus('a')
+            ->where('comp_end_date', '>' , Carbon::now())
             ->orderBy('created_at', 'desc')
             ->paginate(10);
         return view('adminpanel.comps.accept' , compact('comps'));
@@ -55,14 +52,13 @@ class ApCompController extends Controller {
     /**
      * Apstiprina konkursu
      *
-     * @param Comp $comp
      * @param User $user
      * @param $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function accept_comp(Comp $comp , User $user, $id)
+    public function accept_comp($id , User $user)
     {
-        $comp = $comp->whereId($id)->first();
+        $comp = Comp::whereId($id)->first();
         $comp->status = 'v';
         $comp->save();
         $this->acceptNotif($comp, $user);
@@ -71,31 +67,33 @@ class ApCompController extends Controller {
     }
 
     /**
-     * Meklē starp konkursiem
+     * Meklē konkursu adminpanelī
      *
      * @param Request $request
      * @return \Illuminate\View\View
      */
     public function find(Request $request)
     {
-        $comps = Comp::where('title', 'LIKE', '%'. $request->get('s') .'%')
-            ->orWhere('genre', 'LIKE', '%'. $request->get('s') .'%')
-            ->orWhere('song_title', 'LIKE', '%'. $request->get('s') .'%')
+        $comps = Comp::whereNested(function($query)use($request)
+        {
+            $query->where('title', 'LIKE', '%'. $request->get('s') .'%')
+                ->orWhere('genre', 'LIKE', '%'. $request->get('s') .'%')
+                ->orWhere('song_title', 'LIKE', '%'. $request->get('s') .'%');
+        })->where('status', '=' ,'v')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
         $header ='Meklēšanas "'.$request->get('s').'" rezultāti';
-        return view('adminpanel.comps.index' , compact( 'comps'));
+        return view('adminpanel.comps.index' , compact( 'comps' , 'header'));
     }
 
     /**
      * Izveido sarakstu ar konkursiem, kuri ir beigušies.
      *
-     * @param Comp $comp
      * @return \Illuminate\View\View
      */
-    public function hasEnded(Comp $comp)
+    public function hasEnded()
     {
-        $comps = $comp->whereNotIn('status', array('b'))
+        $comps = Comp::whereNotIn('status', array('b'))
             ->where('comp_end_date', '<=' , Carbon::now())
             ->paginate(5);
         $header = "Beigušies konkursi";

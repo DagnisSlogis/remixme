@@ -15,8 +15,8 @@ $factory('App\Comp' ,[
     'voting_type' => 'b',
     'preview_link' => $faker->url,
     'stem_link' => $faker->url,
-    'subm_end_date' => $faker->date($format = 'Y-m-d', $max = '+3 year'),
-    'comp_end_date' => $faker->date($format = 'Y-m-d', $max = '+3 year'),
+    'subm_end_date' => $faker->date($format = 'Y-m-d', $max = '1 year'),
+    'comp_end_date' => $faker->date($format = 'Y-m-d', $max = '1 year'),
     'header_img' => 'test',
     'song_title' => $faker->word,
     'genre' => $faker->word,
@@ -46,4 +46,24 @@ $factory('App\Submition' ,[
     'comp_id' => 'factory:App\Comp',
     'voting_id' => 'factory:App\Voting',
     'votes' => 0,
+]);
+$factory('App\Comment' ,[
+    'text' => $faker->word,
+    'status' => 'v',
+    'user_id' => 'factory:App\User',
+    'comp_id' => 'factory:App\Comp',
+]);
+$factory('App\Notification' ,[
+    'user_id' => 'factory:App\User',
+    'type' => $faker->word,
+    'title' => $faker->word,
+    'Subject' => $faker->word,
+    'comp_id' => 'factory:App\Comp',
+    'is_read' => '1',
+    'show_date' => NULL,
+]);
+$factory('App\Favorite' ,[
+    'user_id' => 'factory:App\User',
+    'comp_id' => 'factory:App\Comp',
+    'status' => 'v',
 ]);

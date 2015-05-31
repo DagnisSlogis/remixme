@@ -13,14 +13,15 @@ use Illuminate\Contracts\View\View;
 class SubmenuComposer {
 
     /**
-     * Admin paneļa submenu konkursu navigācijas izsaukšana vienmēr
+     * Admin paneļa konkursa submenu navigācijas datu ielase
+     *
      * @param View $view
      */
     public function comppanel(View $view){
         $unacceptedCount =  Comp::whereStatus('a')
             ->where('comp_end_date', '>=' , Carbon::now())
             ->count();
-        $runningsCount = Comp::whereNotIn('status' , array('d' , 'a'))
+        $runningsCount = Comp::whereNotIn('status' , array('b' , 'a'))
             ->where('comp_end_date', '>=' , Carbon::now())->count();
         $view->with(compact('unacceptedCount' , 'runningsCount' , 'compsCount'));
     }

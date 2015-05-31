@@ -25,6 +25,7 @@ class PageController extends Controller {
 
     /**
      * Administratora paneļa izsaukšana
+     *
      * @return \Illuminate\View\View
      */
     public function AdminPanel()
@@ -49,7 +50,8 @@ class PageController extends Controller {
         {
             return $apuser->find($request);
         }
-        if($request->get('veids') == 'comp'){
+        if($request->get('veids') == 'comp')
+        {
             return $apcomp->find($request);
         }
     }
@@ -57,6 +59,7 @@ class PageController extends Controller {
 
     /**
      * Lietotāja paneļa izsaukšana
+     *
      * @return \Illuminate\View\View
      */
     public function UserPanel()

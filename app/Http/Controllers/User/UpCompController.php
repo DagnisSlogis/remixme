@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class UpCompController extends Controller {
+
     /**
      * Pieejas liegšana viesiem
      *
@@ -17,6 +18,7 @@ class UpCompController extends Controller {
     {
         $this->middleware('auth');
     }
+
     /**
      * Funkcija izveido skatu ar lietotāja pašlaik esošajiem ( notiekošajiem ) konkursiem
      *
@@ -61,9 +63,16 @@ class UpCompController extends Controller {
     public function find(Request $request , Comp $comp)
     {
         $comps = $comp->whereUserId(Auth::user()->id)
-            ->where('title', 'LIKE', '%'. $request->get('s') .'%')
-            ->orWhere('genre', 'LIKE', '%'. $request->get('s') .'%')
-            ->orWhere('song_title', 'LIKE', '%'. $request->get('s') .'%')
+            ->whereNested(function($query)use($request)
+            {
+                $query->where('title', 'LIKE', '%'. $request->get('s') .'%')
+                    ->orWhere('genre', 'LIKE', '%'. $request->get('s') .'%')
+                    ->orWhere('song_title', 'LIKE', '%'. $request->get('s') .'%');
+            })->whereNested(function($query)use($request)
+            {
+                $query->where('status', '=' ,'v')
+                    ->orWhere('status', '=' ,'a');
+            })
             ->paginate(10);
         $header ='Meklēšanas "'.$request->get('s').'" rezultāti';
         return view('userpanel.comps.index', compact('comps', 'header'));

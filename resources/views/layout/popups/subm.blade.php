@@ -1,24 +1,12 @@
-<div id="login-box" class="login-popup">
-	<a href="#" class="close">x</a>
-	<h2>Pieslēgties</h2>
-	<div class="boxbody">
-		{!! Form::open(['class' => 'loginbox' , 'url' => 'auth/login']) !!}
-
-		{!! Form::label('email' , 'E-pasts') !!}
-		{!! Form::text('email') !!}
-
-		{!! Form::label('password' , 'Parole') !!}
-		{!! Form::password('password') !!}
-		<div class="one-line small-form">
-		{!! Form::checkbox('remember') !!}
-		</div>
-		<div class="one-line medium-form">
-		{!! Form::label('remember' , 'Atcerēties mani' ) !!}
-        </div>
-        <div class="clear"></div>
-		{!! Form::submit('Pieslēgties', ['class'=> 'btnadd centerbtn']) !!}
-		{!! Form::close() !!}
-		<p> Nav konta : <a href="/auth/register">Reģistrējies</a></p>
-
-	</div>
+<div id="submit-box" class="submit-popup">
+    <a href="#" class="close">x</a>
+    <h3>Iesniegt dziesmu:</h3>
+    {!! Form::open(['method' => 'POST','url' => '/submit/'.$comp->id]) !!}
+        {!! Form::label('title' , 'Nosaukums') !!}
+        {!! Form::text('title') !!}
+        {!! Form::label('link' , 'Soundcloud adrese' ) !!}
+        {!! Form::text('link' , null , ['class' => 'scLink' , 'data-id' => $comp->id ]) !!}
+        <div class="scprev" data-id="{{$comp->id}}"></div>
+        {!! Form::submit('Iesūtit' , ['class'=> 'submitbtn']) !!}
+    {!! Form::close() !!}
 </div>

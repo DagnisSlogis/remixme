@@ -13,7 +13,8 @@ use Illuminate\Contracts\View\View;
 class ProfileNavComposer {
 
     /**
-     * Admin paneļa submenu konkursu navigācijas izsaukšana vienmēr
+     * Ielasa lietotāja paziņojumu skaitu, un administratoram neapstiprinātos konkursus
+     *
      * @param View $view
      */
     public function main(View $view ){
@@ -24,7 +25,7 @@ class ProfileNavComposer {
                 ->count();
             $simpleNotif = Notification::whereUserId(Auth::user()->id)
                 ->whereIsRead(0)
-                ->whereShowDate(NULL)
+                ->where('show_date', NULL)
                 ->count();
             $lateNotif = Notification::whereUserId(Auth::user()->id)
                 ->whereIsRead(0)

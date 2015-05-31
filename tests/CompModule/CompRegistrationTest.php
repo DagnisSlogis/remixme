@@ -167,7 +167,6 @@ class CompRegistrationTest extends TestCase {
             ->see('gaidiet')
             ->onPage('/');
         $this->verifyInDatabase('comps', ['title' => 'CompTitle' , 'status' => 'a']);
-        $this->verifyInDatabase('votings', ['show_date' => '2015-07-23' , 'status' => 'v']);
     }
 
     /**

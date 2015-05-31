@@ -14,7 +14,8 @@ use App\Winner;
 class SideBarComposer {
 
     /**
-    * Admin paneļa submenu konkursu navigācijas izsaukšana vienmēr
+    * Sidebar ielasa pēdējos 5 uzvarētājus
+     *
     * @param View $view
     */
     public function main(View $view){

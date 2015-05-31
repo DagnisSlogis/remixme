@@ -8,6 +8,15 @@ use Auth;
 class CommentController extends Controller {
 
     /**
+     * Pieejas liegšana viesiem
+     *
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Pievieno komentāru
      *
      * @param $id
@@ -29,14 +38,16 @@ class CommentController extends Controller {
      * Dzēšs komentāru
      *
      * @param $id
-     * @param Comment $comment
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function delete($id , Comment $comment)
+    public function delete($id)
     {
-        $comment = $comment->whereId($id)->first();
-        $comment->status = "b";
-        $comment->save();
+        $comment = Comment::whereId($id)->first();
+        if($comment->user_id == Auth::user()->id OR Auth::user()->isAdmin())
+        {
+            $comment->status = "b";
+            $comment->save();
+        }
         return redirect()->back();
     }
 

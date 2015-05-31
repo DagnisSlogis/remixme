@@ -16,11 +16,26 @@ class UpProfileController extends Controller {
     {
         $this->middleware('auth');
     }
-	public function index(User $user)
+
+    /**
+     * Lietotājs iegūst sava profila datus, lai tos vēlāk labotu
+     *
+     * @param User $user
+     * @return \Illuminate\View\View
+     */
+    public function index(User $user)
     {
         $user = $user->whereId(Auth::user()->id)->first();
         return view('userpanel.editprofile' , compact('user'));
     }
+
+    /**
+     * Profila labošana, datu validēšana un saglabāšana
+     *
+     * @param User $user
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function update(User $user , Request $request)
     {
         $user = $user->whereId(Auth::user()->id)->first();
@@ -61,6 +76,13 @@ class UpProfileController extends Controller {
         $user->save();
         return redirect('/userpanel');
     }
+
+    /**
+     * Profila bildes saglabāšana
+     *
+     * @param $request
+     * @return string
+     */
     private function saveImg($request)
     {
         $file = $request->file('profile_img_link');

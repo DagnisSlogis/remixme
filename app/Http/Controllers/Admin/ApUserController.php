@@ -7,7 +7,6 @@ use App\User;
 use App\Voting;
 use App\Comp;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManagerStatic as Image;
 
 class ApUserController extends Controller {
@@ -25,6 +24,7 @@ class ApUserController extends Controller {
 
     /**
      * Izveido skatu ar visiem sistēmas lietotājiem
+     *
      * @param User $user
      * @return \Illuminate\View\View
      */
@@ -47,7 +47,7 @@ class ApUserController extends Controller {
     }
 
     /**
-     * Saglabā mainitos lietotāja datus
+     * Saglabā mainitos lietotāja datus, pirms saglabā pārbauda.
      *
      * @param User $user
      * @param Request $request
@@ -111,6 +111,14 @@ class ApUserController extends Controller {
         }
         return redirect('adminpanel/users');
     }
+
+    /**
+     * Funkcija dzēšs lietotāju
+     *
+     * @param User $user
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function delete(User $user , $id){
         $user = $user->whereId($id)->first();
         $user->status =  3;
@@ -125,7 +133,6 @@ class ApUserController extends Controller {
     /**
      * Meklē lietotājus
      *
-     * @param User $user
      * @param Request $request
      * @return \Illuminate\View\View
      */

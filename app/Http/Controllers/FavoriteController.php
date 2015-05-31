@@ -4,6 +4,7 @@ use App\Comp;
 use App\Favorite;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Submition;
 use Auth;
 use App\User;
 use App\Notification;
@@ -19,26 +20,28 @@ class FavoriteController extends Controller
         $this->middleware('auth');
     }
     /**
+     * Parāda lietotājam viņa favorītus
+     *
      * @param Favorite $favorite
      * @return \Illuminate\View\View
      */
-    public function index(Favorite $favorite)
+    public function index()
     {
-        $favorites = $favorite->whereUserId(Auth::user()->id)
+        $favorites = Favorite::whereUserId(Auth::user()->id)
             ->whereStatus('v')
             ->with('comp')
             ->paginate(10);
         return view('userpanel.favorite' , compact('favorites'));
     }
     /**
+     * Pievieno konkursu kā favorītu
+     *
      * @param $id
-     * @param Favorite $favorite
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function add($id , Favorite $favorite )
+    public function add($id )
     {
-        $check = $favorite
-            ->whereUserId(Auth::user()->id)
+        $check = Favorite::whereUserId(Auth::user()->id)
             ->whereCompId($id)
             ->whereStatus('v')
             ->get();
@@ -52,36 +55,38 @@ class FavoriteController extends Controller
             $this->NotifUser($id);
             \Session::flash('success_message', 'Konkurss veiksmīgi pievienots tavam favorītu sarakstam!');
         }
-        else {
+        else
+        {
             \Session::flash('error_message', 'Konkurss ir jau pievienots tavam favorītu sarakstam!');
-
         }
         return redirect()->back();
     }
 
+
     /**
+     * Dzēšs lietotāja favorītu
+     *
      * @param $id
-     * @param Favorite $favorite
-     * @param Notification $notification
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function delete($id , Favorite $favorite )
+    public function delete($id)
     {
-        $favorite = $favorite->whereId($id)->first();
-        $notif = Notification::whereCompId($favorite->comp_id)
-            ->whereUserId($favorite->user_id)
-            ->whereType('CompEnded')->first();
-        $notif->delete();
-        $notif = Notification::whereCompId($favorite->comp_id)
-            ->whereUserId($favorite->user_id)
-            ->whereType('SubmitionEnded')->first();
-        $notif->delete();
-        $favorite->status = 'd';
+        $favorite = Favorite::whereId($id)->first();
+            $notif = Notification::whereCompId($favorite->comp_id)
+                ->whereUserId($favorite->user_id)
+                ->whereType('CompEnded')->first();
+            $notif->delete();
+            $notif = Notification::whereCompId($favorite->comp_id)
+                ->whereUserId($favorite->user_id)
+                ->whereType('SubmitionEnded')->first();
+            $notif->delete();
+        $favorite->status = 'b';
         $favorite->save();
         return redirect()->back();
     }
 
     /**
-     * Izveido atgādinājumu r.k. autoram.
+     * Izveido paziņojumu r.k. autoram.
      *
      * @param $id
      */
@@ -97,11 +102,16 @@ class FavoriteController extends Controller
             ->save();
     }
 
+    /**
+     * Izveido paziņojumus lietotājam, par konkursa beigu datumiem.
+     *
+     * @param $id
+     */
     private function NotifUser($id)
     {
         $comp = Comp::whereId($id)->first();
         $state = $this->checkNotif($comp->id);
-        if($state == false) {
+        if($state == FALSE) {
             $user = Auth::user();
             $user->newNotification()
                 ->withType('SubmitionEnded')
@@ -120,7 +130,7 @@ class FavoriteController extends Controller
         }
     }
     /**
-     * Favorītu pārbaude, pārbauda tikai vienu, jo vienmēr tiek izveidoti abi.
+     * Paziņojumu pārbaude, pārbauda tikai vienu, jo vienmēr tiek izveidoti abi.
      *
      * @param $id
      * @return bool
@@ -134,4 +144,7 @@ class FavoriteController extends Controller
         else
             return false;
     }
+
+
+
 }

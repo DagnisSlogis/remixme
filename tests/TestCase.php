@@ -14,8 +14,7 @@ class TestCase extends Laracasts\Integrated\Extensions\Laravel {
 	 */
 	public function createApplication()
 	{
-        $unitTesting = true;
-        $testEnvironment = 'testing';
+
 		$app = require __DIR__.'/../bootstrap/app.php';
 
 		$app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
@@ -206,6 +205,8 @@ class TestCase extends Laracasts\Integrated\Extensions\Laravel {
     }
 
 
+
+
     /**
      * Izveido konkrusam dziesmas
      *
@@ -246,6 +247,36 @@ class TestCase extends Laracasts\Integrated\Extensions\Laravel {
             'comp_end_date'  => '2015-08-18',
             'user_id' => $user->id,
             'voting_type' => 'z',
+        ]);
+    }
+
+    /**
+     * Izveido beigušos balsosšanas konkursu priekš lietotāja
+     *
+     * @param $user
+     * @return mixed
+     */
+    public function VotingCompForUser($user)
+    {
+        return TestDummy::create('App\Comp',['subm_end_date' => '2015-04-09' ,
+            'comp_end_date'  => '2015-04-18',
+            'user_id' => $user->id,
+            'voting_type' => 'b',
+        ]);
+    }
+
+    /**
+     *
+     * Lietotāji vēl var balsot
+     * @param $user
+     * @return mixed
+     */
+    public function UserCanVoteComForUser($user)
+    {
+        return TestDummy::create('App\Comp',['subm_end_date' => '2015-04-09' ,
+            'comp_end_date'  => '2015-09-18',
+            'user_id' => $user->id,
+            'voting_type' => 'b',
         ]);
     }
 }

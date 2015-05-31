@@ -19,4 +19,4 @@
     <li class="profilemenu"><a href="/userpanel/favorite"><img src="{{ asset('/img/heart.png') }}"></a></li>
     <li class="profilemenu"><a href="/auth/logout"><img src="{{ asset('/img/logout.png') }}"></a></li>
     @include('layout.popups.notification')
-   @endif
+@endif

@@ -9,10 +9,14 @@ use Illuminate\Http\Request;
 
 class WinnerController extends Controller {
 
+    /**
+     * Neļauj viesim izsaukt šī kontroliera funkcijas.
+     */
     public function __construct()
     {
         $this->middleware('auth');
     }
+
     /**
      * Uzvarētāju lapa
      *
@@ -30,6 +34,12 @@ class WinnerController extends Controller {
         return view('pages.winner', compact('comps'));
     }
 
+    /**
+     * Konkursu meklēšana uzvarētāju lapā
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
     public function find(Request $request)
     {
         $comps = Comp::where('status', '=' ,'v')
@@ -40,7 +50,7 @@ class WinnerController extends Controller {
                     ->orWhere('genre', 'LIKE', '%'. $request->get('s') .'%')
                     ->orWhere('song_title', 'LIKE', '%'. $request->get('s') .'%');
             })->orderBy('subm_end_date' , 'desc')
-            ->paginate(10);
+            ->paginate(5);
         return view('pages.winner' , compact('comps'));
     }
 

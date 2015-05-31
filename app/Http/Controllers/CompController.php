@@ -19,7 +19,7 @@ use App\Http\Controllers\VotingController;
 class CompController extends Controller {
 
     /**
-     * Pieejas liegšana viesiem
+     * Pieejas liegšana viesiem, izņemot dažas lapas.
      *
      */
     public function __construct()
@@ -30,12 +30,11 @@ class CompController extends Controller {
     /**
      * Parāda konkursus sākumlapā
      *
-     * @param Comp $comp
-     * @return Response
+     * @return \Illuminate\View\View
      */
-	public function index(Comp $comp)
+	public function index()
     {
-        $comps = $comp->where('subm_end_date' , '>=' , Carbon::now())
+        $comps = Comp::where('subm_end_date' , '>' , Carbon::now())
             ->whereStatus('v')
             ->orderBy('created_at' , 'desc')
             ->paginate(5);
@@ -45,12 +44,11 @@ class CompController extends Controller {
     /**
      * Parāda konkursus, kuri drīz beigsies
      *
-     * @param Comp $comp
      * @return \Illuminate\View\View
      */
-    public function soonEnds(Comp $comp)
+    public function soonEnds()
     {
-        $comps = $comp->where('subm_end_date' , '>=' , Carbon::now())
+        $comps = Comp::where('subm_end_date' , '>' , Carbon::now())
             ->whereStatus('v')
             ->orderBy('subm_end_date' , 'asc')
             ->paginate(5);
@@ -65,7 +63,14 @@ class CompController extends Controller {
     public function popular()
     {
 
-        $comps = Comp::paginate(5);
+        $comps = Comp::select(
+            '*',
+            DB::raw("(SELECT COUNT(*) FROM `submitions` WHERE `comp_id` = `comps`.`id`) AS 'count'")
+        )
+            ->where('subm_end_date' , '>' , Carbon::now())
+            ->whereStatus('v')
+            ->orderBy('count', 'desc')
+            ->paginate(5);
         return view('home')->with('comps',$comps);
     }
 
@@ -92,7 +97,7 @@ class CompController extends Controller {
         {
             $competition = $this->youtubeConverter($competition);
         }
-        if($competition['subm_end_date'] >= $competition['comp_end_date'] || $competition['subm_end_date'] <= Carbon::now())
+        if($competition['subm_end_date'] >= $competition['comp_end_date'] OR $competition['subm_end_date'] <= Carbon::now())
         {
             \Session::flash('flash_message', 'Datumiem jābūt atšķirīgiem un lielākiem par šodienas');
             return redirect()->back()->withInput();
@@ -105,7 +110,7 @@ class CompController extends Controller {
 	}
 
     /**
-     * Labo konkursu
+     * Izsauc kāda konkursa labošanu
      *
      * @param $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
@@ -113,7 +118,7 @@ class CompController extends Controller {
     public function edit($id)
     {
         $comp = Comp::whereId($id)->first();
-        if($comp->user_id == Auth::user()->id || Auth::user()->isAdmin())
+        if($comp->user_id == Auth::user()->id OR Auth::user()->isAdmin())
         {
             return view('userpanel.comps.edit', compact('comp'));
         }
@@ -123,16 +128,24 @@ class CompController extends Controller {
             return redirect()->back();
         }
     }
-    public function update( $id ,  EditCompRequest $request , Comp $comp )
+
+    /**
+     * Saglabā labotos datus datubāzē. nelabotos izlaiž.
+     *
+     * @param $id
+     * @param EditCompRequest $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function update( $id ,  EditCompRequest $request )
     {
-        $comp = $comp->whereId($id)->first();
+        $comp = Comp::whereId($id)->first();
         $changes = 0;
         if($comp->title != $request['title'])
         {
             $comp->title = $request['title'];
             $changes = 1;
         }
-        if($comp->preview_type != $request['preview_type'] || $comp->preview_link != $request['preview_link'])
+        if($comp->preview_type != $request['preview_type'] OR $comp->preview_link != $request['preview_link'])
         {
             if($request['preview_type'] == 'y')
             {
@@ -158,7 +171,7 @@ class CompController extends Controller {
             $comp->song_title = $request['song_title'];
             $changes = 1;
         }
-        if($comp->genre != $request['genre'] || $comp->bpm != $request['bpm'])
+        if($comp->genre != $request['genre'] OR $comp->bpm != $request['bpm'])
         {
             $comp->genre = $request['genre'];
             $comp->bpm = $request['bpm'];
@@ -179,21 +192,23 @@ class CompController extends Controller {
             $comp->prizes = $request['prizes'];
             $changes = 1;
         }
-        if($comp->url != $request['url'] || $comp->facebook != $request['facebook'] || $comp->twitter != $request['twitter'])
+        if($comp->url != $request['url'] OR $comp->facebook != $request['facebook'] OR $comp->twitter != $request['twitter'])
         {
             $comp->url = $request['url'];
             $comp->facebook = $request['facebook'];
             $comp->twitter = $request['twitter'];
             $changes = 1;
         }
+        // Saglabā datus, ja ir notikusi vismaz viena izmaiņa.
         if($changes == 1)
         {
             $comp->save();
             $this->changeVoting($comp);
             \Session::flash('flash_message', 'Konkursa dati ir veiksmīgi laboti!');
+            // Pārbauda kas labotāju
             if(Auth::user()->isAdmin())
             {
-                return redirect('userpanel/comps');
+                return redirect('adminpanel/comps');
             }
             return redirect('userpanel/comps');
         }
@@ -203,24 +218,21 @@ class CompController extends Controller {
         }
     }
     /**
-     * Parāda konkursa nolikumu pilnā izmērā ar komentāriem
+     * Parāda konkursa nolikumu pilnā izmērā ar komentāriem, vai pāradresē uz citu lapu, ja
+     * konkurss ir citā posmā vai neaktīvs.
      *
-     * @param Comment $comment
-     * @param Comp $comp
      * @param  int $id
      * @return Response
      */
-    public function show(Comment $comment ,Comp $comp , $id , VotingController $voting)
+    public function show( $id , VotingController $voting)
     {
-
-        $comp = $comp->whereId($id)->with('user')->first();
-        if($comp->subm_end_date <= Carbon::now() && $comp->comp_end_date >= Carbon::now() && $comp->voting_type == 'b')
+        $comp = Comp::whereId($id)->with('user')->first();
+        //Viesis var apsaktīti tikai 1. posma konkursus.
+        if(Auth::guest())
         {
-            return $voting->show($id);
-        }
-        if(Auth::guest()) {
-            if ($comp->comp_end_date >= Carbon::now() ) {
-                $comments = $comment->whereCompId($comp->id)
+            if ($comp->subm_end_date > Carbon::now() && $comp->status == 'v')
+            {
+                $comments = Comment::whereCompId($comp->id)
                     ->whereStatus('v')
                     ->with('user')
                     ->orderBy('created_at', 'desc')
@@ -228,24 +240,35 @@ class CompController extends Controller {
                 return view('pages.show', compact('comp', 'comments'));
             }
             else {
-                return view('errors.ended');
+                return redirect()->back();
             }
         }
         else
         {
-            if ($comp->comp_end_date >= Carbon::now() || Auth::user()->isAdmin() || Auth::user()->isOwner($comp)) {
-                $comments = $comment->whereCompId($comp->id)
+            // Kad un kurš konkursu var apskatīt.
+            if ($comp->subm_end_date > Carbon::now() && $comp->status == 'v' OR $comp->status == 'a' && Auth::user()->isAdmin() OR $comp->status == 'a' && Auth::user()->isOwner($comp)) {
+                $comments = Comment::whereCompId($comp->id)
                     ->whereStatus('v')
                     ->with('user')
                     ->orderBy('created_at', 'desc')
                     ->paginate(5);
                 return view('pages.show', compact('comp', 'comments'));
             }
-            elseif ($comp->subm_end_date < Carbon::now() && $comp->comp_end_date > Carbon::now()) {
-                return 'test';//aizsūta uz balsošanu
+            elseif($comp->subm_end_date <= Carbon::now() && $comp->comp_end_date > Carbon::now() && $comp->voting_type == 'b' && $comp->status == 'v'){
+                return $voting->show($id);
+            }
+            // Konkursa apskatīšana 3. posmā.
+            elseif($comp->comp_end_date < Carbon::now() && $comp->status == 'v')
+            {
+                $comments = Comment::whereCompId($comp->id)
+                    ->whereStatus('v')
+                    ->with('user')
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(5);
+                return view('pages.show', compact('comp', 'comments'));
             }
             else {
-                return view('errors.ended');
+                return redirect()->back();
             }
         }
     }
@@ -254,18 +277,11 @@ class CompController extends Controller {
      * Meklē konkursu pēc nosaukumiem, žanra.
      *
      * @param Request $request
-     * @param Comp $comp
      * @return \Illuminate\View\View
-     * ->where('status', '=' ,'v')
-    ->where('subm_end_date' , '<' , Carbon::now())
-    ->where('title', 'LIKE', '%'. $request->get('s') .'%')
-    ->orWhere('genre', 'LIKE', '%'. $request->get('s') .'%')
-    ->orWhere('song_title', 'LIKE', '%'. $request->get('s') .'%')
-    ->paginate(10);
      */
-    public function find( Comp $comp , Request $request)
+    public function find(Request $request)
     {
-        $comps = $comp->whereNested(function($query)use($request)
+        $comps = Comp::whereNested(function($query)use($request)
         {
             $query->where('genre', 'LIKE', '%'. $request->get('s') .'%')
                 ->orWhere('song_title', 'LIKE', '%'. $request->get('s') .'%')
@@ -277,16 +293,14 @@ class CompController extends Controller {
         return view('home' , compact('comps'));
     }
 
-
     /**
      * Dzēšs remiksu konkursu un tā balsošanu.
      *
-     * @param User $user
      * @param Admin $admin
      * @param  int $id
      * @return Response
      */
-    public function destroy( User $user, Admin $admin , $id)
+    public function destroy(Admin $admin , $id)
     {
         $comp = Comp::whereId($id)->first();
         if($comp->user_id == Auth::user()->id || Auth::user()->isAdmin())
@@ -296,7 +310,7 @@ class CompController extends Controller {
             $voting = Voting::whereCompId($comp->id)->first();
             $voting->status = 'b';
             $voting->save();
-            $user = $user->whereId($comp->user_id)->first();
+            $user = User::whereId($comp->user_id)->first();
             if(Auth::user()->isAdmin() && Auth::user()->id != $comp->user_id)
             {
                 $admin->deleteCompNotif($user, $comp);
@@ -314,6 +328,7 @@ class CompController extends Controller {
 
     /**
      * Apstrādā ievadīto attēlu.
+     *
      * @param $request
      * @return mixed
      */
@@ -323,7 +338,7 @@ class CompController extends Controller {
         {
             $file = $request->file('header_img');
             $img = Image::make($file)->fit(610, 140);
-            $fileName = $request->get('title') . '-' . $file->getClientOriginalName();
+            $fileName = rand(1, 9999). '-' . $file->getClientOriginalName();
             $fileName = str_replace(' ', '-', $fileName);
             $img->save('uploads/comp_headers/' . $fileName);
             $comp = $request->all();

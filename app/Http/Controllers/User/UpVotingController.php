@@ -12,6 +12,7 @@ use App\Voting;
 use App\User;
 use Auth;
 class UpVotingController extends Controller {
+
     /**
      * Pieejas liegšana viesiem
      *
@@ -20,20 +21,19 @@ class UpVotingController extends Controller {
     {
         $this->middleware('auth');
     }
+
     /**
-     * Izveido skatu ar lietotāja visiem
+     * Izveido skatu ar lietotāja visiem konkursiem, kuri ir vērtējami
+     *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index( Comp $comp)
     {
-        $judgings = Comp::where('voting_type','=' , 'z')
+        $judgings = $comp->where('voting_type','=' , 'z')
             ->whereUserId(Auth::user()->id)
             ->whereHas('voting', function($q)
             {
                 $q->where('show_date', '<=' , Carbon::now());
-
-            })->whereHas('voting', function($q)
-            {
                 $q->where('status' , 'v');
 
             })->paginate(10);
@@ -41,7 +41,7 @@ class UpVotingController extends Controller {
     }
 
     /**
-     * Izveido skatu ar vērtējamajiem konkursiem, ja nav iesūtīto, tad dzēš konkursu
+     * Izveido skatu ar vērtējamajā konkursa dziesmām, ja nav dziesmu dzēšs
      *
      * @param $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
@@ -70,20 +70,19 @@ class UpVotingController extends Controller {
                     ->whereStatus('v')
                     ->get();
                 return view('userpanel.comps.submjudge' , compact('submitions' , 'comp'));
-
             }
         }
         else
         {
+            \Session::flash('error_message', 'Jūs neesiet šī konkursa autors');
             return redirect()->back();
         }
-
 
     }
 
     /**
-     *
      * Saglabā žūrija vērtēšanu.
+     *
      * @param $id
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
@@ -111,17 +110,17 @@ class UpVotingController extends Controller {
         }
         if($checker[0] > 1 || $checker[1] > 1 || $checker[2] > 1)
         {
-            \Session::flash('flash_message', 'Katram remiksam jābūt unikāla vieta vai 0');
+            \Session::flash('flash_message', 'Katram remiksam jābūt unikālai vietai vai 0.');
             return redirect()->back();
         }
         if($checker[0] == 0 || $checker[1] == 0 || $checker[2] == 0 && $submCount >= 3)
         {
-            \Session::flash('flash_message', 'Novērtējies no 1. līdz 3. vietai');
+            \Session::flash('flash_message', 'Dziesmas jānovērtē obligāti.');
             return redirect()->back();
         }
         if($checker[0] == 0 || $checker[1] == 0 && $submCount == 2)
         {
-            \Session::flash('flash_message', 'Novērtējies no 1. līdz 2. vietai');
+            \Session::flash('flash_message', 'Dziesmas jānovērtē obligāti.');
             return redirect()->back();
         }
         if($checker[0] == 0 && $submCount == 1)
@@ -137,6 +136,11 @@ class UpVotingController extends Controller {
 
     }
 
+    /**
+     * Apskata balsojamos konkursus
+     *
+     * @return \Illuminate\View\View
+     */
     public function voting()
     {
         $votings = Comp::where('voting_type','=' , 'b')
@@ -149,52 +153,81 @@ class UpVotingController extends Controller {
         return view('userpanel.comps.voting' , compact('votings'));
     }
 
+
+    /**
+     * Apstiprina balsojumu, vai arī dzēšs ja nebija nevienas dziesmas
+     *
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function acceptVoting($id)
     {
-        $submCount = Submition::whereCompId($id)
-            ->whereStatus('v')
-            ->count();
-        if($submCount == 0)
+        $comp = Comp::whereId($id)->first();
+        if($comp->subm_end_date <= Carbon::now() && $comp->user_id == Auth::user()->id)
         {
-            $voting = Voting::whereCompId($id)->first();
-            $voting->status = 'b';
-            $voting->save();
-            $comp = Comp::whereId($id)->first();
-            $comp->status = 'b';
-            $comp->save();
-            \Session::flash('flash_message', 'Konkursam nebija neviena iesūtīta dziesma, mums nācās viņu dzēst.');
-            return redirect()->back();
-        }
-        else {
-            $count = Submition::whereCompId($id)
-                ->whereStatus('v')->count();
-            if ($count < 3) {
-                $winners = Submition::whereCompId($id)
-                    ->whereStatus('v')
-                    ->orderBy('votes', 'DESC')
-                    ->get();
+            $submCount = Submition::whereCompId($id)
+                ->whereStatus('v')
+                ->count();
+            if ($submCount == 0)
+            {
+                $voting = Voting::whereCompId($id)->first();
+                $voting->status = 'b';
+                $voting->save();
+                $comp = Comp::whereId($id)->first();
+                $comp->status = 'b';
+                $comp->save();
+                \Session::flash('flash_message', 'Konkursam nebija neviena iesūtīta dziesma, mums nācās viņu dzēst.');
+                return redirect()->back();
+            }
+            elseif($comp->comp_end_date < Carbon::now())
+            {
+                $count = Submition::whereCompId($id)
+                    ->whereStatus('v')->count();
+                if ($count < 3) {
+                    $winners = Submition::whereCompId($id)
+                        ->whereStatus('v')
+                        ->orderBy('votes', 'DESC')
+                        ->get();
 
-            } else {
-                $count = 3;
-                $winners = Submition::whereCompId($id)
-                    ->whereStatus('v')
-                    ->orderBy('votes', 'DESC')
-                    ->take(3)
-                    ->get();
+                } else {
+                    $count = 3;
+                    $winners = Submition::whereCompId($id)
+                        ->whereStatus('v')
+                        ->orderBy('votes', 'DESC')
+                        ->take(3)
+                        ->get();
+                }
+                for ($i = 0; $i < $count; $i++) {
+                    $this->VotingWinner($winners[$i], $i + 1);
+                }
+                $voting = Voting::whereCompId($id)->first();
+                $voting->status = 'b';
+                $voting->save();
+                \Session::flash('flash_message', 'Konkursa rezultāts apstiprināts');
+                return redirect()->back();
             }
-            for ($i = 0; $i < $count; $i++) {
-                $this->VotingWinner($winners[$i], $i + 1);
+            else
+            {
+                \Session::flash('error_message', 'Konkursa balsošana vēl nav beigusies');
+                return redirect()->back();
             }
-            $voting = Voting::whereCompId($id)->first();
-            $voting->status = 'b';
-            $voting->save();
-            \Session::flash('flash_message', 'Konkursa rezultāts apstiprināts');
+        }
+        else
+        {
+            \Session::flash('error_message', 'Jūs neesiet ši konkursa autors.');
             return redirect()->back();
         }
     }
 
 
-
+    /**
+     * Izveido uzvarētājus
+     *
+     * @param $request
+     * @param $id
+     * @param $submCount
+     * @return int
+     */
     private function createWinner($request , $id ,  $submCount)
     {
         $voting = Voting::whereCompId($id)->first();
@@ -244,6 +277,12 @@ class UpVotingController extends Controller {
         }
     }
 
+    /**
+     * Informē autoru par iegūto vietu
+     *
+     * @param $id
+     * @param $place
+     */
     private function informAuthor($id , $place)
     {
         $submition = Submition::whereId($id)->first();
@@ -275,6 +314,12 @@ class UpVotingController extends Controller {
     }
 
 
+    /**
+     * Izveido Balsojuma uzvarētājus
+     *
+     * @param $submition
+     * @param $place
+     */
     private function votingWinner($submition , $place)
     {
         $winner = New Winner;

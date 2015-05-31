@@ -3,7 +3,7 @@
 @include('pages.layout.winnersubmenu')
 <article>
 	<div id="comprow">
-    @include('winnerdata')
+        @include('winnerdata')
 	</div>
 	<div id="sidebarrow">
 	    @include('layout.sidebar')

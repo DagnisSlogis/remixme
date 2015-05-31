@@ -17,6 +17,7 @@ class NotificationController extends Controller {
     {
         $this->middleware('auth');
     }
+
     /**
      * Tiek iegūti dati no ajax pieprasījuma, lai atzīmētu jaunos paziņojumus kā izlasītus
      *
@@ -39,14 +40,16 @@ class NotificationController extends Controller {
     /**
      * Parāda lietotāja paziņojumus
      *
-     * @param Notification $notification
      * @return \Illuminate\View\View
      */
-    public function index(Notification $notification)
+    public function index()
     {
-        $notifications = $notification->whereUserId(Auth::user()->id)
-            ->where('show_date', '<=', Carbon::now())
-            ->orWhere('show_date', '=', NULL)
+        $notifications = Notification::whereNested(function($query)
+        {
+            $query->where('show_date', '=', NULL)
+                ->orWhere('show_date', '<=', Carbon::now());
+        })
+            ->whereUserId(Auth::user()->id)
             ->orderBy('created_at', 'desc')
             ->orderBy('show_date', 'asc')
             ->paginate(10);

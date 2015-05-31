@@ -11,39 +11,51 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	use Authenticatable, CanResetPassword;
 
 	/**
-	 * The database table used by the model.
+	 * Datubāzes tabula ko izmanto modulis
 	 *
 	 * @var string
 	 */
 	protected $table = 'users';
 
 	/**
-	 * The attributes that are mass assignable.
+	 * Tabulas atribūti kurus var - mass assignable.
 	 *
 	 * @var array
 	 */
 	protected $fillable = ['username', 'email', 'password' , 'profile_img' , 'facebook'];
 
 	/**
-	 * The attributes excluded from the model's JSON form.
+	 * Atribūti kas netiek iekļauti JSON form.
 	 *
 	 * @var array
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
-    //Funkcijas
+
     /**
+     * Vai ir administrators
+     *
      * @return bool
      */
     public function isAdmin() {
         return ($this->status == 2);
     }
 
+    /**
+     * Vai ir konkursa īpašnieks
+     * @param $comp
+     * @return bool
+     */
     public function isOwner($comp)
     {
         return ($this->id == $comp->user_id);
     }
 
+    /**
+     * Asocē lietotāju ar paziņojumu
+     *
+     * @return Notification
+     */
     public function newNotification()
     {
         $notification = new Notification;
@@ -52,11 +64,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $notification;
     }
 
-
-
-    // Saistības starp tabulām
     /**
-     * User can have many comps
+     * Lietotājam var būt vairāki konkursi
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -85,16 +94,31 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->hasMany('App\Favorite');
     }
 
+    /**
+     * Lietotājam var būt vairāki paziņojumi
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function notifications()
     {
         return $this->hasMany('App\Notification');
     }
 
+    /**
+     * Lietotājs var iesūtīt vairākas dziesmas.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function submitions()
     {
         return $this->hasMany('App\Submition');
     }
 
+    /**
+     * Lietotājam var būt vairākas balsis.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function votes()
     {
         return $this->hasMany('App\Vote');

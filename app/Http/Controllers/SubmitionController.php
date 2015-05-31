@@ -34,18 +34,26 @@ class SubmitionController extends Controller {
     public function store($id , AddSubmitionRequest $request )
     {
         $comp = Comp::whereId($id)->first();
-        $this->userNotif($comp->id);
-        $this->checkEntrys($id);
+        if($comp->subm_end_date > Carbon::now())
+        {
+            $this->userNotif($comp->id);
+            $this->checkEntrys($id);
             $submition =  new Submition;
-            $submition->title = $request['title'];
-            $submition->link = $request['link'];
-            $submition->comp_id = $id;
-            $submition->user_id = Auth::user()->id;
-            $submition->voting_id = $comp->voting->id;
+                $submition->title = $request['title'];
+                $submition->link = $request['link'];
+                $submition->comp_id = $id;
+                $submition->user_id = Auth::user()->id;
+                $submition->voting_id = $comp->voting->id;
             $submition->save();
-        $this->CompNotif($submition);
-        \Session::flash('success_message', 'Dziesma veiksmīgi pievienota konkursam!');
-        return redirect()->back();
+            $this->CompNotif($submition);
+            \Session::flash('success_message', 'Dziesma veiksmīgi pievienota konkursam!');
+            return redirect()->back();
+        }
+        else
+        {
+            \Session::flash('error_message', 'Iesūtīšanas laiks ir beidzies');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -60,7 +68,6 @@ class SubmitionController extends Controller {
             ->paginate(10);
         return view('userpanel.mysongs' , compact('songs'));
     }
-
 
     /**
      * Konkursa autors, administrators apskata konkursa iesūtītas dziesmas
@@ -87,7 +94,6 @@ class SubmitionController extends Controller {
         }
     }
 
-
     /**
      * Dzēšs nevēlamos remiksus no konkursa
      *
@@ -107,13 +113,12 @@ class SubmitionController extends Controller {
             \Session::flash('flash_message', 'Dziesma ir veiksmīgi izdzēsta!');
             return redirect()->back();
         }
-        else{
+        else
+        {
             \Session::flash('flash_message', 'Dziesmu iesūtīšana ir beigusies, jūs nevarat dzēst šo dziesmu!');
             return redirect()->back();
         }
     }
-
-
 
     /**
      * Viens lietotājs vienam konkursam var iesniegt tikai vienu remiksu
@@ -126,7 +131,8 @@ class SubmitionController extends Controller {
             ->whereCompId($id)
             ->whereStatus('v')
             ->first();
-        if($HaveEntered){
+        if($HaveEntered)
+        {
             $HaveEntered->status = 'b';
             $HaveEntered->save();
         }
@@ -140,7 +146,7 @@ class SubmitionController extends Controller {
     private function compNotif($submition)
     {
         $state = $this->checkNotif($submition->comp_id);
-        if($state == false)
+        if($state == FALSE)
         {
             $comp = Comp::whereId($submition->comp_id)->first();
             $user = Auth::user();
@@ -163,7 +169,7 @@ class SubmitionController extends Controller {
     }
 
     /**
-     * Favorītu pārbaude, pārbauda tikai vienu, jo vienmēr tiek izveidoti abi.
+     * Favorītu pārbaude, pārbauda tikai vienu paziņojumu, jo vienmēr tiek izveidoti abi.
      *
      * @param $id
      * @return bool
@@ -179,7 +185,7 @@ class SubmitionController extends Controller {
     }
 
     /**
-     * Aizsūta paziņojumu r.k. rīkotājam
+     * Aizsūta paziņojumu r.k. rīkotājam par dziesmas pievienošanu
      *
      * @param $id
      */
@@ -230,13 +236,15 @@ class SubmitionController extends Controller {
             $notif = Notification::whereCompId($submition->comp_id)
                 ->whereUserId($submition->user_id)
                 ->whereType('CompEnded')->first();
-            if($notif) {
+            if($notif)
+            {
                 $notif->delete();
             }
             $notif = Notification::whereCompId($submition->comp_id)
                 ->whereUserId($submition->user_id)
                 ->whereType('SubmitionEnded')->first();
-            if($notif) {
+            if($notif)
+            {
                 $notif->delete();
             }
         }

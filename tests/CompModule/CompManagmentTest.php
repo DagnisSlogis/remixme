@@ -40,14 +40,16 @@ class CompManagmentTest extends TestCase {
      */
     public function test_selects_a_comp_to_delete()
     {
-        $this->beUser();
-        $this->Comp();
+        $user = $this->DummyUser();
+        $comp = $this->CompForUser($user);
+        $this->VotingForAComp($comp);
+        $this->be($user);
         $this->visit('userpanel/comps')
             ->press('Dzēst')
             ->see('dzēsts')
             ->onPage('userpanel/comps');
-        $this->verifyInDatabase('comps', ['title' => 'CompTitle' , 'status' => 'b']);
-        $this->verifyInDatabase('votings', ['show_date' => '2015-07-23' , 'status' => 'b']);
+        $this->verifyInDatabase('comps', ['title' => $comp->title , 'status' => 'b']);
+        $this->verifyInDatabase('votings', ['comp_id' => $comp->id , 'status' => 'b']);
     }
 
     /**

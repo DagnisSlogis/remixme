@@ -13,16 +13,18 @@ use Illuminate\Contracts\View\View;
 class NotificationComposer {
 
     /**
-     * Padod atgādinājumu iznirstošajam pogam datus
+     * Padod atgādinājumus iznirstošajam logam datus
      * @param View $view
      */
     public function main(View $view ){
         if(Auth::user())
         {
             $notifications = Notification::whereUserId(Auth::user()->id)
-                ->where('show_date', '<=', Carbon::now())
-                ->orWhere('show_date', '=', NULL)
-                ->where('is_read', '=' , '0')
+                ->whereNested(function($query)
+                {
+                    $query->where('show_date', '<=', Carbon::now())
+                        ->orWhere('show_date', '=', NULL);
+                })->where('is_read', '=' , '0')
                 ->with('comp')
                 ->orderBy('created_at', 'desc')
                 ->get();

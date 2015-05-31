@@ -336,7 +336,6 @@ article
 .Latestwinner
 	display: flex
 	align-items: center
-
 	margin: 10px 0
 	width: 100%
 	border: 1px solid $grey
@@ -361,6 +360,8 @@ article
 		padding: 5px
 	.latestWin-compname
 		font-size: 14px
+		max-width: 130px
+		overflow: hidden
 		color: $title
 //******
 // Pogas
@@ -544,6 +545,10 @@ button.clasic
 			border-radius: 2px
 			&:hover
 				@extend %shadow-1
+		button
+			display: block
+		a
+			text-decoration: none
 	.functionbtnfull
 		width: 30%
 
@@ -628,7 +633,7 @@ button.clasic
 //**********************
 
 //Popup Logins
-.login-popup
+.login-popup , .submit-popup
 	display: none
 	background: white
 	float: left
@@ -676,6 +681,14 @@ button.clasic
 		color: $title
 		margin-left: 5px
 		pointer-events: none
+.submit-popup
+	width: 400px
+	position: fixed
+	top: 150px
+	right: 40%
+	@extend %shadow-2
+	h3
+		padding: 15px
 //***********
 // Popup Modal
 .modalDialog
@@ -883,6 +896,9 @@ button.clasic
 					@extend .change
 					@extend .delete
 					color: $dgreen
+			.email
+				max-width: 130px
+				overflow: hidden
 		.winnerline
 			background: $grey
 			color: $dblue
@@ -895,6 +911,7 @@ button.clasic
 				color: royalblue
 				&:hover
 					text-decoration: underline
+
 			img
 				display: block
 				width: 40px
@@ -954,7 +971,7 @@ button.clasic
 //************
 .pagination
 	display: flex
-	width: 20%
+	justify-content: center
 	margin: 0 auto
 	border-right: 2px
 	color: #777
@@ -974,10 +991,11 @@ button.clasic
 		color: $title
 		background: $grey
 	.active
-		background: $dblue
+		background: $lgreen
 		color: #ffffff
 		&:hover
-			background: $dblue
+			background: $lgreen
+			@extend %shadow-1
 
 
 // Notification popups
@@ -1252,11 +1270,12 @@ button.clasic
 	font-size: 14px
 	color: #777777
 .registerbtn
+	position: relative
 	background: #ffffff
 	color: $dgreen
 	padding: 6px 9px
 	border-radius: 2px
-	margin-top: 7px
+	top: -15px
 	border: 1px solid $dgreen
 	&:hover
 		@extend %shadow-1
@@ -1292,7 +1311,7 @@ button.clasic
 			border-radius: 50%
 			margin: 0 15px
 			width: 40px
-			height: auto
+			height: 40px
 		.firstplace , .otherplace
 			display: flex
 			align-items: center

@@ -3,7 +3,7 @@
 @include('pages.layout.compsubmenu')
 <article>
 	<div id="comprow">
-    @include('votedata')
+        @include('votedata')
 	</div>
 	<div id="sidebarrow">
 	    @include('layout.sidebar')
