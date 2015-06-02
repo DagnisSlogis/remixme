@@ -3,17 +3,19 @@
 <head>
 	<title>Remiksē Mani</title>
 	<meta charset="utf-8">
-	<meta name="_token" content="gms28EMx3WvCgwMLiZ4W5rsjBB8hRQnlqhufoiLa" />
+	<meta name="_token" content="pfJbht1hBuo05krGvNHZDstDaFGCovQ4akniImsi" />
 	<link rel="stylesheet" href="http://localhost/css/css/reset.css">
     <link rel="stylesheet" href="http://localhost/css/css/jquery-ui.css">
 	<link rel="stylesheet" href="http://localhost/css/css/style.css">
 </head>
-    <body>
-        <header>
+<body>
+    <header>
 	<div class="navblock">
 		<ul id="profile-nav">
-		<li class="profilemenu profile"><a href="Qui quae doloribus et corporis eveniet explicabo enim."><img class="profileimg" src="Qui quae doloribus et corporis eveniet explicabo enim."></a>tester</li>
-                <li class="profilemenu"><a href="/userpanel/notification"><img src="http://localhost/img/notif.png"></a></li>
+		<li class="profilemenu profile"><a href="Delectus provident error provident aut fugiat consectetur cupiditate."><img class="profileimg" src="Delectus provident error provident aut fugiat consectetur cupiditate."></a>admin</li>
+            <li class="profilemenu">
+                <a href="/adminpanel" class="adminbtn">A</a></li>
+                        <li class="profilemenu"><a href="/userpanel/notification"><img src="http://localhost/img/notif.png"></a></li>
         <li class="profilemenu"><a href="/userpanel"><img src="http://localhost/img/profile.png"></a></li>
     <li class="profilemenu"><a href="/userpanel/favorite"><img src="http://localhost/img/heart.png"></a></li>
     <li class="profilemenu"><a href="/auth/logout"><img src="http://localhost/img/logout.png"></a></li>
@@ -21,10 +23,10 @@
 	<a href="#" class="close">x</a>
 	<h2>Jaunumi</h2>
 	<div class="notificationbox">
-    	</div>
-	<button class="morenotifications"><a href="/userpanel/notification"><img src="http://localhost/img/morenotif.png">Visi jaunumi</a></button>
+        	</div>
+    <a href="/userpanel/notification"><button class="morenotifications"><img src="http://localhost/img/morenotif.png">Visi jaunumi</button></a>
 </div>
-   		</ul>
+		</ul>
 		<h3>remix<i>.me</i></h3>
 		<ul id="main-nav"> 
 			<li><a href="/"
@@ -36,40 +38,75 @@
 		</ul>
 					<a href="/comps/create"> <button class="add ">+</button></a>
 					</div>
-</header>                <div id="submenu">
+</header>        <div id="submenu">
      <ul>
-     	<li class="title">MANI KONKURSI: </li>
-     	<li class="compnavl"><a href="/userpanel/comps">Aktīvie</a></li>
-     	<li class="compnavl"><a href="/userpanel/judging">Vērtēšana
-     	     	    <span class="notif_count">0</span></a></li>
-     	     	<li class="compnavl"><a href="/userpanel/voting">Balsošana
-     	     	             	    <span class="notif_count">0</span></a></li>
-             	     	<li class="compnavl"><a href="/userpanel/comps/ended">Beigušies</a></li>
-     	<li><form method="GET" action="http://localhost/comp/user/find" accept-charset="UTF-8" class="searchform">
-                    <input name="s" type="text">
-                    <input type="submit" value="Meklēt">
-                </form></li>
+        <li class="title">LABOT LIETOTĀJU: </li>
+        <li class="compnavl"><a href="/adminpanel/users">Visi lietotāji</a></li>
+         <form method="GET" action="http://localhost/adminpanel/user/find" accept-charset="UTF-8" class="searchform">
+                <input name="s" type="text">
+                <input type="submit" value="Meklēt">
+            </form>
      </ul>
-</div><article>
-   <div id="full">
-    <div class="admin">
-    <h3>Vērtēšana</h3>
-            <div class="alert alert-success">Konkurss veiksmīgi novērtēts</div>
-            <table>
-      <tr class="titlerow">
-        <td>#</td>
-        <td>Nosaukums</td>
-        <td>Piedalās</td>
-        <td>Beidzies</td>
-        <td>Vērtēt</td>
-      </tr>
-       </table>
+ </div><article>
+    <div id="full">
+        <div class="admin">
+            <h3>Visi lietotāji</h3>
+                        <table>
+                <tr class="titlerow">
+                    <td>#</td>
+                    <td>Lietotājvārds</td>
+                    <td>E-pasts</td>
+                    <td>Reģistrēts</td>
+                    <td>Status</td>
+                    <td>Facebook adrese</td>
+                    <td>Labot</td>
+                    <td>Dzēst</td>
+                </tr>
+                                                            <tr class="userline">
+                            <td><img src="Consequatur neque enim autem rerum."/> </td>
+                            <td><h4>tester</h4></td>
+                            <td class="email"><a href="mailto:mazais@test.lv">mazais@test.lv</a></td>
+                            <td>02.06.2015.</td>
+                                                            <td><span class="balsosana">Lietotājs</span></td>
+                                                        <td><a href="Dicta deleniti eius molestiae ratione accusamus consequatur.">Dicta deleniti eius molestiae ratione accusamus consequatur.</a></td>
+                            <td><a href="/adminpanel/user/2/edit" class="change" >Labot</a></td>
+                            <td>
+                                <form method="POST" action="http://localhost/adminpanel/user/delete/2" accept-charset="UTF-8"><input name="_method" type="hidden" value="PATCH"><input name="_token" type="hidden" value="pfJbht1hBuo05krGvNHZDstDaFGCovQ4akniImsi">
+                                <input class="delete" type="submit" value="Dzēst">
+                                </form></td>
+                        </tr>
+                                                                                <tr class="userline">
+                            <td><img src="Delectus provident error provident aut fugiat consectetur cupiditate."/> </td>
+                            <td><h4>admin</h4></td>
+                            <td class="email"><a href="mailto:admin@admin.lv">admin@admin.lv</a></td>
+                            <td>02.06.2015.</td>
+                                                            <td><span class="beidzies">Administrātors</span></td>
+                                                        <td><a href="Ut dolores voluptatem neque amet non.">Ut dolores voluptatem neque amet non.</a></td>
+                            <td><a href="/adminpanel/user/3/edit" class="change" >Labot</a></td>
+                            <td>
+                                <form method="POST" action="http://localhost/adminpanel/user/delete/3" accept-charset="UTF-8"><input name="_method" type="hidden" value="PATCH"><input name="_token" type="hidden" value="pfJbht1hBuo05krGvNHZDstDaFGCovQ4akniImsi">
+                                <input class="delete" type="submit" value="Dzēst">
+                                </form></td>
+                        </tr>
+                                                                                <tr class="userline">
+                            <td><img src="Sed a sit repellendus ut."/> </td>
+                            <td><h4>tester2</h4></td>
+                            <td class="email"><a href="mailto:mazais3@test.lv">mazais3@test.lv</a></td>
+                            <td>02.06.2015.</td>
+                                                            <td><span class="balsosana">Lietotājs</span></td>
+                                                        <td><a href="Temporibus possimus qui facilis et.">Temporibus possimus qui facilis et.</a></td>
+                            <td><a href="/adminpanel/user/1/edit" class="change" >Labot</a></td>
+                            <td>
+                                <form method="POST" action="http://localhost/adminpanel/user/delete/1" accept-charset="UTF-8"><input name="_method" type="hidden" value="PATCH"><input name="_token" type="hidden" value="pfJbht1hBuo05krGvNHZDstDaFGCovQ4akniImsi">
+                                <input class="delete" type="submit" value="Dzēst">
+                                </form></td>
+                        </tr>
+                                                </table>
+        </div>
+      
     </div>
-  
-    </div>
-</article>
-    </body>
-</html>
+ </article>
+ </body>
 <footer>
     <div class="footer">
     <ul>
@@ -78,8 +115,8 @@
     	<li><a href="/winners">Uzvarētāji</a></li>
     </ul>
     <p class="aboutpage">
-    Disclaimer: All remix contests are not organized by us (unless stated),
-    we try to list legitimate remix contests but accept no responsibility for how they are run
+        Ievēro: Mēs neorganizējam mājaslapā attēlotos konkursus, mēs tikai atbildam par to, ka konkursu,
+        kuri atrodās mūsu mājaslapā satur patiesi notiekošu konkursu informāciju.
     </p>
     <p class="authorinfo">Izveidojis: Dagnis Sloģis ds13060</p>
     <h5 class="poweredby">Powered by: <a href="http://soundcloud.com">soundcloud.com</a></h5>
@@ -87,9 +124,5 @@
 	<script src="http://localhost/js/popup.js"></script>
 	<script src="http://localhost/js/notifications.js"></script>
 	<script src="http://localhost/js/jquery-ui.js"></script>
-	<script>
-$(function() {
-    $( ".datepicker" ).datepicker()
-  });
-    </script>
 </footer>
+</html>

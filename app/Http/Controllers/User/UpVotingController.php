@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers\User;
 
+use App\Comment;
+use App\Favorite;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Notification;
@@ -30,6 +32,7 @@ class UpVotingController extends Controller {
     public function index( Comp $comp)
     {
         $judgings = $comp->where('voting_type','=' , 'z')
+            ->whereStatus('v')
             ->whereUserId(Auth::user()->id)
             ->whereHas('voting', function($q)
             {
@@ -59,6 +62,9 @@ class UpVotingController extends Controller {
                 $voting = Voting::whereCompId($id)->first();
                 $voting->status = 'b';
                 $voting->save();
+                $this->deleteNotif($comp);
+                $this->deleteComments($comp);
+                $this->deleteFav($comp);
                 $comp->status = 'b';
                 $comp->save();
                 \Session::flash('flash_message', 'Konkursam nebija neviena iesūtīta dziesma, mums nācās viņu dzēst.');
@@ -142,6 +148,7 @@ class UpVotingController extends Controller {
     public function voting()
     {
         $votings = Comp::where('voting_type','=' , 'b')
+            ->whereStatus('v')
             ->whereUserId(Auth::user()->id)
             ->whereHas('voting', function($q)
             {
@@ -172,6 +179,9 @@ class UpVotingController extends Controller {
                 $voting->status = 'b';
                 $voting->save();
                 $comp = Comp::whereId($id)->first();
+                $this->deleteNotif($comp);
+                $this->deleteComments($comp);
+                $this->deleteFav($comp);
                 $comp->status = 'b';
                 $comp->save();
                 \Session::flash('flash_message', 'Konkursam nebija neviena iesūtīta dziesma, mums nācās viņu dzēst.');
@@ -330,5 +340,53 @@ class UpVotingController extends Controller {
         $winner->place = $place;
         $winner->save();
         $this->informAuthor($submition->id, $place );
+    }
+
+    /**
+     * Dzēšs ar konkursu saistītos paziņojumus
+     *
+     * @param $comp
+     */
+    private function deleteNotif($comp)
+    {
+        $notifs = Notification::whereCompId($comp->id)->get();
+        foreach($notifs as $notif)
+        {
+            $notif->delete();
+        }
+    }
+
+    /**
+     * Dzēšs ar konkursu saistītos komentārus
+     *
+     * @param $comp
+     */
+    private function deleteComments($comp)
+    {
+        $comments = Comment::whereCompId($comp->id)
+            ->whereStatus('v')
+            ->get();
+        foreach($comments as $comment)
+        {
+            $comment->status = 'b';
+            $comment->save();
+        }
+    }
+
+    /**
+     * Dzēšs ar konkursu saistītos favorītus
+     *
+     * @param $comp
+     */
+    public function deleteFav($comp)
+    {
+        $favorites = Favorite::whereCompId($comp->id)
+            ->whereStatus('v')
+            ->get();
+        foreach($favorites as $favorite)
+        {
+            $favorite->status = 'b';
+            $favorite->save();
+        }
     }
 }

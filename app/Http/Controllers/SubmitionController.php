@@ -146,7 +146,7 @@ class SubmitionController extends Controller {
      */
     private function compNotif($submition)
     {
-        $state = $this->checkNotif($submition->comp_id);
+        $state = $this->checkNotif($submition);
         if($state == FALSE)
         {
             $comp = Comp::whereId($submition->comp_id)->first();
@@ -175,9 +175,11 @@ class SubmitionController extends Controller {
      * @param $id
      * @return bool
      */
-    private function checkNotif($id)
+    private function checkNotif($submition)
     {
-        if(count(Notification::whereCompId($id)->whereType('SubmitionEnded')->get()))
+        if(Notification::whereCompId($submition->comp_id)
+            ->whereUserId($submition->user_id)
+            ->whereType('SubmitionEnded')->count())
         {
             return true;
         }
@@ -227,12 +229,10 @@ class SubmitionController extends Controller {
     private function deleteReminders($submition)
     {
         $isFav = Favorite::whereUserId($submition->user_id)
-            ->whereCompId($submition->comp_id)->first();
-        if($isFav)
-        {
-            return true;
-        }
-        else
+            ->whereCompId($submition->comp_id)
+            ->whereStatus('v')
+            ->first();
+        if($isFav == NULL)
         {
             $notif = Notification::whereCompId($submition->comp_id)
                 ->whereUserId($submition->user_id)
@@ -248,6 +248,10 @@ class SubmitionController extends Controller {
             {
                 $notif->delete();
             }
+        }
+        else
+        {
+            return true;
         }
     }
 }

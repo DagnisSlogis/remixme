@@ -30,7 +30,7 @@ class WinnerController extends Controller {
                 $q->where('status', 'b');
             })
             ->whereStatus('v')
-            ->orderBy('created_at' , 'desc')
+            ->orderBy('comp_end_date' , 'desc')
             ->paginate(5);
         return view('pages.winner', compact('comps'));
     }
@@ -54,7 +54,7 @@ class WinnerController extends Controller {
                 $query->where('title', 'LIKE', '%'. $request->get('s') .'%')
                     ->orWhere('genre', 'LIKE', '%'. $request->get('s') .'%')
                     ->orWhere('song_title', 'LIKE', '%'. $request->get('s') .'%');
-            })->orderBy('subm_end_date' , 'desc')
+            })->orderBy('comp_end_date' , 'desc')
             ->paginate(5);
         return view('pages.winner' , compact('comps'));
     }

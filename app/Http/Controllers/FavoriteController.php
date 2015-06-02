@@ -19,6 +19,7 @@ class FavoriteController extends Controller
     {
         $this->middleware('auth');
     }
+
     /**
      * Parāda lietotājam viņa favorītus
      *
@@ -29,9 +30,11 @@ class FavoriteController extends Controller
         $favorites = Favorite::whereUserId(Auth::user()->id)
             ->whereStatus('v')
             ->with('comp')
+            ->orderBy('created_at' , 'desc')
             ->paginate(10);
         return view('userpanel.favorite' , compact('favorites'));
     }
+
     /**
      * Pievieno konkursu kā favorītu
      *
@@ -61,7 +64,6 @@ class FavoriteController extends Controller
         return redirect()->back();
     }
 
-
     /**
      * Dzēšs lietotāja favorītu
      *
@@ -71,14 +73,7 @@ class FavoriteController extends Controller
     public function delete($id)
     {
         $favorite = Favorite::whereId($id)->first();
-            $notif = Notification::whereCompId($favorite->comp_id)
-                ->whereUserId($favorite->user_id)
-                ->whereType('CompEnded')->first();
-            $notif->delete();
-            $notif = Notification::whereCompId($favorite->comp_id)
-                ->whereUserId($favorite->user_id)
-                ->whereType('SubmitionEnded')->first();
-            $notif->delete();
+        $this->deleteReminders($favorite);
         $favorite->status = 'b';
         $favorite->save();
         return redirect()->back();
@@ -109,7 +104,7 @@ class FavoriteController extends Controller
     private function NotifUser($id)
     {
         $comp = Comp::whereId($id)->first();
-        $state = $this->checkNotif($comp->id);
+        $state = $this->checkNotif($comp);
         if($state == FALSE) {
             $user = Auth::user();
             $user->newNotification()
@@ -134,9 +129,11 @@ class FavoriteController extends Controller
      * @param $id
      * @return bool
      */
-    private function checkNotif($id)
+    private function checkNotif($comp)
     {
-        if(count(Notification::whereCompId($id)->whereType('SubmitionEnded')->get()))
+        if(Notification::whereCompId($comp->id)
+            ->whereUserId(Auth::user()->id)
+            ->whereType('SubmitionEnded')->count())
         {
             return true;
         }
@@ -144,6 +141,36 @@ class FavoriteController extends Controller
             return false;
     }
 
-
+    /**
+     * Dzēšs paziņojumus, ja nav iesūtīta dziesma.
+     *
+     * @param $favorite
+     */
+    private function deleteReminders($favorite)
+    {
+        $hasEntered = Submition::whereUserId($favorite->user_id)
+            ->whereCompId($favorite->comp_id)->whereStatus('v')->first();
+        if($hasEntered)
+        {
+            return true;
+        }
+        else
+        {
+            $notif = Notification::whereCompId($favorite->comp_id)
+                ->whereUserId($favorite->user_id)
+                ->whereType('CompEnded')->first();
+            if($notif)
+            {
+                $notif->delete();
+            }
+            $notif = Notification::whereCompId($favorite->comp_id)
+                ->whereUserId($favorite->user_id)
+                ->whereType('SubmitionEnded')->first();
+            if($notif)
+            {
+                $notif->delete();
+            }
+        }
+    }
 
 }

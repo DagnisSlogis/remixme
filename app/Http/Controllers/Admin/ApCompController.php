@@ -95,6 +95,7 @@ class ApCompController extends Controller {
     {
         $comps = Comp::whereNotIn('status', array('b'))
             ->where('comp_end_date', '<=' , Carbon::now())
+            ->orderBy('created_at', 'desc')
             ->paginate(5);
         $header = "Beigušies konkursi";
         return view('adminpanel.comps.hasended', compact('comps', 'header'));

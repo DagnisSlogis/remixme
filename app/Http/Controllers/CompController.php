@@ -203,9 +203,8 @@ class CompController extends Controller {
         if($changes == 1)
         {
             $comp->save();
-            $this->changeVoting($comp);
             \Session::flash('flash_message', 'Konkursa dati ir veiksmīgi laboti!');
-            // Pārbauda kas labotāju
+            // Pārbauda kas [ar labotāju
             if(Auth::user()->isAdmin())
             {
                 return redirect('adminpanel/comps');
@@ -385,22 +384,6 @@ class CompController extends Controller {
         $voting->save();
     }
 
-    /**
-     * Labo voting tabulas, ierakstu
-     * @param $comp
-     */
-    private function changeVoting($comp)
-    {
-        $voting = Voting::whereCompId($comp->id)->first();
-        if($comp->voting_type == 'z')
-        {
-            $voting->show_date = $comp->subm_end_date->addDays(1);
-        }
-        else
-        {
-            $voting->show_date = $comp->comp_end_date->addDays(1);
-        }
-        $voting->save();
-    }
+
 
 }

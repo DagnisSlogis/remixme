@@ -32,9 +32,13 @@
                             <td><a href="/show/{{$song->comp->id}}" >{{$song->comp->title}}</a></td>
                             <td>{{$song->comp->comp_end_date->format('d.m.Y.')}}</td>
                             <td>
+                                @if($song->comp->subm_end_date < \Carbon\Carbon::now())
+                                    ---
+                                @else
                                 {!! Form::open (['method' => 'PATCH' ,'url' => 'comp/song/delete/'.$song->id])!!}
                                     {!! Form::submit('Dzēst', ['class' => 'delete']) !!}
                                 {!! Form::close() !!}
+                                @endif
                             </td>
                         </tr>
                     @endforeach

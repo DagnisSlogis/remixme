@@ -39,7 +39,7 @@ class VotingController extends Controller {
             {
                 $q->where('status', 'v');
 
-            })->orderBy('subm_end_date' , 'desc')
+            })->orderBy('created_at' , 'desc')
             ->paginate(5);
         return view('pages.voting' , compact('comps'));
     }

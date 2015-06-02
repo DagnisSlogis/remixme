@@ -23,12 +23,14 @@ class CompSubmenuComposer {
     public function main(View $view){
         $judging = Voting::join('comps', 'votings.comp_id', '=', 'comps.id')
             ->where('comps.voting_type','=' , 'z')
+            ->where('comps.status','v')
             ->where('comps.user_id' , Auth::user()->id)
             ->where('votings.show_date', '<=' , Carbon::now())
             ->where('votings.status', '=' , 'v')
             ->count();
         $voting = Voting::join('comps', 'votings.comp_id', '=', 'comps.id')
             ->where('comps.voting_type','=' , 'b')
+            ->where('comps.status','v')
             ->where('comps.user_id' , Auth::user()->id)
             ->where('votings.status', '=' , 'v')
             ->where('votings.show_date', '<=' , Carbon::now())

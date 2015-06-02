@@ -40,7 +40,6 @@ class PageController extends Controller {
         return view('adminpanel.index', compact('CompCount' , 'WinnerCount' , 'AllComment' ,'AllSubmitions'));
     }
 
-
     /**
      * Admin paneļa meklēšana universālā
      *
@@ -60,7 +59,6 @@ class PageController extends Controller {
             return $apcomp->find($request);
         }
     }
-
 
     /**
      * Lietotāja paneļa izsaukšana
