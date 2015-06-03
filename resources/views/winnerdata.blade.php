@@ -17,7 +17,13 @@
                             @if($winner->place == 1)
                                 class="first"
                             @endif
-                        >{{$winner->place}}.</span> <p>{{$winner->submition->votes}} balsis</p></div>
+                        >{{$winner->place}}.</span> <p>
+                        @if($comp->voting_type == 'b')
+                        {{$winner->submition->votes}} balsis
+                        @else
+                        Žūrija
+                        @endif
+                        </p></div>
                         </div>
                 @endforeach
             </div>

@@ -48,6 +48,7 @@ class UpCompController extends Controller {
         $comps = $comp->whereUserId(Auth::user()->id)
             ->whereNotIn('status', array('b'))
             ->where('comp_end_date', '<=' , Carbon::now())
+            ->orderBy('created_at' , 'desc')
             ->paginate(5);
         $header = "Beigušies konkursi";
         return view('userpanel.comps.hasended', compact('comps', 'header'));
@@ -72,7 +73,7 @@ class UpCompController extends Controller {
             {
                 $query->where('status', '=' ,'v')
                     ->orWhere('status', '=' ,'a');
-            })
+            })->orderBy('created_at' , 'desc')
             ->paginate(10);
         $header ='Meklēšanas "'.$request->get('s').'" rezultāti';
         return view('userpanel.comps.index', compact('comps', 'header'));
